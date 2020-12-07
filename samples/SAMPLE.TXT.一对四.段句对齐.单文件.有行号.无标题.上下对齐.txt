@@ -1,0 +1,260 @@
+﻿1	THE HAPPY PRINCE
+1	快乐王子
+1	快乐王子
+1	快乐王子
+1	快乐王子
+2	by Oscar Wilde, 1888
+2	〔英〕奥斯卡·王尔德著;巴金译, 1957/1997
+2	选自《王尔德童话》〔英〕奥斯卡·王尔德著;王林译, 1996
+2	选自《快乐王子》〔英〕奥斯卡·王尔德著;蔡荣寿译, 2012
+2	选自《快乐王子》〔英〕奥斯卡·王尔德著;高延征译
+3	High above the city, on a tall column, stood the statue of the Happy Prince.|He was gilded all over with thin leaves of fine gold, for eyes he had two bright sapphires, and a large red ruby glowed on his sword-hilt.
+3	快乐王子的像[立]在一根高圆柱上面，高高地耸立在城市的上空。|他满身贴着薄薄的纯金叶子，一对晶莹的蓝宝石做成他的眼睛，一颗大的红宝石嵌在他的剑柄上，灿烂地发着红光。
+3	快乐王子的雕像高高地耸立在城市上空—根高大的石柱上面。|他浑身上下镶满了薄薄的黄金叶片，明亮的蓝宝石做成他的双眼，剑柄上还嵌着一颗硕大的灿灿发光的红色宝石。
+3	快乐王子的塑像耸立在城市上空—根高高的石柱上。|他满身镶满了薄薄的黄金叶片，他的双眼是由两颗明亮的蓝宝石做成，他的佩剑柄上还嵌着一颗红宝石，亮闪闪的。
+3	在一根高大的圆柱上，快乐王子的雕像耸立在城市的上空。|他浑身包着纯金的金箔，眼睛是两颗明亮的蓝宝石做的，剑柄上还镶着一颗闪闪发光的巨大的红宝石。
+4	He was very much admired indeed.|"He is as beautiful as a weathercock," remarked one of the Town Councillors who wished to gain a reputation for having artistic tastes; "only not quite so useful," he added, fearing lest people should think him unpractical, which he really was not.
+4	他的确得到一般人的称赞。|一个市参议员为了表示自己有艺术的欣赏力，说：“他象风信标那样漂亮，”不过他又害怕别人会把他看做一个不务实际的人（其实他并不是不务实际的），便加上一句：“只是他不及风信标那样有用（译注:Weathercock,或译定风针”。）
+4	世人对他真是称羡不已。|“他像风标一样漂亮，”一位想表现自己有艺术品味的市参议员说了一句，接着又因担心人们将他视为不务实际的人，其实他倒是怪务实的，便补充道：“只是不如风标那么实用。”
+4	人们的确对他称羡不已。|一位为了表现自己有艺术修养的市政务委员会委员评论说：“他像风信标那样漂亮。”因担心人们将他视为不务实际的人，他便补充道：“只是不如风信标那么实用。”
+4	他确实受到了人们极大的赞扬。|“他美得像屋顶上指示风向的风信鸽一样。”一位希望人们称赞自己有艺术鉴赏力的市议员说道，“只是没有多大的用处。”由于害怕人们以为自己不讲实际，他又加上一句，其实他并不是不讲实际的人。
+5	"Why can't you be like the Happy Prince?" asked a sensible mother of her little boy who was crying for the moon.|"The Happy Prince never dreams of crying for anything."
+5	“为什么你不能象快乐王子那样呢？”一位聪明的母亲对她那个哭着要月亮的孩子说，|“快乐王子连做梦也没想到会哭着要东西。”
+5	“你为什么不能像快乐王子一样呢？”一位明智的母亲对自己那哭喊着要月亮的小男孩说，|“快乐王子做梦时都从没有想过哭着要东西。”
+5	“为什么你不能像快乐王子一样呢？”一位聪明的母亲对自己那个哭着要月亮的小儿子说，|“快乐王子就是做梦时都从没想过哭着要东西。”
+5	“你为什么不能像快乐王子那样？”一位聪明的母亲对他那哭着想要月亮的小男孩说，|“快乐王子连做梦也没想到会哭着要东西。”
+6	"I am glad there is some one in the world who is quite happy," muttered a disappointed man as he gazed at the wonderful statue.
+6	“我真高兴世界上毕竟还有一个人是很快乐的。”一个失意的人望着这座非常出色的像喃喃地说。
+6	“世上还有如此快乐的人真让我高兴，”一位沮丧的汉子凝视着这座非凡的雕像喃喃自语地说着。
+6	“世上还有如此快乐的人，真让我高兴，”一位失意的男子凝视着这座精美的塑像喃喃自语地说着。
+6	“我真高兴世上毕竟还有一个人是很快乐的。”一位很失意的人凝望着这座非常出色的雕像喃喃地说。
+7	"He looks just like an angel," said the Charity Children as they came out of the cathedral in their bright scarlet cloaks and their clean white pinafores.
+7	“他很像一个天使，”孤儿院的孩子们说，他们正从大教堂出来，披着光亮夺目的猩红色斗篷，束着洁白的遮胸。
+7	“他看上去就像位天使，”孤儿院的孩子们说。他们正从教堂走出来，身上披着鲜红夺目的斗篷，胸前挂着干净雪白的围嘴儿。
+7	“他看上去就像个天使，”孤儿院的孩子们赞叹着。他们正从大教堂走出，身上披着漂亮的猩红斗篷，胸前挂着洁净的雪白前围。
+7	“他看上去真像一位天使。”那些系着洁白的围兜，披着猩红色斗篷的孤儿院的孩子们从大教堂里走出来时，这么说道。
+8	"How do you know?" said the Mathematical Master, "you have never seen one."
+8	“你们怎么知道？”数学先生说，“你们从没有见过一位天使。”
+8	“你们是怎么知道的？”数学教师问道，“你们又没见过天使的模样。”
+8	“你们是怎么知道的？”数学教师问道，“你们从来没见过天使的模样。”
+8	“你们是怎么知道的？”数学教师说，“你们从来没有看见过天使呀！”
+9	"Ah! but we have, in our dreams," answered the children; and the Mathematical Master frowned and looked very severe, for he did not approve of children dreaming.
+9	“啊！可是我们在梦里见过的。”孩子们答道。数学先生皱起眉头，板着面孔，因为他不赞成小孩子做梦。
+9	“啊！可我们见过，是在梦里见到的。”孩子们答道。数学教师皱皱眉头并绷起了面孔，因为他不赞成孩子们做梦。
+9	“啊！可是我们见过，是在梦中见到的。”孩子们答道。数学教师皱起眉头，表情变得十分严肃，因为他不喜欢孩子们做梦。
+9	“啊哈，我们在梦里见过。”孩子们回答说。数学教师皱了皱眉头，样子非常严肃，因为他不赞成孩子们做梦。
+10	One night there flew over the city a little Swallow.|His friends had gone away to Egypt six weeks before, but he had stayed behind, for he was in love with the most beautiful Reed.|He had met her early in the spring as he was flying down the river after a big yellow moth, and had been so attracted by her slender waist that he had stopped to talk to her.
+10	某一个夜晚一只小燕子飞过城市的上空。|他的朋友们六个星期以前就到埃及去了，但是他还留在后面，因为他恋着那根最美丽的芦苇。|他还是在早春遇见她的，那时他正沿着河顺流飞去，追一只黄色飞蛾，她的细腰很引起他的注意，他便站住同她谈起话来。
+10	有天夜里，一只小燕子从城市上空飞过。|他的朋友们早在六个星期前就飞往埃及去了，可他却留在了后面，因为他太留恋那美丽无比的芦苇小姐。|他是在早春时节遇上她的，当时他正顺河而下去追逐一只黄色的大飞蛾。他为她那纤细的腰身着了迷，便停下身来同她说话。
+10	一个漆黑的夜晚，一只小燕子飞过城市的上空。|他的朋友们早在六个星期前就飞离此地到埃及去了，可他还迟迟未走，因为他爱恋着那位美丽无比的芦苇妹妹。|他是在初春时节遇见她的，当时他正顺河而下追逐一只黄色的大飞蛾。他深深地被她那纤细的腰迷住了，于是停下身来同她说话。
+10	一天夜里，一只小燕子飞过这座城市。|他的朋友们六星期前就飞往埃及去了，但是他留了下来，因为他眷恋着那根最最美丽的芦苇。|早在春天的时候，他为了追逐一只黄色的飞蛾，顺河流而下，与她相遇了。他被她的纤纤细腰给迷住了，便停下来与她攀谈起来。
+87	THE NIGHTINGALE AND THE ROSE
+87	夜莺与蔷薇
+87	夜莺与玫瑰
+87	夜莺与玫瑰
+87	夜莺与玫瑰
+87	夜莺与玫瑰--奥司克王尔德神话
+88	from The Happy Prince and Other Tales by Oscar Wilde, 1888
+88	〔英〕奥斯卡·王尔德著;巴金译, 1957/1997
+88	选自《王尔德童话》〔英〕奥斯卡·王尔德著;王林译, 1996
+88	选自《快乐王子》〔英〕奥斯卡·王尔德著;蔡荣寿译, 2012
+88	选自《快乐王子》〔英〕奥斯卡·王尔德著;高延征译
+88	选 自《晨报五周年纪念增刊》〔英〕奥斯卡·王尔德著; 林徽因 译, 1923
+89	"She said that she would dance with me if I brought her red roses," cried the young Student; "but in all my garden there is no red rose."
+89	“她说过只要我送给她一朵红蔷薇，她就会同我跳舞，”年轻的学生大声说；“可是我的花园里，连一朵红蔷薇也没有。”
+89	“她说过只要我送给她一些红玫瑰，她就愿意与我跳舞，”一位年轻的学生大声说道，“可是在我的花园里，连一朵红玫瑰也没有。”
+89	“她说只要我送给她红玫瑰，她就愿意与我共舞，”年轻的学生大声说道，“可是在我的花园里，连一朵红玫瑰也没有。”
+89	“她说过，假如我能给她带去一朵玫瑰，她就会与我跳舞的。”一个青年学生大声说道，“可是，整座花园里为什么没有一朵玫瑰呢？”
+89	“她说我若为她采得红玫瑰，便与我跳舞。”青年学生哭着说，“但我全园里何曾有一朵红玫瑰。”
+90	From her nest in the holm-oak tree the Nightingale heard him, and she looked out through the leaves, and wondered.
+90	夜莺在她的常青橡树上的巢里听见了他的话，她从绿叶丛中向外张望，非常惊讶。
+90	这番话给在圣栎树上自己巢中的夜莺听见了，她从绿叶丛中探出头来，四处张望着。
+90	在圣栎树上自己巢中的夜莺听见了他这番话，便从绿叶丛中探出头来，四处张望着，颇为吃惊。
+90	栖息在一个筑在圣栎树上的鸟巢里的一只夜莺听到了他所说的话，便从树叶堆里朝外望去，想看看宄竟是怎么回事。
+90	夜莺在橡树上巢中听见，从叶丛里往外看，心中诧异。
+91	"No red rose in all my garden!" he cried, and his beautiful eyes filled with tears.|"Ah, on what little things does happiness depend!|I have read all that the wise men have written, and all the secrets of philosophy are mine, yet for want of a red rose is my life made wretched."
+91	“找遍我整个花园都找不到一朵红蔷薇，”他带哭说，他美丽的眼睛里充满了泪水。|“唉，想不到幸福就系在这么细小的事情上面!|我读过了那些聪明人写的东西，一切学问的秘密我都知道了，可是因为少了一朵红蔷薇，我的生活就变成很不幸的了。”
+91	“我的花园里哪儿都找不到红玫瑰，”他哭着说，一双美丽的眼睛充满了泪水。|“唉，难道幸福竟依赖于这么细小的东西！|我读过智者们写的所有文章，知识的一切奥秘也都装在我的头脑中，然而就因缺少一朵红玫瑰我却要过痛苦的生活。”
+91	“我找遍整个花园都找不到一朵红玫瑰，”他哭着说，他那美丽的眼睛泪水汪汪。|“唉，想不到幸福竟取决于这么细小的东西！|我读过智者们写的所有文章，也算得上博学多才了，然而就因缺少一朵红玫瑰，我的生活将会变得不幸。”
+91	“整座花园里就是没有一朵红玫瑰！”他气愤地说道，明亮的眼睛里充满了泪水。|“唉，幸福取决于多么微不足道的东西啊！|我曾经读过智者写的所有书籍，我还掌握了哲学的一切奥秘，可是就因为缺少一朵红玫瑰花，我的全部生活就变得如此不幸。”
+91	青年哭道：“我园中并没有红玫瑰！”他秀眼里满含着泪珠。|“呀！幸福倒靠着这些区区小东西！|古圣贤书我已读完，哲学的玄秘，我已彻悟，然而因为求一朵红玫瑰不得，我的生活便这样难堪。”
+92	"Here at last is a true lover," said the Nightingale.|"Night after night have I sung of him, though I knew him not: night after night have I told his story to the stars, and now I see him.|His hair is dark as the hyacinth-blossom, and his lips are red as the rose of his desire; but passion has made his face like pale ivory, and sorrow has set her seal upon his brow."
+92	“现在到底找到一个忠实的情人了，”夜莺自语道。|“我虽然不认识他，可是我每夜都在歌颂他。我一夜又一夜地把他的故事讲给星星听，现在我亲眼看见他了。|他的头发黑得像盛开的风信子，他的嘴唇就像他想望的蔷薇那样红。可是热情使他的脸变得像一块失色的象牙，忧愁已经印上了他的眉梢。”
+92	“这儿总算有一位真正的恋人了，”夜莺对自己说，|“虽然我不认识他，但我会每夜每夜地为他歌唱，我还会每夜每夜地把他的故事讲给星星听。现在我总算看见他了，|他的头发黑得像风信子花，他的嘴唇就像他想要的玫瑰那样红；但是感情的折磨使他脸色苍白如象牙，忧伤的印迹也爬上了他的眉梢。”
+92	“我总算发现一位真诚的恋人了，”夜莺自言自语说，|“虽然我不认识他，但我会夜夜为他歌唱，我还会夜复一夜地把他的故事讲给星星听。现在我总算亲眼看见他了，|他的头发黑得像盛开的风信子，他的嘴唇就像他想要的玫瑰那样红；但是他的脸却因为担心得不到爱而苍白如象牙，眉宇之间也布满了忧伤。”
+92	“这儿总算有了一位真正的恋人。”夜莺说，|“尽管以前我不知道谁才是真正的恋人，但我还是每夜每夜地歌唱他；每夜我都对星星讲述有关真正的恋人的故事，现在我总算是见到了他。|他的头发就像风信子花一样乌黑发亮，他的嘴唇像他所渴望的玫瑰花儿一样鲜红，可是痴情使他的脸色好似象牙一样苍白，悲哀使他愁眉紧锁。”
+92	夜莺叹道：“真情人竟在这里。|以前我虽不曾认识，我却夜夜的歌唱他：我夜夜将他的一桩桩事告诉星辰，如今我见着他了。|他的头发黑如风信子花，嘴唇红比他所切盼的玫瑰，但是热情已使他脸色憔悴，烦恼已在他眉端印着痕迹。”
+93	"The Prince gives a ball to-morrow night," murmured the young Student, "and my love will be of the company.|If I bring her a red rose she will dance with me till dawn.|If I bring her a red rose, I shall hold her in my arms, and she will lean her head upon my shoulder, and her hand will be clasped in mine.|But there is no red rose in my garden, so I shall sit lonely, and she will pass me by.|She will have no heed of me, and my heart will break."
+93	“王子明晚要开跳舞会，”年轻的学生喃喃说，“我心爱的人要去赴会。|要是我带一朵红蔷薇去送给她，她会同我跳舞到天亮。|要是我送她一朵红蔷薇，我便可以搂着她，让她的头靠在我肩上，她的手捏在我手里。|可是我的园子里并没有红蔷薇，我不得不寂寞地枯坐在那儿，她会走过我面前不理我。|她不理睬我，我的心就要碎了。”
+93	“王子明天晚上要开舞会，”年轻学生喃喃自语地说，“我所爱的人将要前往。|假如我送她一朵红玫瑰，她就会同我跳舞到天明；|假如我送她一朵红玫瑰，我就能搂着她的腰，她也会把头靠在我的肩上，她的手将捏在我的手心里。|可是我的花园里却没有红玫瑰，我只能孤零零地坐在那边，看着她从身旁经过。|她不会注意到我，我的心会碎的。”
+93	“王子明晚将要举办舞会，我所爱的人也将要前往。”年轻学生喃喃自语地说，|“假如我送她一朵红玫瑰，她就会与我共舞到天明；|假如我送她一朵红玫瑰，我便能搂着她的腰，她会依偎在我的怀抱里，把头靠在我的肩上，把手放在我的手心里。|可是我的花园里却没有红玫瑰，我不得不孤零零地坐在那儿，看着她从身旁经过。|她会走过我面前不理我，我的心要碎的。”
+93	“明天晚上，王子将要举行一个舞会。”青年学生咕哝着，“我的心上人也会去，|假如我能给她带去一朵红玫瑰，她就会与我跳舞，一直跳到天亮。|如果我能给她带去一朵红玫瑰，我就能将她搂在我的怀里，而她也会把头靠在我的肩膀上，手儿紧握在我的手中。|可是我的花园里就是没有一朵红玫瑰，这样一来，到那时，我就只好一个人孤零零地坐着，而她也将会从我身边走过，|看都不会看我一眼。她将根本不会注意到我，那样的话，我的心将会破碎的。”
+93	青年又低声自语：“王子今晚宴会跳舞，我的爱人也将与会。|我若为她采得红玫瑰，她就和我跳舞直到天明，|我若为她采得红玫瑰，我将把她抱在怀里，她的头，在我肩上枕着，她的手，在我掌中握着。|但我园里没有红玫瑰，我只能寂寞的坐着，看她从我跟前走过，|她不睬我，我的心将要粉碎了。”
+94	"Here indeed is the true lover," said the Nightingale.|"What I sing of, he suffers: what is joy to me, to him is pain.|Surely Love is a wonderful thing.|It is more precious than emeralds, and dearer than fine opals.|Pearls and pomegranates cannot buy it, nor is it set forth in the market-place.|It may not be purchased of the merchants, nor can it be weighed out in the balance for gold."
+94	“这的确是一个忠实的情人，”夜莺说。|“我所歌唱的，正是使他受苦的东西。在我是快乐的东西，在他却成了痛苦。|爱情真是一件了不起的东西。|它比绿宝石更宝贵，比猫眼石更值价。|用珠宝也买不到它。它不是陈列在市场上的，|它不是可以从商人那儿买到的，也不能称轻重拿来换钱。”
+94	“这的确是位真正的恋人，”夜莺说，|“我所为之歌唱的正是他遭受的痛苦，我所为之快乐的东西，对他却是痛苦。|爱情真是一件奇妙无比的事情，|它比绿宝石更珍贵，比猫眼石更稀奇。|用珍珠和石榴石都换不来，是市场上买不到的，|是从商人那儿购不来的，更无法用黄金来称出它的重量。”
+94	“多么痴情的人呀！”夜莺说，|“我所歌唱的，正是让他遭受痛苦的东西，在我是快乐的东西，在他却成了痛苦。|爱情真是一件奇妙无比的事情，|它比绿宝石更珍贵，比猫眼石更具有值价。|在市场上用珍珠和钻石都换不来，|从商人那儿也购不来，更无法称出它的重量用黄金来等价交换。”
+94	“一点不错，这是一位真正的恋人，”夜莺说，|“我在歌中所唱到的使他备受折磨，对于我来说是欢乐的东西，对他而言却是痛苦。|爱情确实是一件奇妙的东西。|它比绿宝石更加珍贵，比白玉石价更高。|珍珠和石榴色宝石都买不到它，更何况它根本就不是摆在市场上卖的。|商人们既不能拿它去做买卖，也不能够用称黄金的天平来称出它的分量。”
+94	“这真是个真情人。”夜莺又说着，|“我所歌唱，是他尝受的苦楚：在我是乐的，在他却是悲痛。|‘爱’果然是件非常的东西。|比翡翠还珍重，比玛瑙更宝贵。|珍珠，榴石买不得他，黄金亦不能作他的代价，|因为他不是在市上出卖，也不是商人贩卖的东西。”
+95	"The musicians will sit in their gallery," said the young Student, "and play upon their stringed instruments, and my love will dance to the sound of the harp and the violin.|She will dance so lightly that her feet will not touch the floor, and the courtiers in their gay dresses will throng round her.|But with me she will not dance, for I have no red rose to give her;" and he flung himself down on the grass, and buried his face in his hands, and wept.
+95	“乐师们会坐在他们的廊厢里，”年轻的学生说，“弹奏他们的弦乐器，我心爱的人会跟着竖琴和小提琴的声音跳舞。|她会跳得那么轻快，好像她的脚就没有挨着地板似的，那些穿漂亮衣服的朝臣会团团地围住她。|可是她不会同我跳舞，因为我没有红蔷薇带给她，”于是他扑倒在草地上，双手蒙住脸哭起来。
+95	“乐师们会坐在他们的廊厅中，”年轻的学生说，“弹奏起他们的弦乐器。我心爱的人将在竖琴和小提琴的音乐声中翩翩起舞。|她跳得那么轻松欢快，连脚跟都不蹭地板似的。那些身着华丽服装的臣仆们将她围在中间。|然而她就是不会同我跳舞，因为我没有红色的玫瑰献给她。”于是他扑倒在草地上，双手捂着脸放声痛哭起来。
+95	“乐师们会坐在他们的廊厢里，弹奏起他们的弦乐器。”年轻的学生说，“我心爱的人将在竖琴和小提琴的音乐声中翩翩起舞。|她跳得那样轻盈，好像连脚跟都不蹭地板似的。那些身着华丽服装的臣仆们将她团团围在中间。|可是她就是不会同我跳舞，因为我没有送她红色玫瑰。”于是他一下扑倒在草地上，双手捂着脸放声痛哭。
+95	“乐师们将坐在乐池里，”青年学生说，“弹奏着乐器，而我的心上人将会随着竖琴和小提琴演奏的乐曲翩翩起舞，|她的舞姿是那么轻盈，甚至可以脚不沾地不停地旋转，宫廷里身着华丽衣服的大臣们将簇拥在她的周围。|可是，她不会愿意和我跳舞，因为我没有红玫瑰可以送给她。”说着，他竟然伤心得扑倒在草地上，双手蒙面，痛哭起来。
+95	青年说：“乐师们将在乐坛上弹弄丝竹，我那爱人也将按着弦琴的音节舞蹈。|她舞得那么翩翩，莲步都不着地，华服的少年们就会艳羡的围着她。|但她不同我跳舞，因我没有为她采到红玫瑰。”于是他卧倒在草里，两手掩着脸哭泣。
+96	"Why is he weeping?" asked a little Green Lizard, as he ran past him with his tail in the air.
+96	“他为什么哭？”一条小小的绿蜥蜴竖起尾巴跑过学生面前，这样问道。
+96	“他为什么哭呢？”一条绿色的小蜥蜴高高地翘起尾巴从他身旁跑过时，这样问道。
+96	“他为什么哭呢？”一条绿色的小蜥蜴问道，他从他身旁跑过时，尾巴翘得高高的。
+96	“他为什么哭呢？”当一条绿色的小蜥蜴翘起尾巴跑过他身旁的时候，问道。
+96	绿色的小壁虎说：“他为什么哭泣？”说完就竖起尾巴从他跟前跑过。
+144	THE SELFISH GIANT
+144	自私的巨人
+144	自私的巨人
+144	自私的巨人
+144	自私的巨人
+145	from The Happy Prince and Other Tales by Oscar Wilde, 1888
+145	选自《巴金译文全集(第六卷)》〔英〕奥斯卡·王尔德著;巴金译, 1957/1997年
+145	选自《王尔德童话》〔英〕奥斯卡·王尔德著;王林译, 1996
+145	选自《快乐王子》〔英〕奥斯卡·王尔德著;蔡荣寿译, 2012年
+145	选自《快乐王子》〔英〕奥斯卡·王尔德著;高延征译
+146	Every afternoon, as they were coming from school, the children used to go and play in the Giant's garden.
+146	每天下午，孩子们放学以后，总喜欢到巨人的花园里去玩。
+146	每天下午，孩子们放学后总喜欢到巨人的花园里去玩耍。
+146	每天下午放学后，孩子们总喜欢到巨人的花园里去玩耍。
+146	每天下午，孩子们放学回家时，总要到巨人的花园里去玩一阵子。
+147	It was a large lovely garden, with soft green grass.|Here and there over the grass stood beautiful flowers like stars, and there were twelve peach-trees that in the spring-time broke out into delicate blossoms of pink and pearl, and in the autumn bore rich fruit.|The birds sat on the trees and sang so sweetly that the children used to stop their games in order to listen to them.|"How happy we are here!" they cried to each other.
+147	这是一个可爱的大花园，园里长满了柔嫩的青草。|草丛中到处露出星星似的美丽花朵；还有十二棵桃树，在春天开出淡红色和珍珠色的鲜花，在秋天结着丰富的果子。|小鸟们坐在树枝上唱出悦耳的歌声，它们唱得那么动听，孩子们都停止了游戏来听它们。|“我们在这儿多快乐！”孩子们互相欢叫。
+147	这是一个很可爱的大花园，长满了绿茸茸的青草，美丽的鲜花随处可见，多得像天上的星星。|草地上还长着十二棵桃树，一到春天就开放出粉扑扑的团团花朵，秋天里则结下累累果实。|栖息在树枝上鸟儿唱着欢乐的曲子，每当这时，嬉戏中的孩子们会停下来侧耳玲听鸟儿的鸣唱，|并相互高声喊着，“我们多么快乐啊！”
+147	大花园很可爱，里面绿草如茵，美丽的鲜花随处可见，像天上的星星一样点缀着草地。|草地上的十二棵桃树，一到春天就开出淡红色和珍珠色的鲜嫩花朵，到了秋天，累累果实挂满枝头。|树上的鸟儿唱着欢乐的曲子，他们唱得那么动听，嬉戏中的孩子们会停下来专心聆听鸟儿的歌唱，|并相互欢叫着，“我们在这儿多么快乐啊！”
+147	这是一个十分漂亮的大花园，地上铺满了柔嫩的青草。|草地上到处盛开着星星似的美丽的花儿。一到春天，12颗桃树便开放出粉红色和蓝灰色的娇嫩的桃花，到了秋天，树上果实累累。|小鸟栖息在枝头，唱着动听的歌儿，孩子们也时常停下正玩着的游戏去听鸟儿歌唱。|“我们在这里真开心啊！”他们互相呼喊着。
+148	One day the Giant came back.|He had been to visit his friend the Cornish ogre, and had stayed with him for seven years.|After the seven years were over he had said all that he had to say, for his conversation was limited, and he determined to return to his own castle.|When he arrived he saw the children playing in the garden.
+148	有一天巨人回来了。|他原先离家去看他的朋友，就是那个康华尔地方的吃人鬼，在那里一住便是七年。|七年过完了，他已经把他要说的话说尽了（因为他谈话的才能是有限的），他便决定回他自己的府邸去。|他到了家，看见小孩们正在花园里玩。
+148	一天，巨人回来了。|原来他到自己的妖怪朋友科尼西家串门去了，在妖怪家里一住就是七年。|七年的时间里他把要讲的话都讲完了，便决定回自己的城堡。|进了家门，他一眼就看见在花园中戏耍的孩子们。
+148	有一天，巨人回来了。|此前，他到远方自己的朋友家做客，这个朋友就是那个康华尔地方的吃人鬼，在他家里一住就是七年。|七年的时间里他把要说的话都说完了，便决定回自己的古堡。|刚进家门，他看见在花园中戏耍的孩子们，
+148	一天，巨人回来了。|他到他的朋友科尼斯吃人妖魔家作客去了，他在那里呆了七年。|七年后，他把想说的话都说完了，也就没什么好讲的了，所以他决定回到自己的城堡中来。|一回家，他就看见孩子们在花园里玩。
+149	"What are you doing here?" he cried in a very gruff voice, and the children ran away.
+149	“你们在这儿做什么？”他粗暴地叫道，小孩们都跑开了。
+149	“你们在这儿于什么？”他粗声粗气地吼叫起来，孩子们都跑掉了。
+149	就大声吼叫起来：“你们在这儿干什么？”孩子们都吓跑了。
+149	“你们在这里干什么？”他用粗暴的嗓子喊道，把孩子们都给吓跑了。
+150	"My own garden is my own garden," said the Giant; "any one can understand that, and I will allow nobody to play in it but myself."|So he built a high wall all round it, and put up a notice-board.
+150	“我自己的花园就是我自己的花园，”巨人说，“这是随便什么人都懂得的，除了我自己以外，我不准任何人在里面玩。”|所以他就在花园的四周筑了一道高墙，挂起一块布告牌来：
+150	“我的花园就是我自己的花园，”巨人说，“谁都清楚，我不准外人来这里玩。”|于是，他沿着花园筑起一堵高高的围墙，还挂出一块告示：
+150	“我的花园就是我自己的，”巨人说，“谁都清楚，除我外，不准外人来这里玩。”|于是，他沿着花园筑起一堵高高的围墙，还在门口挂出一则告示：
+150	“我自己的花园就是我自己的。”巨人说，“任何人都要明白这一点，除了我自己外，其他人都不许进来玩。”|于是他在花园四周筑了一道高高的墙，并立了一块布告牌，上面写着:
+151	TRESPASSERS WILL BE PROSECUTED
+151	不准擅入 违者重惩
+151	闲人莫入 违者重罚
+151	外人莫入，违者重罚。
+151	“闲人莫入，违者严惩。”
+152	He was a very selfish Giant.
+152	他是一个非常自私的巨人。
+152	他的确是一个非常自私的巨人。
+152	他真是一个非常自私的巨人。
+152	他是一个很自私的巨人。
+153	The poor children had now nowhere to play.|They tried to play on the road, but the road was very dusty and full of hard stones, and they did not like it.|They used to wander round the high wall when their lessons were over, and talk about the beautiful garden inside.|"How happy we were there!" they said to each other.
+153	那些可怜的小孩们现在没有玩的地方了。|他们只好勉强在街上玩，可是街道灰尘多，到处都是坚硬的石子，他们不喜欢这个地方。|他们放学以后常常在高墙外面转来转去，并且谈论墙内的美丽的花园。|“我们从前在那儿多么快活啊”，他们都这样说。
+153	从此可怜的孩子们没有了玩耍的地方，|他们只得来到马路上，但是街道上满是尘土和硬硬的石块，让他们扫兴极了。|放学后他们仍常常在高耸的围墙外徘徊，谈论着墙内花园中的美丽景色。|“在里面我们多么快乐啊，”他们彼此诉说着。
+153	那些可怜的孩子们没有了玩耍的地方了，|他们只好来到街上玩，但是街道上满是尘土和坚硬的石块，一点也不好玩。|放学后，他们仍常常在高耸的围墙外转来转去，谈论着墙内那个美丽花园。|“我们从前多么快乐啊，”他们彼此诉说着。
+153	可怜的孩子们现在无处可玩了。|他们本想在马路上玩，但是马路上尘土飞扬，尽是石头，他们不喜欢那里。|下课后他们常常绕着高墙转悠，谈论着里面漂亮的花园。|“我们以前在那儿玩得多高兴啊！”他们都这样感叹道。
+177	THE DEVOTED FRIEND
+177	忠实的朋友
+177	忠实的朋友
+177	忠实的朋友
+177	忠诚的朋友
+178	from The Happy Prince and Other Tales by Oscar Wilde, 1888
+178	选自《巴金译文全集(第六卷)》〔英〕奥斯卡·王尔德著;巴金译, 1957/1997
+178	选自《王尔德童话》〔英〕奥斯卡·王尔德著;王林译, 1996
+178	选自《快乐王子》〔英〕奥斯卡·王尔德著;蔡荣寿译, 2012年
+178	选自《快乐王子》〔英〕奥斯卡·王尔德著;高延征译
+179	One morning the old Water-rat put his head out of his hole.|He had bright beady eyes and stiff grey whiskers and his tail was like a long bit of black india-rubber.|The little ducks were swimming about in the pond, looking just like a lot of yellow canaries, and their mother, who was pure white with real red legs, was trying to teach them how to stand on their heads in the water.
+179	有天早晨一只老河鼠从他的洞里伸出头来。|他有明亮的小眼睛和坚硬的灰色颊须，他的尾巴好象是一条长长的黑橡皮。|小鸭们在池塘里游来游去，看起来真像一群黄色的金丝雀，他们的母亲全身纯白，配上一对真正的红腿，她正在教他们怎样在水中倒立。
+179	一天早晨，老河鼠从自己的洞中探出头来。|他长着明亮的小眼睛和硬挺的灰色胡须，尾巴长得像一条长长的黑色橡胶。|小鸭子们在池塘里游着水，看上去就像是一大群金丝鸟。他们的母亲浑身纯白如雪，再配上一对赤红的腿，正尽力教他们如何头朝下地在水中倒立。
+179	在一个清晨，一只老河鼠从自己的洞中伸出头来。|他长着一双明亮的小眼睛，灰色胡须又硬又挺，尾巴长得像一条长长的黑色弹性橡皮。|小鸭子们在池塘里四处游着水，看上去就像是一大群黄色的金丝雀。他们的母亲一身纯白，再配上一双纯红的腿，正在教他们如何用头在水中倒立。
+179	一天早上，一只年迈的水老鼠从洞里探出头来。|他有一双明亮的小眼睛和一脸灰色的硬梆梆的连鬓胡子，他的尾巴像一根长长的黑色橡皮绳。|这时，小鸭子们正在池塘里游来游去，他们看上去就像一群黄灿灿的金丝雀。他们的妈妈浑身雪白，两腿通红，她正在教他们怎样在水中倒立。
+180	"You will never be in the best society unless you can stand on your heads," she kept saying to them; and every now and then she showed them how it was done.|But the little ducks paid no attention to her.|They were so young that they did not know what an advantage it is to be in society at all.
+180	“你们要是不会倒立，就永不会有跟上等人来往的机会，”她不断地对他们说，并且她时常做给他们看，怎样才可以倒立起来。|可是小鸭们并不注意她。|他们太年轻了，完全不知道跟上等人来往的好处。
+180	“除非你们学会倒立，否则你们永远不会进入上流社会，”她老爱这么对他们说，并不停地做给他们看。|但是小鸭子们并未对她的话引起重视。|他们太年轻了，一点也不知道在上流社会的好处是什么。
+180	“除非你们能够用你们的头倒立，否则你们就永远无法进入上流社会，”她总是不停地这么对他们说，并且时时刻刻给他们演示如何倒立。|可是小鸭子们并不在意她说的这些话。|他们实在太年轻了，一点都不知道在上流社会有什么好处。
+180	“你们如果不学会倒立，就不能进入上流社会。”她不断地这样对他们说，并时不时地给他们做示范。|可是小鸭子们并没有注意看她。|他们太小了，根本不明白得进入上流社会有什么好处。
+181	"What disobedient children!" cried the old Water-rat; "they really deserve to be drowned."
+181	“多么不听话的孩子！”老河鼠嚷道；“他们实在应当淹死。”
+181	“多么顽皮的孩子呀！”老河鼠高声喊道，“他们真该被淹死。”
+181	“这些孩子太不听话了！”老河鼠高声喊道，“他们真该被淹死。”
+181	“多不听话的一群孩子！”年迈的水老鼠大声说，“他们真该被淹死才对。”
+182	"Nothing of the kind," answered the Duck, "every one must make a beginning, and parents cannot be too patient."
+182	“不是的，”母鸭答道，“开头不容易，对谁都是一样，做父母的要有耐心才好。”
+182	“不是那么回事，”鸭妈妈回答说，“万事开头难嘛，做父母的要多一点耐心。”
+182	“可不是那么回事，”鸭妈妈回答说，“万事开头难嘛，做父母的要多一点耐心才行。”
+182	“可千万别这样说，”母鸭回答道，“万事开头难，做父母的对他们一定要有耐心。”
+183	"Ah!|I know nothing about the feelings of parents," said the Water-rat; "I am not a family man.|In fact, I have never been married, and I never intend to be.|Love is all very well in its way, but friendship is much higher.|Indeed, I know of nothing in the world that is either nobler or rarer than a devoted friendship."
+183	“啊！|我一点也不懂做父母的情感，”河鼠说。“我不是个有家室的人。|其实，我从没有结过婚，也决不想结婚。|爱情就它本身来说也很不错，可是友谊却比它高尚得多。|老实说，我不知道在世界上还有什么比忠实的友谊更高贵、更难得的东西。”
+183	“啊：|我完全不了解做父母的情感，”河鼠说，“我不是个养家带口的人。|事实上，我从未结过婚，也决不打算结婚。|爱情本身倒是挺好的，但友情比它的价值更高。|说实在的，我不知道在这世上还有什么比忠实的友谊更崇高和更珍贵的了。”
+183	“啊！|我完全不理解做父母的感受，”河鼠说，“我是个没有成过家的男人。|实际上，我还从没有结过婚呢，而且也从来没打算过要结婚。|爱情本身倒是挺美好的，但友情比它的价值更高。|说实在的，我不知道在这世上还有什么比忠实的友谊更高贵、更稀罕的了。”
+183	“哎！|我不明白你们做父母的心情。”水老鼠说，“我是一个没有家的人。|事实上，我没有结过婚，也永远不想结婚。|爱情诚可贵，友谊价更高。|说真的，我不知道世界上还有什么比忠诚的友谊更高尚、更可贵的了。”
+184	"And what, pray, is your idea of the duties of a devoted friend?" asked a green Linnet, who was sitting in a willow-tree hard by, and had overheard the conversation.
+184	“那么请问，你以为一个忠实的朋友究竟有些什么样的义务？”一只绿色梅花雀坐在近旁一棵柳树上面，听见他们的谈话便插嘴问道。
+184	“那么，请问，你认为一个忠实的朋友的责任是什么呢？”一只绿色的红雀开口问道，此时他正坐在旁边一视柳树上，偷听到他们的谈话。
+184	“那么，请问，你认为一个忠实的朋友的责任应该是什么呢？”一只绿色的朱顶雀开口问道，此时他正坐在旁边一棵柳树上，偷听到他们的谈话。
+184	“那么，请你说说吧，怎样才算是一个忠实的朋友呢？”栖息在附近一棵柳树上的一只翠绿的朱顶雀无意中听见了他们的谈话，插嘴问道。
+185	"Yes, that is just what I want to know," said the Duck; and she swam away to the end of the pond, and stood upon her head, in order to give her children a good example.
+185	“对啊，我也就是想知道这一点，”母鸭说，她便游到池子的那一头去，倒立起来，给她的孩子们做一个好榜样。
+185	“是啊，这正是我想知道的，”鸭妈妈说。接着她就游到了池塘的另一头，头朝下倒立起来，为的是给孩子们做一个好榜样。
+185	“是啊，这正是我想知道的问题，”鸭妈妈说。说完她就游到了池塘的另一头，头朝下倒立起来，为的是给她的孩子们做一个好榜样。
+185	“是呀，这也正是我想知道的。”母鸭子边说边向池塘的尽头游去，并且把头潜入水中，这是为了要给她的孩子们做一个好榜样。
+186	"What a silly question!" cried the Water-rat.|"I should expect my devoted friend to be devoted to me, of course."
+186	“你问得多傻！”河鼠大声说。|“自然啊，我希望我的忠实的朋友对我忠实。”
+186	“这问题问得多笨！”河鼠吼道，|“当然，我肯定我忠实的朋友对我是忠实的。”
+186	“这问题问得多傻啊！”河鼠叫道，|“当然，我希望我忠实的朋友是忠实于我的。”
+186	“多么愚蠢的问题！”水老鼠大声说。|“我当然希望忠实的朋友一定要对我忠实啦。”
+292	THE REMARKABLE ROCKET
+292	了不起的火箭
+292	神奇的火箭
+292	了不起的火箭烟花
+292	突出的冲天炮
+293	from The Happy Prince and Other Tales by Oscar Wilde,1888
+293	选自《巴金译文全集(第六卷)》〔英〕奥斯卡·王尔德著;巴金译, 1997
+293	选自《王尔德童话》〔英〕奥斯卡·王尔德著;王林译, 1996
+293	选自《快乐王子》〔英〕奥斯卡·王尔德著;蔡荣寿译, 2012
+293	选自《快乐王子》〔英〕奥斯卡·王尔德著;高延征译
+294	The King's son was going to be married, so there were general rejoicings.|He had waited a whole year for his bride, and at last she had arrived.|She was a Russian Princess, and had driven all the way from Finland in a sledge drawn by six reindeer.|The sledge was shaped like a great golden swan, and between the swan's wings lay the little Princess herself.|Her long ermine cloak reached right down to her feet, on her head was a tiny cap of silver tissue, and she was as pale as the Snow Palace in which she had always lived.|So pale was she that as she drove through the streets all the people wondered.|"She is like a white rose!"|they cried, and they threw down flowers on her from the balconies.
+294	国王的儿子要结婚了，国内准备着普遍的庆祝，|王子等他的新娘整整等了一年，后来她毕竟来了。|她是一位俄国公主，坐着六匹驯鹿拉的雪车从芬兰一路赶来的。|雪车的形状很像一只金色大天鹅，小公主就坐在天鹅的两只翅膀中间。|她那件银鼠皮的长外套一直盖到她的脚，她头上戴了一顶银线小帽，她的脸色苍白得就像她平时住的雪宫的颜色。|她是那么苍白，所以她的雪车经过街上的时候，百姓们都感到惊奇。|“她像一朵白蔷薇！”|他们嚷道，他们从露台上朝着她丢下花来。
+294	国王的儿子就要结婚了，所以要在举国上下进行庆典。|他为自己的新娘已经等了整整一年，最后她还是赶来了。|她是一位俄国公主，坐着由六只驯鹿拉的雪橇从芬兰一路赶来的。|雪橇看上去像一只巨大的金色天鹅，小公主就安卧在天鹏的两只翅膀之间。|那件长长的貂皮大衣一直垂到她的脚跟，她的头上戴着一顶小巧的银线帽子，她的肤色苍白得就如同她一直居住的雪宫的颜色。|她是如此的苍白，在她驶过街道的时候，沿街的人们都惊讶地叹道：|“她就像一朵白玫瑰！”|于是大家纷纷从阳台上朝她抛下鲜花。
+294	国王的儿子就要结婚了，举国上下都在准备举行庆典活动。|王子新郎官为自己的新娘已经等了整整一年，现在她终于来了。|她是一位俄国公主，乘着由六只驯鹿拉的雪橇从芬兰一路赶来的。|雪车的外形看上去就像一只金色的大天鹅，公主就坐在天鹅的两只翅膀之间。|穿着从脖子一直覆盖到脚的貂皮长大衣，她的头上戴着一顶银线编织的小帽，她的皮肤白嫩得就如同她一直居住的雪宫的颜色。|她是如此的白嫩，在她雪车驶过街道的时候，沿街的百姓都惊讶地叹道：|“她就像一朵白玫瑰！”|人们纷纷从阳台上朝她抛下鲜花。
+294	国王的儿子就要结婚了，举国上下一片欢腾。|王子等待他的新娘的到来已经等了整整一年了，现在她终于要来了。|新娘是一位俄罗斯公主，她刚从芬兰来，一路上她都坐着由六只驯鹿拉的雪橇，|那雪橇就像一只巨大的金天鹅，而这位小公主就躺在金天鹅的两只翅膀之间。|她那貂皮长斗篷一直拖到脚后跟，她的头上还戴着一顶银丝薄纱的小便帽，她的脸就像她经常住的白雪宫殿一样白。|由于她是那么白，以至当她乘着雪橇经过街道时，人人都感到非常惊奇，|“她真像一朵白玫瑰！”|人们这样感叹道，并从阳台上向她抛下鲜花。
+295	At the gate of the Castle the Prince was waiting to receive her.|He had dreamy violet eyes, and his hair was like fine gold.|When he saw her he sank upon one knee, and kissed her hand.
+295	王子在宫城门口等着迎接她。|他有一对爱梦想的青紫色眼睛，和纯金一般的头发。|他看见她来，便跪下一只腿，吻她的手。
+295	在城堡的门口王子正等着迎接她的到来。|他有一双梦幻般的紫色眼睛和一头金黄色的头发。|一看见她来了，他就跪下一条腿，吻了她的手。
+295	金发碧眼的王子在城堡门口正等着迎接她。|（无）|一看见她来了，他就跪下一条腿，吻了她的手。
+295	王子站在城堡的大门口急切地盼望着新娘的到来。|他有着一双梦幻般紫罗兰色的眼睛，他的头发美得就像金丝一样。|一看见他的新娘，他便单膝跪地，吻了吻她的手。
+296	"Your picture was beautiful," he murmured, "but you are more beautiful than your picture;"|and the little Princess blushed.
+296	“你的照相很美，”他喃喃地说，“可是你本人比照相还要美；”|小公主脸红起来。
+296	“你的照片好漂亮，”他轻声地说，“不过你比照片更漂亮。”|小公主的脸一下子就红了。
+296	“你的画像很美，”他轻声地说，“不过你本人比画像更美。”|公主的脸一下子就红了。
+296	“你的画像非常美，”他喃喃地对她说，“可你比你的画像更美。”|小公主听了，满脸通红。
+297	"She was like a white rose before," said a young page to his neighbour, "but she is like a red rose now;"|and the whole Court was delighted.
+297	“她先前像一朵白蔷薇，可是现在她像一朵红蔷薇了，”一个年轻的侍从对他的朋友说，|整个宫里的人听见了都很高兴。
+297	“她先前像一朵白攻瑰，”一位年轻的侍卫对身边的人说，“可此刻却像一朵红玫瑰了。”|整个宫里的人都快乐无比。
+297	“她先前像一朵白玫瑰，”一位年轻的侍卫对身边的人说，“可现在她却像一朵红玫瑰了。”|整个宫里的人听后都感到十分高兴。
+297	“以前她就像一朵白玫瑰”，一个小侍从对他周围的人说，“可是她现在却像一朵盛开的红玫瑰。”|宫廷内外一片欢声笑语。
+298	For the next three days everybody went about saying, "White rose, Red rose, Red rose, White rose;" |and the King gave orders that the Page's salary was to be doubled.|As he received no salary at all this was not of much use to him, but it was considered a great honour, and was duly published in the Court Gazette.
+298	这以后的三天里面人人都说着：“白蔷薇，红蔷薇，红蔷薇，白蔷薇；”|国王便下令把那侍从的薪金增加一倍。|其实他根本就没有薪金，加薪的命令对他并没有什么用处，不过这是一种大的荣誉，并且照例在《宫报》上公布了。
+298	这以后的三天中人人都说着：“白玫瑰，红玫瑰；红玫瑰，白玫瑰。”|于是国王下令给那个侍卫的薪金增加一倍。|不过他根本就没有拿薪水，因此这道加薪的命令对他没有任何作用，然而这被视为一种莫大的荣誉，并按惯例在宫廷报纸上登出。
+298	这以后的三天里人人都说着：“白玫瑰，红玫瑰；红玫瑰，白玫瑰。”|国王因此下令给那个侍卫的薪金增加一倍。|不过加薪的命令对他没有什么实际用处，只不过是一种莫大的荣誉，并按惯例在《宫廷报》上刊出。
+298	接下来的三天里，每个人都到处传颂着“白玫瑰，红玫瑰，红玫瑰，白玫瑰”。|国王听了很高兴，便下令给小侍从的薪水加一倍。|但这对小侍从并没有什么用，因为他根本就没有薪水。不过大家都认为这是一种很荣幸的事情，并将这一消息及时地在宫廷报纸上刊登了出来。
+299	When the three days were over the marriage was celebrated.|It was a magnificent ceremony, and the bride and bridegroom walked hand in hand under a canopy of purple velvet embroidered with little pearls.|Then there was a State Banquet, which lasted for five hours.|The Prince and Princess sat at the top of the Great Hall and drank out of a cup of clear crystal.|Only true lovers could drink out of this cup, for if false lips touched it, it grew grey and dull and cloudy.
+299	过了这三天，婚礼便举行了。|这是一个隆重的仪式，一对新人在一幅绣着小珍珠的紫天鹅绒华盖下面手拉手地走着。|随后又举行盛大的宴会，一共继续了五个钟头。|王子同公主坐在大殿的首位，用一个透明的水晶杯子喝酒。|据说只有真诚的爱人才能够用这个杯子喝酒，要是虚假的爱情的嘴唇一挨到杯子，杯子马上就会变成灰暗无光而混浊了。
+299	三天过后便举行了婚礼庆典。|这是一次盛大的仪式，新郎和新娘在一幅绣着小珍珠的紫色鹅绒华盖下手牵着手走着。|接着又举行了国宴，持续了五个小时。|王子和公主坐在大厅的首座上，用一只纯清的水晶杯子饮酒。|只有真诚的恋人才能用这只杯子喝酒，因为只要虚伪的嘴唇一挨上杯子，杯子就会变得灰暗无光。
+299	三天之后便举行了结婚典礼。|这是一次隆重的仪式，新郎和新娘在一幅绣着小珍珠的紫色鹅绒华盖下手牵着手走着。|接着又举行盛大的国宴，宴会持续了五个小时。|王子和公主坐在大殿的首座上，用一只透明的水晶杯子饮酒。|据说只有真诚的恋人才能用这只杯子喝酒，因为只要虚伪的嘴唇一挨到杯子，它的颜色就会变灰，变得毫无光泽。
+299	三天以后，国王为他们举行了盛大豪华的结婚庆典。|在婚礼上，新娘和新郎在一顶镶满了细珍珠的紫色天鶴绒华盖下手牵着手走着。|随后，国王又为他们举行了一个盛大的国宴，人们一连吃了五个小时。|王子和公主并排坐在宽敞的大厅的上方，用干净透明的水晶杯饮着美酒。|然而，只有真心相爱的恋人才能用这种杯子喝酒，因为凡是虚情假意的人，他的嘴唇一碰到这只水晶杯子，它就会变得浑浊灰暗，毫无光泽。
+300	"It is quite clear that they love each other," said the little Page, "as clear as crystal!"|and the King doubled his salary a second time.
+300	“他们分明互相爱着，就跟水晶一样地洁白！”那个小侍从又说，|国王第二次下令给他加薪。
+300	“一眼就能看出他们相亲相爱，”那个小侍卫说，“如同水晶一样纯洁！”|为这句话国王再次下令给他加薪。
+300	“很明显，他们相亲相爱，”那个小侍卫说，“如同水晶一样纯洁！”|为这句话国王再次下令给他加薪。
+300	“可以清楚地看出，他们俩确实是彼此真心相爱的。”那个小侍从说，“这简直就跟水晶一样明明白白！”|兴高采烈的国王再一次给他加了一倍的薪水。
+301	"What an honour!" cried all the courtiers.
+301	“多大的光荣啊，”朝臣们全这样地嚷着。
+301	“多么大的荣耀啊！”群臣们异口同声地喊道。
+301	“多么荣耀啊！”群臣们异口同声地赞颂。
+301	“多么荣耀啊！”全体朝臣们大声嚷道。

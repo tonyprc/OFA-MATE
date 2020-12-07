@@ -1,0 +1,31 @@
+﻿傲飞伴侣：一对多平行语料格式转换工具	OFA MATE: One to Many Bilingual Corpus Format Converter
+操作提示	PROMPT
+加载语料	OPTIONS
+语料概况	CORPUS FORMS
+源语语料	SOURCE LANGUAGE
+目标语语料	TARGET LANGUAGE
+文件类型	File Type:
+组合方式：	Bi-Location:
+双语位置：	Bi-Position:
+文件个数：	File No.:
+检索标记：	Marker:
+双语比例：	Bi-Portion:
+统一行号	Line No.
+篇章标题	Chapter Title
+“tab”标记	With "tab"
+“<seg>”标记	With "<seg>"
+表格标记	With Tables
+打开单文件	Open File
+打开多文件	Open Files
+重新加载	Reload
+提交	Submit
+重填	Refill
+下一译本	Next
+转换格式	Convert
+书名：	Title:
+版本：	Version No.:
+作者：	Author:
+译者：	Translator:
+年代：	Date:
+体裁：	Genre:
+正文预览：	Content Preview: 
