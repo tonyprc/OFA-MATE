@@ -89,7 +89,7 @@ class ChapterFiller:
         sent_end = ""        
         new_sent_list = []
         new_chapter_list = []
-        en_chpt_num_list = []
+        sl_chpt_num_list = []
         chapter_id = ''
 
         if para_list == []:
@@ -100,7 +100,7 @@ class ChapterFiller:
             chapter_id = para_list[0]
             new_sent_list.append(para_list[0])
             new_chapter_list.append(chapter_id)
-            en_chpt_num_list.append("0")
+            sl_chpt_num_list.append("0")
             if para_list[1].startswith('by') or para_list[1].startswith('By') or para_list[1].startswith('Written'):
                 m_date = re.search(r"^.*(\d+).*$",para_list[1])
                 if m_date:
@@ -121,11 +121,11 @@ class ChapterFiller:
                             new_chapter_list.append(chapter_id)
                         else:
                             chapter_id = para
-                            en_chpt_num_list.append(str(j))
+                            sl_chpt_num_list.append(str(j))
                             new_sent_list.append(para)
                             new_chapter_list.append(chapter_id)
                     else:
-                        en_chpt_num_list.append(str(j))
+                        sl_chpt_num_list.append(str(j))
                         chapter_id = para
                         new_sent_list.append(para)
                         new_chapter_list.append(chapter_id)
@@ -135,19 +135,19 @@ class ChapterFiller:
                 
         #print('chapter added and out')
               
-        return new_sent_list, new_chapter_list, en_chpt_num_list
+        return new_sent_list, new_chapter_list, sl_chpt_num_list
 
         #auto_filler_group
-    def swap_chapter(self, zh_num_sent_list, en_chapt_num_list):
+    def swap_chapter(self, tl_num_sent_list, sl_chapt_num_list):
         #print("start swap chapter")
         #必须核实num类型是否为数字类型。
         chapter_list = []
-        for num,sent in zh_num_sent_list:
+        for num,sent in tl_num_sent_list:
             if isinstance(num,str):
                 num = eval(num)
             else:
                 pass
-            if str(num-1) in en_chapt_num_list:
+            if str(num-1) in sl_chapt_num_list:
                 chapter_list.append('[T]' + sent)
             else:
                 chapter_list.append(sent)

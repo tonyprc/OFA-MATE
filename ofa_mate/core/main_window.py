@@ -36,15 +36,17 @@ class MainWindow:
         self._ui.reload_file.connect(self.reload_file)        
         self._ui.load_next_version.connect(self.load_next_version)
         self._ui.write_to_json.connect(self.write_to_json)
-        self._ui.json_en_filler.connect(self.json_en_filler)
-        self._ui.json_zh_filler.connect(self.json_zh_filler)
-        self._ui.json_en_refiller.connect(self.json_en_refiller)
-        self._ui.json_zh_refiller.connect(self.json_zh_refiller)
+        self._ui.json_sl_filler.connect(self.json_sl_filler)
+        self._ui.json_tl_filler.connect(self.json_tl_filler)
+        self._ui.json_sl_refiller.connect(self.json_sl_refiller)
+        self._ui.json_tl_refiller.connect(self.json_tl_refiller)
 
         self._info_collector = InfoCollector()
         self._chapter_maker = ChapterFiller()
      
         # data preparation
+        self.sl = "en"
+        self.tl = 'zh'
         self._opt_dict = {}
         self._temp_list = []
         self._file_suffix = ""
@@ -53,16 +55,16 @@ class MainWindow:
         self._current_file_list = []
         self._file_id_list = []
         
-        self._current_en_para_list = []
-        self._current_zh_para_list = []
-        self._current_en_chapter_num_list = []
+        self._current_sl_para_list = []
+        self._current_tl_para_list = []
+        self._current_sl_chapter_num_list = []
 
-        self._en_bookDict = {}
-        self._zh_bookDict_list = []
+        self._sl_bookDict = {}
+        self._tl_bookDict_list = []
 
         self._current_dict_key = ""
-        self._current_en_dict_version = ""
-        self._current_zh_dict_version = "" 
+        self._current_sl_dict_version = ""
+        self._current_tl_dict_version = "" 
 
         self._ui.show()
 
@@ -197,8 +199,8 @@ class MainWindow:
                 if temp_para_list:
                     for para_list in temp_para_list:
                         self.file_evaluator(para_list)
-                elif self._current_en_para_list:
-                    para_list = self._current_en_para_list
+                elif self._current_sl_para_list:
+                    para_list = self._current_sl_para_list
                     self.file_evaluator(para_list)
                 else:
                     self._ui._set_status_text("文件读取失败，请重试")
@@ -226,8 +228,8 @@ class MainWindow:
                     file_num = len(file_group)
                     self._ui._file_num_box.setValue(file_num)
                     self.form_reset()
-                    en_para_list = []
-                    zh_para_list = []
+                    sl_para_list = []
+                    tl_para_list = []
                     for file in file_group:
                         if 's0' in file:
                             with open(file, 'rt', encoding = 'utf-8-sig') as f:
@@ -239,7 +241,7 @@ class MainWindow:
                                 else:
                                     pass
                             para_list = text.split('\n')
-                            en_para_list.extend([sent.strip().replace('ZZZZZ.', "") for sent in para_list])
+                            sl_para_list.extend([sent.strip().replace('ZZZZZ.', "") for sent in para_list])
                         elif 'EN' in file:
                             with open(file, 'rt', encoding = 'utf-8-sig') as f:
                                 text = f.read()
@@ -250,7 +252,7 @@ class MainWindow:
                                 else:
                                     pass
                             para_list = text.split('\n')
-                            en_para_list.extend([sent.strip().replace('ZZZZZ.', "") for sent in para_list])
+                            sl_para_list.extend([sent.strip().replace('ZZZZZ.', "") for sent in para_list])
                         else:
                             with open(file, 'rt', encoding = 'utf-8-sig') as f:
                                 text = f.read()
@@ -261,12 +263,12 @@ class MainWindow:
                                 else:
                                     pass
                             para_list = text.split('\n')
-                            zh_para_list.append([sent.strip() for sent in para_list])
-                    self._current_en_para_list = en_para_list
-                    self._current_zh_para_list = zh_para_list
-                    if en_para_list:
-                        self.file_evaluator(en_para_list)
-                        self.prepare_seperate_bi_list(en_para_list, zh_para_list)
+                            tl_para_list.append([sent.strip() for sent in para_list])
+                    self._current_sl_para_list = sl_para_list
+                    self._current_tl_para_list = tl_para_list
+                    if sl_para_list:
+                        self.file_evaluator(sl_para_list)
+                        self.prepare_seperate_bi_list(sl_para_list, tl_para_list)
                     else:
                         self._current_file_list.clear()
                         self._ui._set_status_text('双语对齐txt多文件命名不统一，请正确命名相关文件')
@@ -278,8 +280,8 @@ class MainWindow:
     # file_open_group
     def reload_file(self):
         if self._ui._file_openBox.text():
-            current_en_text = self._ui._ss_book_contentsBox.toPlainText()
-            if current_en_text:
+            current_sl_text = self._ui._ss_book_contentsBox.toPlainText()
+            if current_sl_text:
                 self._ui._set_status_text("文件已成功加载，请勿反复加载!")
             else:
                 self._opt_dict = self.opt_checker()
@@ -356,7 +358,7 @@ class MainWindow:
 
     # opt_organizer_group
     def detect_lang(self, text):
-        if text[0].isdigit() == True:
+        if text[0].isdigit():
             target_lang = 'num'
         else:
             target_lang = 'en'
@@ -372,18 +374,24 @@ class MainWindow:
             lang = self.detect_lang(x)
             num_lang_dict[str(i)] = lang
         if num_lang_dict['0'] == 'en' and num_lang_dict['1'] == 'zh':
+            self.sl = 'en'
+            self.tl = 'zh'
             lang_status = "英上中下"
-            en_num_list = [i for i, y in num_lang_dict.items() if y == 'en']
-            en_check_list = list(
-                map(lambda x: eval(en_num_list[x]) - eval(en_num_list[x - 1]), range(1, len(en_num_list))))
-            lang_gap = en_check_list[0] - 1
+            sl_num_list = [i for i, y in num_lang_dict.items() if y == 'en']
+            sl_check_list = list(
+                map(lambda x: eval(sl_num_list[x]) - eval(sl_num_list[x - 1]), range(1, len(sl_num_list))))
+            lang_gap = sl_check_list[0] - 1
         elif num_lang_dict['0'] == 'zh' and num_lang_dict['1'] == 'en':
+            self.sl = 'zh'
+            self.tl = 'en'
             lang_status = "中上英下"
-            zh_num_list = [i for i, y in num_lang_dict.items() if y == 'zh']
-            zh_check_list = list(
-                map(lambda x: eval(zh_num_list[x]) - eval(zh_num_list[x - 1]), range(1, len(zh_num_list))))
-            lang_gap = zh_check_list[0] - 1
+            sl_num_list = [i for i, y in num_lang_dict.items() if y == 'zh']
+            sl_check_list = list(
+                map(lambda x: eval(sl_num_list[x]) - eval(sl_num_list[x - 1]), range(1, len(sl_num_list))))
+            lang_gap = sl_check_list[0] - 1
         else:
+            self.sl = 'en'
+            self.tl = 'zh'
             lang_status = "双语分离"
             lang_gap = 0
         return lang_status, lang_gap
@@ -409,6 +417,12 @@ class MainWindow:
                 self._ui._file_portion_box.setValue(lang_gap)
                 self._opt_dict['lang_cols'] = lang_gap
                 if lang_status in ['英上中下', '中上英下', '英左中右', '中左英右', '双语分离']:
+                    if lang_status in ['英上中下',  '英左中右', '双语分离']:
+                        self.sl = 'en'
+                        self.tl = 'zh'
+                    else:
+                        self.sl = 'zh'
+                        self.tl = 'en'
                     pos_index = lang_status_dict[lang_status]
                     self._ui._file_pos_box.setCurrentIndex(pos_index)
                     self._opt_dict['lang_pos'] = lang_status
@@ -450,48 +464,52 @@ class MainWindow:
                     lang_seq_dict[target_lang] = i
                     lang_seq_list.append(target_lang)
                 count_col_num = lang_seq_list.count('num')
-                count_col_en = lang_seq_list.count('en')
-                count_col_zh = lang_seq_list.count('zh')
+                count_col_sl = lang_seq_list.count(self.sl)
+                count_col_tl = lang_seq_list.count(self.tl)
                 col_names = [x for x in lang_seq_dict.keys()]
                 col_name_string = ":".join(col_names)
-                if 'en' in lang_seq_dict.keys() and "zh" in lang_seq_dict.keys():
-                    if lang_seq_dict['en'] < lang_seq_dict['zh']:
+                if self.sl in lang_seq_dict.keys() and self.tl in lang_seq_dict.keys():
+                    if lang_seq_dict[self.sl] < lang_seq_dict[self.tl]:
                         lang_status = "英左中右"
-                        if count_col_en == 1:
-                            lang_gap = count_col_zh
+                        self.sl = 'en'
+                        self.tl = 'zh'
+                        if count_col_sl == 1:
+                            lang_gap = count_col_tl
                             self._ui._file_portion_box.setValue(lang_gap)
                             self._opt_dict['lang_cols'] = lang_gap
                             self._opt_dict['lang_rows'] = 1
                             title = "无标题"
                         else:
-                            lang_gap = int(count_col_zh / 2)
+                            lang_gap = int(count_col_tl / 2)
                             self._ui._file_portion_box.setValue(lang_gap)
                             self._opt_dict['lang_cols'] = lang_gap
                             self._opt_dict['lang_rows'] = 1
                             title = '有标题'
                     else:
                         lang_status = "中左英右"
-                        if count_col_zh == 1:
-                            lang_gap = count_col_en
+                        self.sl = 'zh'
+                        self.tl = 'en'
+                        if count_col_tl == 1:
+                            lang_gap = count_col_sl
                             self._ui._file_portion_box.setValue(lang_gap)
                             self._opt_dict['lang_cols'] = lang_gap
                             self._opt_dict['lang_rows'] = 1
                             title = "无标题"
                         else:
-                            lang_gap = int(count_col_en / 2)
+                            lang_gap = int(count_col_sl / 2)
                             self._ui._file_portion_box.setValue(lang_gap)
                             self._opt_dict['lang_cols'] = lang_gap
                             self._opt_dict['lang_rows'] = 1
                             title = '有标题'
 
                 # 否则为上下结构
-                elif 'en' in lang_seq_dict.keys():
-                    if count_col_en == 1:
+                elif self.sl in lang_seq_dict.keys():
+                    if count_col_sl == 1:
                         title = "无标题"
                     else:
                         title = '有标题'
                     col_sent_list = []
-                    col_id = lang_seq_dict['en']
+                    col_id = lang_seq_dict[self.sl]
                     for item in tab_list:
                         col_sent_list.append(item[col_id])
                     lang_status, lang_gap = self.detect_lang_swap(col_sent_list)
@@ -504,13 +522,13 @@ class MainWindow:
                         self._opt_dict['lang_rows'] = int(self._ui._file_portion_box.value()) + 1
                         self._opt_dict['lang_cols'] = 1
 
-                elif 'zh' in lang_seq_dict.keys():
-                    if count_col_en == 1:
+                elif self.tl in lang_seq_dict.keys():
+                    if count_col_sl == 1:
                         title = "无标题"
                     else:
                         title = '有标题'
                     col_sent_list = []
-                    col_id = lang_seq_dict['zh']
+                    col_id = lang_seq_dict[self.tl]
                     for item in tab_list:
                         col_sent_list.append(item[col_id])
                     lang_status, lang_gap = self.detect_lang_swap(col_sent_list)
@@ -563,7 +581,7 @@ class MainWindow:
             row_max = self._opt_dict['lang_rows']
             if file_pos in ['英上中下', '英左中右', '中上英下', '中左英右', '双语分离'] and col_max >= 1:
                 if file_pos in ['英上中下', '中上英下']:
-                    col_max = self._opt_dict['marker_id'] + self._opt_dict['marker_chapt'] + self._opt_dict['lang_cols']
+                    col_max = self._opt_dict['marker_id'] + self._opt_dict['marker_chapt'] + self._opt_dict['lang_cols']                    
                     self.prepare_return_bi_list(marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
                 elif file_pos in ['英左中右', '中左英右'] and col_max >= 2:
                     if self._opt_dict['marker_chapt'] == 0:
@@ -579,6 +597,8 @@ class MainWindow:
                     self._ui._set_status_text("文件读取出现异常，请检查参数设置是否与语料一致！")
             else:
                 pass
+            
+            
 
     # opt_organizer_group
     def opt_checker(self):
@@ -621,64 +641,70 @@ class MainWindow:
         return file_dict
 
     # para_list_output_group
-    def prepare_seperate_bi_list(self, en_para_list, zh_para_list):
+    def prepare_seperate_bi_list(self, sl_para_list, tl_para_list):
         if self._opt_dict['marker_id'] == 1 and self._opt_dict['marker_chapt'] == 1:
-            en_num_list = [x.split('\t')[0] for x in en_para_list]
-            en_sent_list = [x.split('\t')[1] for x in en_para_list]
-            en_chapter_list = [x.split('\t')[2] for x in en_para_list]
-            zh_num_list = [x.split('\t')[0] for x in zh_para_list[0]]
-            zh_sent_list = [x.split('\t')[1] for x in zh_para_list[0]]
-            zh_chapter_list = [x.split('\t')[2] for x in zh_para_list[0]]
+            sl_num_list = [x.split('\t')[0] for x in sl_para_list]
+            sl_sent_list = [x.split('\t')[1] for x in sl_para_list]
+            sl_chapter_list = [x.split('\t')[2] for x in sl_para_list]
+            tl_num_list = [x.split('\t')[0] for x in tl_para_list[0]]
+            tl_sent_list = [x.split('\t')[1] for x in tl_para_list[0]]
+            tl_chapter_list = [x.split('\t')[2] for x in tl_para_list[0]]
         elif self._opt_dict['marker_id'] == 1:
-            en_num_list = [x.split('\t')[0] for x in en_para_list]
-            en_sent_list = [x.split('\t')[1] for x in en_para_list]
-            en_chapter_list = []
-            zh_num_list = [x.split('\t')[0] for x in zh_para_list[0]]
-            zh_sent_list = [x.split('\t')[1] for x in zh_para_list[0]]
-            zh_chapter_list = []
+            sl_num_list = [x.split('\t')[0] for x in sl_para_list]
+            sl_sent_list = [x.split('\t')[1] for x in sl_para_list]
+            sl_chapter_list = []
+            tl_num_list = [x.split('\t')[0] for x in tl_para_list[0]]
+            tl_sent_list = [x.split('\t')[1] for x in tl_para_list[0]]
+            tl_chapter_list = []
         elif self._opt_dict['marker_chapt'] == 1:
-            en_num_list = []
-            en_sent_list = [x.split('\t')[0] for x in en_para_list]
-            en_chapter_list = [x.split('\t')[1] for x in en_para_list]
-            zh_num_list = []
-            zh_sent_list = [x.split('\t')[0] for x in zh_para_list[0]]
-            zh_chapter_list = [x.split('\t')[1] for x in zh_para_list[0]]
+            sl_num_list = []
+            sl_sent_list = [x.split('\t')[0] for x in sl_para_list]
+            sl_chapter_list = [x.split('\t')[1] for x in sl_para_list]
+            tl_num_list = []
+            tl_sent_list = [x.split('\t')[0] for x in tl_para_list[0]]
+            tl_chapter_list = [x.split('\t')[1] for x in tl_para_list[0]]
         else:
-            en_num_list = []
-            en_sent_list = [x.split('\t')[1] for x in en_para_list]
-            en_chapter_list = []
-            zh_num_list = []
-            zh_sent_list = [x.split('\t')[1] for x in zh_para_list[0]]
-            zh_chapter_list = []
-        if en_sent_list:
-            tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(en_sent_list)
-            tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(zh_sent_list)
+            sl_num_list = []
+            sl_sent_list = [x.split('\t')[1] for x in sl_para_list]
+            sl_chapter_list = []
+            tl_num_list = []
+            tl_sent_list = [x.split('\t')[1] for x in tl_para_list[0]]
+            tl_chapter_list = []
+        if sl_sent_list:
+            if self.sl == "en":
+                tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sl_sent_list)
+                tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+            else:
+                tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
+                    sl_sent_list)
+                tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(
+                    tl_sent_list)
 
         else:
-            tmp_en_title = ''
-            tmp_en_author = ''
-            tmp_en_translator = ''
-            tmp_en_date = ''
-            tmp_zh_title = ''
-            tmp_zh_author = ''
-            tmp_zh_translator = ''
-            tmp_zh_date = ''
-        if tmp_en_title:
-            self._ui._ss_book_titleBox.setText(tmp_en_title)
-            self._ui._ss_book_authorBox.setText(tmp_en_author)
-            self._ui._ss_book_translatorBox.setText(tmp_en_translator)
-            self._ui._ss_book_dateBox.setText(tmp_en_date)
-            self._ui._ss_book_genreBox.setText('fairy tale')
-            en_text = "\n".join(en_para_list)
-            en_text = en_text.replace('ZZZZZ.', '')
-            self._ui._ss_book_contentsBox.setText(en_text)
-            self._ui._tt_book_titleBox.setText(tmp_zh_title)
-            self._ui._tt_book_authorBox.setText(tmp_zh_author)
-            self._ui._tt_book_translatorBox.setText(tmp_zh_translator)
-            self._ui._tt_book_dateBox.setText(tmp_zh_date)
-            self._ui._tt_book_genreBox.setText('童话')
-            zh_text = "\n".join(zh_para_list[0])
-            self._ui._tt_book_contentsBox.setText(zh_text)
+            tmp_sl_title = ''
+            tmp_sl_author = ''
+            tmp_sl_translator = ''
+            tmp_sl_date = ''
+            tmp_tl_title = ''
+            tmp_tl_author = ''
+            tmp_tl_translator = ''
+            tmp_tl_date = ''
+        if tmp_sl_title:
+            self._ui._ss_book_titleBox.setText(tmp_sl_title)
+            self._ui._ss_book_authorBox.setText(tmp_sl_author)
+            self._ui._ss_book_translatorBox.setText(tmp_sl_translator)
+            self._ui._ss_book_dateBox.setText(tmp_sl_date)
+            self._ui._ss_book_genreBox.setText('')
+            sl_text = "\n".join(sl_para_list)
+            sl_text = sl_text.replace('ZZZZZ.', '')
+            self._ui._ss_book_contentsBox.setText(sl_text)
+            self._ui._tt_book_titleBox.setText(tmp_tl_title)
+            self._ui._tt_book_authorBox.setText(tmp_tl_author)
+            self._ui._tt_book_translatorBox.setText(tmp_tl_translator)
+            self._ui._tt_book_dateBox.setText(tmp_tl_date)
+            self._ui._tt_book_genreBox.setText('')
+            tl_text = "\n".join(tl_para_list[0])
+            self._ui._tt_book_contentsBox.setText(tl_text)
             self._ui._promptBox.setText(self._ui._prompt_2)
         else:
             self._ui._set_status_text('文件读取失败，请正确选择标记项')
@@ -691,105 +717,172 @@ class MainWindow:
 
         if marker_id_status == 1:
             if file_pos == '英上中下':
+                self.sl = 'en'
+                self.tl = 'zh'
                 for item in self._temp_list[0]:
-                    self._current_en_para_list.append(item.replace('ZZZZZ.', ''))
+                    self._current_sl_para_list.append(item.replace('ZZZZZ.', ''))
                 for item in self._temp_list[1:]:
-                    self._current_zh_para_list.append(item)
-            elif file_pos == '中上英下':
+                    self._current_tl_para_list.append(item)
+            elif file_pos == '中上英下':   
+                self.sl = 'zh'
+                self.tl = 'en'
                 for item in self._temp_list[0]:
-                    self._current_zh_para_list.append(item)
+                    self._current_sl_para_list.append(item)
                 for item in self._temp_list[1:]:
-                    self._current_en_para_list.append(item.replace('ZZZZZ.', ''))
+                    self._current_tl_para_list.append(item)
             if col_max == 2:
-                en_num_list = [x.split('\t')[0] for x in self._current_en_para_list]
-                en_sent_list = [x.split('\t')[1] for x in self._current_en_para_list]
-                zh_num_list = [x.split('\t')[0] for x in self._current_zh_para_list[0]]
-                zh_sent_list = [x.split('\t')[1] for x in self._current_zh_para_list[0]]
-                tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(en_sent_list)
-                tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(zh_sent_list)
+                sl_num_list = [x.split('\t')[0] for x in self._current_sl_para_list]
+                sl_sent_list = [x.split('\t')[1] for x in self._current_sl_para_list]
+                tl_num_list = [x.split('\t')[0] for x in self._current_tl_para_list[0]]
+                tl_sent_list = [x.split('\t')[1] for x in self._current_tl_para_list[0]]
+                if self.sl == "en":
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sl_sent_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                else:
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
+                        sl_sent_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(
+                        tl_sent_list)
             elif col_max == 3:
-                en_num_list = [x.split('\t')[0] for x in self._current_en_para_list]
-                en_sent_list = [x.split('\t')[1] for x in self._current_en_para_list]
-                en_chapter_list = [x.split('\t')[2] for x in self._current_en_para_list]
-                tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(en_sent_list)
-                zh_num_list = [x.split('\t')[0] for x in self._current_zh_para_list[0]]
-                zh_sent_list = [x.split('\t')[1] for x in self._current_zh_para_list[0]]
-                zh_chapter_list = [x.split('\t')[2] for x in self._current_zh_para_list[0]]
-                tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(zh_sent_list)
+                sl_num_list = [x.split('\t')[0] for x in self._current_sl_para_list]
+                sl_sent_list = [x.split('\t')[1] for x in self._current_sl_para_list]
+                sl_chapter_list = [x.split('\t')[2] for x in self._current_sl_para_list]
+                tl_num_list = [x.split('\t')[0] for x in self._current_tl_para_list[0]]
+                tl_sent_list = [x.split('\t')[1] for x in self._current_tl_para_list[0]]
+                tl_chapter_list = [x.split('\t')[2] for x in self._current_tl_para_list[0]]
+                if self.sl == "en":
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_en(
+                    sl_sent_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                else:
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
+                        sl_sent_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(
+                        tl_sent_list)
             else:
-                tmp_en_title = ''
-                tmp_en_author = ''
-                tmp_en_translator = ''
-                tmp_en_date = ''
-                tmp_zh_title = ''
-                tmp_zh_author = ''
-                tmp_zh_translator = ''
-                tmp_zh_date = ''
-            if tmp_en_title:
-                self._ui._ss_book_titleBox.setText(tmp_en_title)
-                self._ui._ss_book_authorBox.setText(tmp_en_author)
-                self._ui._ss_book_translatorBox.setText(tmp_en_translator)
-                self._ui._ss_book_dateBox.setText(tmp_en_date)
-                self._ui._ss_book_genreBox.setText('fairy tale')
-                en_text = "\n".join(self._current_en_para_list)
-                en_text = en_text.replace('ZZZZZ.', '')
-                self._ui._ss_book_contentsBox.setText(en_text)
-                self._ui._tt_book_titleBox.setText(tmp_zh_title)
-                self._ui._tt_book_authorBox.setText(tmp_zh_author)
-                self._ui._tt_book_translatorBox.setText(tmp_zh_translator)
-                self._ui._tt_book_dateBox.setText(tmp_zh_date)
-                self._ui._tt_book_genreBox.setText('童话')
-                zh_text = "\n".join(self._current_zh_para_list[0])
-                self._ui._tt_book_contentsBox.setText(zh_text)
+                tmp_sl_title = ''
+                tmp_sl_author = ''
+                tmp_sl_translator = ''
+                tmp_sl_date = ''
+                tmp_tl_title = ''
+                tmp_tl_author = ''
+                tmp_tl_translator = ''
+                tmp_tl_date = ''
+            if tmp_sl_title:
+                self._ui._ss_book_titleBox.setText(tmp_sl_title)
+                self._ui._ss_book_authorBox.setText(tmp_sl_author)
+                self._ui._ss_book_translatorBox.setText(tmp_sl_translator)
+                self._ui._ss_book_languageBox.setText(self.sl)
+                self._ui._ss_book_dateBox.setText(tmp_sl_date)
+                self._ui._ss_book_genreBox.setText('')
+                if isinstance(self._current_sl_para_list[0], list):
+                    sl_text = "\n".join(self._current_sl_para_list[0])
+                else:
+                    sl_text = "\n".join(self._current_sl_para_list)
+                sl_text = sl_text.replace('ZZZZZ.', '')
+                self._ui._ss_book_contentsBox.setText(sl_text)
+                self._ui._tt_book_titleBox.setText(tmp_tl_title)
+                self._ui._tt_book_authorBox.setText(tmp_tl_author)
+                self._ui._tt_book_translatorBox.setText(tmp_tl_translator)
+                self._ui._tt_book_languageBox.setText(self.tl)
+                self._ui._tt_book_dateBox.setText(tmp_tl_date)
+                self._ui._tt_book_genreBox.setText('')
+                if isinstance(self._current_tl_para_list[0], list):
+                    tl_text = "\n".join(self._current_tl_para_list[0])
+                else:
+                    tl_text = "\n".join(self._current_tl_para_list)
+                self._ui._tt_book_contentsBox.setText(tl_text)
                 self._ui._promptBox.setText(self._ui._prompt_2)
             else:
                 self._ui._set_status_text('文件读取失败，请正确选择标记项')
         else:
+            print("here")
             if file_pos == '英上中下':
+                self.sl = 'en'
+                self.tl = 'zh'
                 for item in self._temp_list[0]:
-                    self._current_en_para_list.append(item.replace('ZZZZZ.', ''))
+                    self._current_sl_para_list.append(item.replace('ZZZZZ.', ''))
                 for item in self._temp_list[1:]:
-                    self._current_zh_para_list.append(item)
+                    self._current_tl_para_list.append(item)
             elif file_pos == '中上英下':
+                self.sl = 'zh'
+                self.tl = 'en'
                 for item in self._temp_list[0]:
-                    self._current_zh_para_list.append(item)
+                    self._current_sl_para_list.append(item)
                 for item in self._temp_list[1:]:
-                    self._current_en_para_list.append(item.replace('ZZZZZ.', ''))
+                    #it's list, replace produces errors.
+                    #self._current_sl_para_list.append(item.replace('ZZZZZ.', ''))
+                    self._current_tl_para_list.append(item)
             if col_max == 1:
-                tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(self._current_en_para_list)
-                tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(
-                    self._current_zh_para_list[0])
+                sl_list = self._current_sl_para_list
+                if isinstance(self._current_sl_para_list[0], list):
+                    sl_list = self._current_sl_para_list[0]
+                tl_list = self._current_tl_para_list[0]
+                if isinstance(self._current_tl_para_list[0], list) == True:
+                    tl_list = self._current_tl_para_list[0]
+                if self.sl == 'en':
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_en(
+                        sl_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(
+                    tl_list)
+                else:
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
+                        sl_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(
+                        tl_list)
             elif col_max == 2:
-                en_sent_list = [x.split('\t')[0] for x in self._current_en_para_list]
-                en_chapter_list = [x.split('\t')[1] for x in self._current_en_para_list]
-                zh_sent_list = [x.split('\t')[0] for x in self._current_zh_para_list[0]]
-                zh_chapter_list = [x.split('\t')[1] for x in self._current_zh_para_list[0]]
-                tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(en_sent_list)
-                tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(zh_sent_list)
+                sl_list = self._current_sl_para_list
+                if isinstance(self._current_sl_para_list[0], list):
+                    sl_list = self._current_sl_para_list[0]
+                tl_list = self._current_tl_para_list[0]
+                if isinstance(self._current_tl_para_list[0], list) == True:
+                    tl_list = self._current_tl_para_list[0]
+                sl_sent_list = [x.split('\t')[0] for x in sl_list]
+                sl_chapter_list = [x.split('\t')[1] for x in sl_list]
+                tl_sent_list = [x.split('\t')[0] for x in tl_list]
+                tl_chapter_list = [x.split('\t')[1] for x in tl_list]
+                if self.sl == 'en':
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sl_sent_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                else:
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
+                    sl_sent_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(
+                    tl_sent_list)
             else:
-                tmp_en_title = ''
-                tmp_en_author = ''
-                tmp_en_translator = ''
-                tmp_en_date = ''
-                tmp_zh_title = ''
-                tmp_zh_author = ''
-                tmp_zh_translator = ''
-                tmp_zh_date = ''
-            if tmp_en_title:
-                self._ui._ss_book_titleBox.setText(tmp_en_title)
-                self._ui._ss_book_authorBox.setText(tmp_en_author)
-                self._ui._ss_book_translatorBox.setText(tmp_en_translator)
-                self._ui._ss_book_dateBox.setText(tmp_en_date)
-                self._ui._ss_book_genreBox.setText('fairy tale')
-                self._ui._ss_book_contentsBox.setText(
-                    "\n".join([x[:50] + "..." if len(x) > 50 else x for x in self._current_en_para_list]))
-                self._ui._tt_book_titleBox.setText(tmp_zh_title)
-                self._ui._tt_book_authorBox.setText(tmp_zh_author)
-                self._ui._tt_book_translatorBox.setText(tmp_zh_translator)
-                self._ui._tt_book_dateBox.setText(tmp_zh_date)
-                self._ui._tt_book_genreBox.setText('童话')
-                self._ui._tt_book_contentsBox.setText(
-                    "\n".join([y[:25] + "..." if len(y) > 25 else y for y in self._current_zh_para_list[0]]))
+                tmp_sl_title = ''
+                tmp_sl_author = ''
+                tmp_sl_translator = ''
+                tmp_sl_date = ''
+                tmp_tl_title = ''
+                tmp_tl_author = ''
+                tmp_tl_translator = ''
+                tmp_tl_date = ''
+            if tmp_sl_title:
+                self._ui._ss_book_titleBox.setText(tmp_sl_title)
+                self._ui._ss_book_authorBox.setText(tmp_sl_author)
+                self._ui._ss_book_translatorBox.setText(tmp_sl_translator)
+                self._ui._ss_book_languageBox.setText(self.sl)
+                self._ui._ss_book_dateBox.setText(tmp_sl_date)
+                self._ui._ss_book_genreBox.setText('')
+                if isinstance (self._current_sl_para_list[0],list) == True:
+                    self._ui._ss_book_contentsBox.setText(
+                    "\n".join([x[:50] + "..." if len(x) > 50 else x for x in self._current_sl_para_list[0]]))
+                else:
+                    self._ui._ss_book_contentsBox.setText(
+                    "\n".join([x[:50] + "..." if len(x) > 50 else x for x in self._current_sl_para_list]))                     
+                self._ui._tt_book_titleBox.setText(tmp_tl_title)
+                self._ui._tt_book_authorBox.setText(tmp_tl_author)
+                self._ui._tt_book_translatorBox.setText(tmp_tl_translator)
+                self._ui._tt_book_languageBox.setText(self.tl)
+                self._ui._tt_book_dateBox.setText(tmp_tl_date)
+                self._ui._tt_book_genreBox.setText('')
+                if isinstance (self._current_tl_para_list[0],list) == True:
+                    self._ui._tt_book_contentsBox.setText(
+                    "\n".join([y[:25] + "..." if len(y) > 25 else y for y in self._current_tl_para_list[0]]))
+                else:
+                    self._ui._tt_book_contentsBox.setText(
+                    "\n".join([y[:25] + "..." if len(y) > 25 else y for y in self._current_tl_para_list]))
                 self._ui._promptBox.setText(self._ui._prompt_2)
             else:
                 self._ui._set_status_text('文件读取失败，请正确选择标记项')
@@ -806,146 +899,166 @@ class MainWindow:
             # 总列数为3或4时，不可能含篇章标题，列1,列2，列3为英、汉，汉，生成[序号,语1]两列英文段落列表与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
             if 3 <= col_max <= 4:
                 if file_pos == '英左中右':
-                    self._current_en_para_list.extend(
+                    self.sl = 'en'
+                    self.tl = 'zh'
+                    self._current_sl_para_list.extend(
                         list(zip(self._temp_list[0], self._temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
                     i = 2
                     while i < col_max:
-                        self._current_zh_para_list.append(list(zip(self._temp_list[0], self._temp_list[i])))
+                        self._current_tl_para_list.append(list(zip(self._temp_list[0], self._temp_list[i])))
                         i += 1
                 elif file_pos == '中左英右':
-                    self._current_zh_para_list.extend(list(zip(self._temp_list[0], self._temp_list[1])))
+                    self.sl = 'zh'
+                    self.tl = 'en'
+                    self._current_tl_para_list.extend(list(zip(self._temp_list[0], self._temp_list[1])))
                     i = 2
                     while i < col_max:
-                        self._current_en_para_list.append(list(zip(self._temp_list[0], self._temp_list[i])))
+                        self._current_sl_para_list.append(list(zip(self._temp_list[0], self._temp_list[i])))
                         i += 1
                 else:
-                    self._current_en_para_list = []
-                    self._current_zh_para_list = []
+                    self.sl = 'en'
+                    self.tl = 'zh'
+                    self._current_sl_para_list = []
+                    self._current_tl_para_list = []
 
             # 总列数大于等于5时，可能含标题
             elif col_max >= 5:
                 # 有篇章标题时，列1,英，列2，标题，列3，中1，列4，标题....
                 if marker_chapter == 1:
                     if file_pos == '英左中右':
-                        self._current_en_para_list.extend(
+                        self.sl = 'en'
+                        self.tl = 'zh'
+                        self._current_sl_para_list.extend(
                             list(zip(self._temp_list[0], self._temp_list[1], self._temp_list[2])))
                         i = 3
                         while i < col_max:
                             j = i + 1
-                            self._current_zh_para_list.append(
+                            self._current_tl_para_list.append(
                                 list(zip(self._temp_list[0], self._temp_list[i], self._temp_list[j])))
                             i = j
                             i += 1
                     elif file_pos == '中左英右':
-                        self._current_zh_para_list.extend(
+                        self.sl = 'zh'
+                        self.tl = 'en'
+                        self._current_tl_para_list.extend(
                             list(zip(self._temp_list[0], self._temp_list[1], self._temp_list[2])))
                         i = 3
                         while i < col_max:
                             j = i + 1
-                            self._current_en_para_list.append(
+                            self._current_sl_para_list.append(
                                 list(zip(self._temp_list[0], self._temp_list[i], self._temp_list[j])))
                             i = j
                             i += 1
                     else:
-                        self._current_en_para_list.clear()
-                        self._current_zh_para_list.clear()
+                        self.sl = 'en'
+                        self.tl = 'zh'
+                        self._current_sl_para_list.clear()
+                        self._current_tl_para_list.clear()
                 else:
                     # 无篇章标题时，列1,列2，列3...为英，汉，汉...生成[序号,语1]两列英文段落列表
                     # 与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
                     if file_pos == '英左中右':
-                        self._current_en_para_list.extend(
+                        self.sl = 'en'
+                        self.tl = 'zh'
+                        self._current_sl_para_list.extend(
                             list(zip(self._temp_list[0], self._temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
                         i = 2
                         while i < col_max:
-                            self._current_zh_para_list.append(list(zip(self._temp_list[0], self._temp_list[i])))
+                            self._current_tl_para_list.append(list(zip(self._temp_list[0], self._temp_list[i])))
                             i += 1
                     elif file_pos == '中左英右':
-                        self._current_zh_para_list.extend(list(zip(self._temp_list[0], self._temp_list[1])))
+                        self.sl = 'zh'
+                        self.tl = 'en'
+                        self._current_tl_para_list.extend(list(zip(self._temp_list[0], self._temp_list[1])))
                         i = 2
                         while i < col_max:
-                            self._current_en_para_list.append(list(zip(self._temp_list[0], self._temp_list[i])))
+                            self._current_sl_para_list.append(list(zip(self._temp_list[0], self._temp_list[i])))
                             i += 1
                     else:
-                        self._current_en_para_list = []
-                        self._current_zh_para_list = []
+                        self.sl = 'en'
+                        self.tl = 'zh'
+                        self._current_sl_para_list = []
+                        self._current_tl_para_list = []
             else:
-                self._current_en_para_list.clear()
-                self._current_zh_para_list.clear()
+                self.sl = 'en'
+                self.tl = 'zh'
+                self._current_sl_para_list.clear()
+                self._current_tl_para_list.clear()
 
-            if self._current_en_para_list == []:
+            if self._current_sl_para_list == []:
                 self._ui._set_status_text('文件读取失败，请核实文本的具体列数')
-                tmp_en_title = ''
-                tmp_en_author = ''
-                tmp_en_translator = ''
-                tmp_en_date = ''
-                tmp_zh_title = ''
-                tmp_zh_author = ''
-                tmp_zh_translator = ''
-                tmp_zh_date = ''
+                tmp_sl_title = ''
+                tmp_sl_author = ''
+                tmp_sl_translator = ''
+                tmp_sl_date = ''
+                tmp_tl_title = ''
+                tmp_tl_author = ''
+                tmp_tl_translator = ''
+                tmp_tl_date = ''
             else:
                 if marker_chapter == 0:
-                    en_num_list = [x for (x, y) in self._current_en_para_list]
-                    en_sent_list = [y for (x, y) in self._current_en_para_list]
-                    tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(en_sent_list)
-                    zh_num_list = [x for (x, y) in self._current_zh_para_list[0]]
-                    zh_sent_list = [y for (x, y) in self._current_zh_para_list[0]]
+                    sl_num_list = [x for (x, y) in self._current_sl_para_list]
+                    sl_sent_list = [y for (x, y) in self._current_sl_para_list]
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sl_sent_list)
+                    tl_num_list = [x for (x, y) in self._current_tl_para_list[0]]
+                    tl_sent_list = [y for (x, y) in self._current_tl_para_list[0]]
                     try:
-                        tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(zh_sent_list)
+                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
                     except:
                         self._ui._set_status_text('中文信息提取失败！')
-                        tmp_zh_title = ''
-                        tmp_zh_author = ''
-                        tmp_zh_translator = ''
-                        tmp_zh_date = ''
+                        tmp_tl_title = ''
+                        tmp_tl_author = ''
+                        tmp_tl_translator = ''
+                        tmp_tl_date = ''
                 else:
-                    en_num_list = [x for (x, y, z) in self._current_en_para_list]
-                    en_sent_list = [y for (x, y, z) in self._current_en_para_list]
-                    en_chapter_list = [z for (x, y, z) in self._current_en_para_list]
-                    tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(en_sent_list)
-                    zh_num_list = [x for (x, y, z) in self._current_zh_para_list[0]]
-                    zh_sent_list = [y for (x, y, z) in self._current_zh_para_list[0]]
-                    zh_chapter_list = [z for (x, y, z) in self._current_zh_para_list[0]]
+                    sl_num_list = [x for (x, y, z) in self._current_sl_para_list]
+                    sl_sent_list = [y for (x, y, z) in self._current_sl_para_list]
+                    sl_chapter_list = [z for (x, y, z) in self._current_sl_para_list]
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sl_sent_list)
+                    tl_num_list = [x for (x, y, z) in self._current_tl_para_list[0]]
+                    tl_sent_list = [y for (x, y, z) in self._current_tl_para_list[0]]
+                    tl_chapter_list = [z for (x, y, z) in self._current_tl_para_list[0]]
                     try:
-                        tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(zh_sent_list)
+                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
                     except:
                         self._ui._set_status_text('中文信息提取失败！')
-                        tmp_zh_title = ''
-                        tmp_zh_author = ''
-                        tmp_zh_translator = ''
-                        tmp_zh_date = ''
-            if tmp_en_title:
-                self._ui._ss_book_titleBox.setText(tmp_en_title)
-                self._ui._ss_book_authorBox.setText(tmp_en_author)
-                self._ui._ss_book_dateBox.setText(tmp_en_date)
-                self._ui._ss_book_genreBox.setText('fairy tale')
-                print_en_para_list = []
-                for item in self._current_en_para_list:
+                        tmp_tl_title = ''
+                        tmp_tl_author = ''
+                        tmp_tl_translator = ''
+                        tmp_tl_date = ''
+            if tmp_sl_title:
+                self._ui._ss_book_titleBox.setText(tmp_sl_title)
+                self._ui._ss_book_authorBox.setText(tmp_sl_author)
+                self._ui._ss_book_dateBox.setText(tmp_sl_date)
+                self._ui._ss_book_genreBox.setText('')
+                print_sl_para_list = []
+                for item in self._current_sl_para_list:
                     item_line = len(item)
                     if item_line == 2:
-                        print_en_para_list.append(item[0] + "\t" + item[1])
+                        print_sl_para_list.append(item[0] + "\t" + item[1])
                     elif item_line == 3:
-                        print_en_para_list.append(item[0] + "\t" + item[1] + "\t" + item[2])
+                        print_sl_para_list.append(item[0] + "\t" + item[1] + "\t" + item[2])
                     else:
-                        print_en_para_list = ""
-                en_text = "\n".join(print_en_para_list)
-                en_text = en_text.replace('ZZZZZ.', '')
-                self._ui._ss_book_contentsBox.setText(en_text)
-                self._ui._tt_book_titleBox.setText(tmp_zh_title)
-                self._ui._tt_book_authorBox.setText(tmp_zh_author)
-                self._ui._tt_book_translatorBox.setText(tmp_zh_translator)
-                self._ui._tt_book_dateBox.setText(tmp_zh_date)
-                self._ui._tt_book_genreBox.setText('童话')
-                print_zh_para_list = []
-                for item in self._current_zh_para_list[0]:
+                        print_sl_para_list = ""
+                sl_text = "\n".join(print_sl_para_list)
+                sl_text = sl_text.replace('ZZZZZ.', '')
+                self._ui._ss_book_contentsBox.setText(sl_text)
+                self._ui._tt_book_titleBox.setText(tmp_tl_title)
+                self._ui._tt_book_authorBox.setText(tmp_tl_author)
+                self._ui._tt_book_translatorBox.setText(tmp_tl_translator)
+                self._ui._tt_book_dateBox.setText(tmp_tl_date)
+                self._ui._tt_book_genreBox.setText('')
+                print_tl_para_list = []
+                for item in self._current_tl_para_list[0]:
                     item_line = len(item)
                     if item_line == 2:
-                        print_zh_para_list.append(item[0] + "\t" + item[1])
+                        print_tl_para_list.append(item[0] + "\t" + item[1])
                     elif item_line == 3:
-                        print_zh_para_list.append(item[0] + "\t" + item[1] + "\t" + item[2])
+                        print_tl_para_list.append(item[0] + "\t" + item[1] + "\t" + item[2])
                     else:
-                        print_zh_para_list = ""
-                zh_text = "\n".join(print_zh_para_list)
-                self._ui._tt_book_contentsBox.setText(zh_text)
+                        print_tl_para_list = ""
+                tl_text = "\n".join(print_tl_para_list)
+                self._ui._tt_book_contentsBox.setText(tl_text)
                 self._ui._promptBox.setText(self._ui._prompt_2)
             else:
                 self._ui._set_status_text('文件读取失败，请正确选择标记项')
@@ -955,135 +1068,134 @@ class MainWindow:
             # 总列数为2或3时，不可能含篇章标题，列0,列1，列2为英、汉，汉，生成[序号,语1]两列英文段落列表与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
             if 2 <= col_max <= 3:
                 if file_pos == '英左中右':
-                    self._current_en_para_list.extend(self._temp_list[0])
+                    self._current_sl_para_list.extend(self._temp_list[0])
                     i = 1
                     while i < col_max:
-                        self._current_zh_para_list.append(self._temp_list[i])
+                        self._current_tl_para_list.append(self._temp_list[i])
                         i += 1
                 elif file_pos == '中左英右':
-                    self._current_zh_para_list.extend(self._temp_list[0])
+                    self._current_tl_para_list.extend(self._temp_list[0])
                     i = 1
                     while i < col_max:
-                        self._current_en_para_list.append(self._temp_list[i])
+                        self._current_sl_para_list.append(self._temp_list[i])
                         i += 1
                 else:
-                    self._current_en_para_list = []
-                    self._current_zh_para_list = []
+                    self._current_sl_para_list = []
+                    self._current_tl_para_list = []
 
             # 总列数大于等于4时，可能含标题
             elif col_max >= 4:
                 # 有篇章标题时，列0,英，列1，英标题，列2，中，列3，中标题....
                 if marker_chapter == 1:
                     if file_pos == '英左中右':
-                        self._current_en_para_list.extend(list(zip(self._temp_list[0], self._temp_list[1])))
+                        self._current_sl_para_list.extend(list(zip(self._temp_list[0], self._temp_list[1])))
                         i = 2
                         while i < col_max:
                             j = i + 1
-                            self._current_zh_para_list.append(list(zip(self._temp_list[i], self._temp_list[j])))
+                            self._current_tl_para_list.append(list(zip(self._temp_list[i], self._temp_list[j])))
                             i = j
                             i += 1
                     elif file_pos == '中左英右':
-                        self._current_zh_para_list.extend(list(zip(self._temp_list[0], self._temp_list[1])))
+                        self._current_tl_para_list.extend(list(zip(self._temp_list[0], self._temp_list[1])))
                         i = 2
                         while i < col_max:
                             j = i + 1
-                            self._current_en_para_list.append(list(zip(self._temp_list[i], self._temp_list[j])))
+                            self._current_sl_para_list.append(list(zip(self._temp_list[i], self._temp_list[j])))
                             i = j
                             i += 1
                     else:
-                        self._current_en_para_list.clear()
-                        self._current_zh_para_list.clear()
+                        self._current_sl_para_list.clear()
+                        self._current_tl_para_list.clear()
                 else:
                     # 无篇章标题时，列0,英,列1,汉,列2，汉
                     if file_pos == '英左中右':
-                        self._current_en_para_list.extend(self._temp_list[0])  # zip一定要转成列表，否则深层数据提出不出来
+                        self._current_sl_para_list.extend(self._temp_list[0])  # zip一定要转成列表，否则深层数据提出不出来
                         i = 1
                         while i < col_max:
-                            self._current_zh_para_list.append(self._temp_list[i])
+                            self._current_tl_para_list.append(self._temp_list[i])
                             i += 1
                     elif file_pos == '中左英右':
-                        self._current_zh_para_list.extend(self._temp_list[0])
+                        self._current_tl_para_list.extend(self._temp_list[0])
                         i = 2
                         while i < col_max:
-                            self._current_en_para_list.append(self._temp_list[i])
+                            self._current_sl_para_list.append(self._temp_list[i])
                             i += 1
                     else:
-                        self._current_en_para_list = []
-                        self._current_zh_para_list = []
+                        self._current_sl_para_list = []
+                        self._current_tl_para_list = []
             else:
-                self._current_en_para_list.clear()
-                self._current_zh_para_list.clear()
-            if self._current_en_para_list == []:
+                self._current_sl_para_list.clear()
+                self._current_tl_para_list.clear()
+            if self._current_sl_para_list == []:
                 self._ui._set_status_text('文件读取失败，请核实文本的具体列数')
-                tmp_en_title = ''
-                tmp_en_author = ''
-                tmp_en_translator = ''
-                tmp_en_date = ''
-                tmp_zh_title = ''
-                tmp_zh_author = ''
-                tmp_zh_translator = ''
-                tmp_zh_date = ''
+                tmp_sl_title = ''
+                tmp_sl_author = ''
+                tmp_sl_translator = ''
+                tmp_sl_date = ''
+                tmp_tl_title = ''
+                tmp_tl_author = ''
+                tmp_tl_translator = ''
+                tmp_tl_date = ''
             else:
                 if marker_chapter == 1:
-                    en_sent_list = [x for (x, y) in self._current_en_para_list]
-                    en_chapter_list = [y for (x, y) in self._current_en_para_list]
-                    tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(en_sent_list)
-                    zh_sent_list = [x for (x, y) in self._current_zh_para_list[0]]
-                    zh_chapter_list = [y for (x, y) in self._current_zh_para_list[0]]
+                    sl_sent_list = [x for (x, y) in self._current_sl_para_list]
+                    sl_chapter_list = [y for (x, y) in self._current_sl_para_list]
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sl_sent_list)
+                    tl_sent_list = [x for (x, y) in self._current_tl_para_list[0]]
+                    tl_chapter_list = [y for (x, y) in self._current_tl_para_list[0]]
                     try:
-                        tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(zh_sent_list)
+                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
                     except:
                         self._ui._set_status_text('中文信息提取失败！')
-                        tmp_zh_title = ''
-                        tmp_zh_author = ''
-                        tmp_zh_translator = ''
-                        tmp_zh_date = ''
+                        tmp_tl_title = ''
+                        tmp_tl_author = ''
+                        tmp_tl_translator = ''
+                        tmp_tl_date = ''
                 else:
-                    en_sent_list = self._current_en_para_list
-                    tmp_en_title, tmp_en_author, tmp_en_translator,tmp_en_date = self._info_collector.info_collector_en(en_sent_list)
-                    zh_sent_list = self._current_zh_para_list[0]
+                    sl_sent_list = self._current_sl_para_list
+                    tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sl_sent_list)
+                    tl_sent_list = self._current_tl_para_list[0]
                     try:
-                        tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(zh_sent_list)
+                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
                     except:
                         self._ui._set_status_text('中文信息提取失败！')
-                        tmp_zh_title = ''
-                        tmp_zh_author = ''
-                        tmp_zh_translator = ''
-                        tmp_zh_date = ''
-            if tmp_en_title:
-                self._ui._ss_book_titleBox.setText(tmp_en_title)
-                self._ui._ss_book_authorBox.setText(tmp_en_author)
-                self._ui._ss_book_dateBox.setText(tmp_en_date)
-                self._ui._ss_book_genreBox.setText('fairy tale')
-                print_en_para_list = []
+                        tmp_tl_title = ''
+                        tmp_tl_author = ''
+                        tmp_tl_translator = ''
+                        tmp_tl_date = ''
+            if tmp_sl_title:
+                self._ui._ss_book_titleBox.setText(tmp_sl_title)
+                self._ui._ss_book_authorBox.setText(tmp_sl_author)
+                self._ui._ss_book_dateBox.setText(tmp_sl_date)
+                self._ui._ss_book_genreBox.setText('')
+                print_sl_para_list = []
                 if marker_chapter == 1:
-                    for item in self._current_en_para_list:
-                        print_en_para_list.append(item[0] + "\t" + item[1])
+                    for item in self._current_sl_para_list:
+                        print_sl_para_list.append(item[0] + "\t" + item[1])
                 else:
-                    print_en_para_list = self._current_en_para_list
-                en_text = "\n".join(print_en_para_list)
-                en_text = en_text.replace('ZZZZZ.', '')
-                self._ui._ss_book_contentsBox.setText(en_text)
-                self._ui._tt_book_titleBox.setText(tmp_zh_title)
-                self._ui._tt_book_authorBox.setText(tmp_zh_author)
-                self._ui._tt_book_translatorBox.setText(tmp_zh_translator)
-                self._ui._tt_book_dateBox.setText(tmp_zh_date)
-                self._ui._tt_book_genreBox.setText('童话')
-                print_zh_para_list = []
+                    print_sl_para_list = self._current_sl_para_list
+                sl_text = "\n".join(print_sl_para_list)
+                sl_text = sl_text.replace('ZZZZZ.', '')
+                self._ui._ss_book_contentsBox.setText(sl_text)
+                self._ui._tt_book_titleBox.setText(tmp_tl_title)
+                self._ui._tt_book_authorBox.setText(tmp_tl_author)
+                self._ui._tt_book_translatorBox.setText(tmp_tl_translator)
+                self._ui._tt_book_dateBox.setText(tmp_tl_date)
+                self._ui._tt_book_genreBox.setText('')
+                print_tl_para_list = []
                 if marker_chapter == 1:
-                    for item in self._current_zh_para_list[0]:
-                        print_zh_para_list.append(item[0] + "\t" + item[1])
+                    for item in self._current_tl_para_list[0]:
+                        print_tl_para_list.append(item[0] + "\t" + item[1])
                 else:
-                    print_zh_para_list = self._current_zh_para_list[0]
-                zh_text = "\n".join(print_zh_para_list)
-                self._ui._tt_book_contentsBox.setText(zh_text)
+                    print_tl_para_list = self._current_tl_para_list[0]
+                tl_text = "\n".join(print_tl_para_list)
+                self._ui._tt_book_contentsBox.setText(tl_text)
                 self._ui._promptBox.setText(self._ui._prompt_2)
             else:
-                self._ui._set_status_text('文件读取失败，请正确选择标记项')
-
+                self._ui._set_status_text('文件读取失败，请正确选择标记项')           
     # auto_filler_group
-    def json_en_filler(self):
-        self._current_en_chapter_num_list.clear()
+    def json_sl_filler(self):
+        self._current_sl_chapter_num_list.clear()
         alert_msg = []
         if self._ui._file_openBox.text() == "":
             alert_msg.append('正文')
@@ -1107,83 +1219,83 @@ class MainWindow:
             date = self._ui._ss_book_dateBox.text()
             genre = self._ui._ss_book_genreBox.text()
             version = self._ui._ss_book_versionBox.text()
-            self._current_en_dict_version = version
-            current_en_text = self._ui._ss_book_contentsBox.toPlainText()
-            current_en_text_list = current_en_text.split('\n')
-            line_sample = current_en_text_list[0]
+            self._current_sl_dict_version = version
+            current_sl_text = self._ui._ss_book_contentsBox.toPlainText()
+            current_sl_text_list = current_sl_text.split('\n')
+            line_sample = current_sl_text_list[0]
             line_part = line_sample.split('\t')
             col_count = len(line_part)
             if col_count == 1:
                 temp_num_list = []
-                temp_sent_list = current_en_text_list
+                temp_sent_list = current_sl_text_list
                 temp_chapter_list = []
             elif col_count == 2:
                 if line_sample[0].isdigit() == True:
-                    temp_num_list = [sent.split('\t')[0] for sent in current_en_text_list]
-                    temp_sent_list = [sent.split('\t')[1] for sent in current_en_text_list]
+                    temp_num_list = [sent.split('\t')[0] for sent in current_sl_text_list]
+                    temp_sent_list = [sent.split('\t')[1] for sent in current_sl_text_list]
                     temp_chapter_list = []
                 else:
                     temp_num_list = []
-                    temp_sent_list = [sent.split('\t')[0] for sent in current_en_text_list]
-                    temp_chapter_list = [sent.split('\t')[1] for sent in current_en_text_list]
+                    temp_sent_list = [sent.split('\t')[0] for sent in current_sl_text_list]
+                    temp_chapter_list = [sent.split('\t')[1] for sent in current_sl_text_list]
             else:
-                temp_num_list = [sent.split('\t')[0] for sent in current_en_text_list]
-                temp_sent_list = [sent.split('\t')[1] for sent in current_en_text_list]
-                temp_chapter_list = [sent.split('\t')[2] for sent in current_en_text_list]
+                temp_num_list = [sent.split('\t')[0] for sent in current_sl_text_list]
+                temp_sent_list = [sent.split('\t')[1] for sent in current_sl_text_list]
+                temp_chapter_list = [sent.split('\t')[2] for sent in current_sl_text_list]
 
             if temp_num_list == [] and temp_chapter_list == []:
-                new_sent_list, new_chapter_list, en_chpt_num_list = self._chapter_maker.add_chapter(temp_sent_list)
-                en_contents = [str(num) + "\t" + para + "\t" + chapter for num, (para, chapter) in
+                new_sent_list, new_chapter_list, sl_chpt_num_list = self._chapter_maker.add_chapter(temp_sent_list)
+                sl_contents = [str(num) + "\t" + para + "\t" + chapter for num, (para, chapter) in
                                enumerate(zip(new_sent_list, new_chapter_list), start = 1)]
-                en_contents_shown = [str(num) + " ¦ " + para + ' ¦ ' + chapter for num, (para, chapter) in
+                sl_contents_shown = [str(num) + " ¦ " + para + ' ¦ ' + chapter for num, (para, chapter) in
                                      enumerate(zip(new_sent_list, new_chapter_list), start = 1)]
-                self._current_en_chapter_num_list = en_chpt_num_list
+                self._current_sl_chapter_num_list = sl_chpt_num_list
             elif temp_num_list == []:
-                en_contents = [str(num) + '\t' + sent + '\t' + chapter for num, (sent, chapter) in
+                sl_contents = [str(num) + '\t' + sent + '\t' + chapter for num, (sent, chapter) in
                                enumerate(zip(temp_sent_list, temp_chapter_list), start = 1)]
-                en_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, (sent, chapter) in
+                sl_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, (sent, chapter) in
                                      enumerate(zip(temp_sent_list, temp_chapter_list), start = 1)]
-                self._current_en_chapter_num_list = []
+                self._current_sl_chapter_num_list = []
             elif temp_chapter_list == []:
-                new_sent_list, new_chapter_list, en_chpt_num_list = self._chapter_maker.add_chapter(temp_sent_list)
-                en_contents = [str(num) + '\t' + sent + '\t' + chapter for num, sent, chapter in
+                new_sent_list, new_chapter_list, sl_chpt_num_list = self._chapter_maker.add_chapter(temp_sent_list)
+                sl_contents = [str(num) + '\t' + sent + '\t' + chapter for num, sent, chapter in
                                zip(temp_num_list, new_sent_list, new_chapter_list)]
-                en_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, sent, chapter in
+                sl_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, sent, chapter in
                                      zip(temp_num_list, new_sent_list, new_chapter_list)]
-                self._current_en_chapter_num_list = en_chpt_num_list
+                self._current_sl_chapter_num_list = sl_chpt_num_list
             else:
-                en_contents = [str(num) + '\t' + sent + '\t' + chapter for num, sent, chapter in
+                sl_contents = [str(num) + '\t' + sent + '\t' + chapter for num, sent, chapter in
                                zip(temp_num_list, temp_sent_list, temp_chapter_list)]
-                en_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, sent, chapter in
+                sl_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, sent, chapter in
                                      zip(temp_num_list, temp_sent_list, temp_chapter_list)]
-                self._current_en_chapter_num_list = []
+                self._current_sl_chapter_num_list = []
 
             self._ui._ss_book_contentsBox.clear()
-            self._ui._ss_book_contentsBox.setText("\n".join(en_contents_shown))
-            self._en_bookDict.clear()
-            self._en_bookDict['title'] = title
-            self._en_bookDict['author'] = author
-            self._en_bookDict['translator'] = translator
-            self._en_bookDict['language'] = language
-            self._en_bookDict['date'] = date
-            self._en_bookDict['genre'] = genre
-            self._en_bookDict['content'] = defaultdict(str)
-            for line in en_contents:
+            self._ui._ss_book_contentsBox.setText("\n".join(sl_contents_shown))
+            self._sl_bookDict.clear()
+            self._sl_bookDict['title'] = title
+            self._sl_bookDict['author'] = author
+            self._sl_bookDict['translator'] = translator
+            self._sl_bookDict['language'] = language
+            self._sl_bookDict['date'] = date
+            self._sl_bookDict['genre'] = genre
+            self._sl_bookDict['content'] = defaultdict(str)
+            for line in sl_contents:
                 line = line.split('\t')
                 num = line[0]
                 para = line[1]
                 chapt = line[2]
-                self._en_bookDict['content'][num] = para + '\t' + chapt
+                self._sl_bookDict['content'][num] = para + '\t' + chapt
 
             self._ui._ss_book_uploadButton.setEnabled(False)
             self._ui._tt_book_uploadButton.setEnabled(True)
             self._ui._ss_book_redoButton.setEnabled(True)
             self._ui._promptBox.setText(self._ui._prompt_3)
 
-        return self._current_dict_key, self._current_en_dict_version, self._current_en_chapter_num_list
+        return self._current_dict_key, self._current_sl_dict_version, self._current_sl_chapter_num_list
 
     # auto_filler_group
-    def json_zh_filler(self):
+    def json_tl_filler(self):
         alert_msg = []
         if self._ui._file_openBox.text() == "":
             alert_msg.append('正文')
@@ -1205,20 +1317,25 @@ class MainWindow:
             date = self._ui._tt_book_dateBox.text()
             genre = self._ui._tt_book_genreBox.text()
             version = self._ui._tt_book_versionBox.text()
-            self._current_zh_dict_version = version
+            self._current_tl_dict_version = version
             book_id = title
             chapter = title.strip()
-            version_count = len(self._current_zh_para_list)
-            zh_vn = int(version.replace("t", ""))
+            tl_vn = int(version.replace("t", ""))
+            # 确保中文列表元素为列表
+            if isinstance(self._current_tl_para_list[0],list):
+                version_count = len(self._current_tl_para_list)
+                current_tl_text_list = self._current_tl_para_list[tl_vn - 1]
+            else:
+                version_count = 1
+                current_tl_text_list = self._current_tl_para_list
 
-            if zh_vn < version_count:
+            if tl_vn < version_count:
                 self._ui._tt_book_nextButton.setEnabled(True)
             else:
                 self._ui._tt_book_nextButton.setEnabled(False)
                 self._ui._tt_book_uploadButton.setEnabled(False)
 
-            current_zh_text_list = self._current_zh_para_list[zh_vn - 1]
-            line_sample = current_zh_text_list[0]
+            line_sample = current_tl_text_list[0]
 
             # 列表内容如果是元组：
             if isinstance(line_sample, tuple) == True:
@@ -1226,102 +1343,104 @@ class MainWindow:
                 col_count = len(line_sample)
                 if col_count == 1:
                     temp_num_list = []
-                    temp_sent_list = [x for x in current_zh_text_list if x != '']
+                    temp_sent_list = [x for x in current_tl_text_list if x != '']
                     temp_chapter_list = []
                 elif col_count == 2:
                     if line_sample[0].isdigit() == True:
-                        temp_num_list = [sent[0] for sent in current_zh_text_list if sent[1] != '']
-                        temp_sent_list = [sent[1] for sent in current_zh_text_list if sent[1] != '']
+                        temp_num_list = [sent[0] for sent in current_tl_text_list if sent[1] != '']
+                        temp_sent_list = [sent[1] for sent in current_tl_text_list if sent[1] != '']
                         temp_chapter_list = []
                     else:
                         temp_num_list = []
-                        temp_sent_list = [sent[0] for sent in current_zh_text_list if sent[0] != '']
-                        temp_chapter_list = [sent[1] for sent in current_zh_text_list if sent[1] != '']
+                        temp_sent_list = [sent[0] for sent in current_tl_text_list if sent[0] != '']
+                        temp_chapter_list = [sent[1] for sent in current_tl_text_list if sent[1] != '']
                 else:
-                    temp_num_list = [sent[0] for sent in current_zh_text_list if sent[1] != '']
-                    temp_sent_list = [sent[1] for sent in current_zh_text_list if sent[1] != '']
-                    temp_chapter_list = [sent[2] for sent in current_zh_text_list if sent[2] != '']
+                    temp_num_list = [sent[0] for sent in current_tl_text_list if sent[1] != '']
+                    temp_sent_list = [sent[1] for sent in current_tl_text_list if sent[1] != '']
+                    temp_chapter_list = [sent[2] for sent in current_tl_text_list if sent[2] != '']
             # 否则为字符串：
             else:
                 col_count = len(line_sample.split('\t'))
                 if col_count == 1:
                     temp_num_list = []
-                    temp_sent_list = [x for x in current_zh_text_list if x != '']
+                    temp_sent_list = [x for x in current_tl_text_list if x != '']
                     temp_chapter_list = []
                 elif col_count == 2:
                     if line_sample[0].isdigit() == True:
-                        temp_num_list = [sent.split('\t')[0] for sent in current_zh_text_list if
+                        temp_num_list = [sent.split('\t')[0] for sent in current_tl_text_list if
                                          sent.split('\t')[1] != '']
-                        temp_sent_list = [sent.split('\t')[1] for sent in current_zh_text_list if
+                        temp_sent_list = [sent.split('\t')[1] for sent in current_tl_text_list if
                                           sent.split('\t')[1] != '']
                         temp_chapter_list = []
                     else:
                         temp_num_list = []
-                        temp_sent_list = [sent.split('\t')[0] for sent in current_zh_text_list if
+                        temp_sent_list = [sent.split('\t')[0] for sent in current_tl_text_list if
                                           sent.split('\t')[0] != '']
-                        temp_chapter_list = [sent.split('\t')[1] for sent in current_zh_text_list if
+                        temp_chapter_list = [sent.split('\t')[1] for sent in current_tl_text_list if
                                              sent.split('\t')[1] != '']
                 else:
-                    temp_num_list = [sent.split('\t')[0] for sent in current_zh_text_list if sent.split('\t')[1] != '']
-                    temp_sent_list = [sent.split('\t')[1] for sent in current_zh_text_list if sent.split('\t')[1] != '']
-                    temp_chapter_list = [sent.split('\t')[2] for sent in current_zh_text_list if
+                    temp_num_list = [sent.split('\t')[0] for sent in current_tl_text_list if sent.split('\t')[1] != '']
+                    temp_sent_list = [sent.split('\t')[1] for sent in current_tl_text_list if sent.split('\t')[1] != '']
+                    temp_chapter_list = [sent.split('\t')[2] for sent in current_tl_text_list if
                                          sent.split('\t')[2] != '']
 
             if temp_num_list == [] and temp_chapter_list == []:
                 temp_num_list = [num for num, sent in enumerate(temp_sent_list, start = 1)]
                 temp_sent_chapter_list = self.swap_chapter(zip(temp_num_list, temp_sent_list),
-                                                           self._current_en_chapter_num_list)
-                zh_contents = [str(num) + "\t" + para + "\t" + chapter for num, (para, chapter) in
+                                                           self._current_sl_chapter_num_list)
+                tl_contents = [str(num) + "\t" + para + "\t" + chapter for num, (para, chapter) in
                                zip(temp_num_list, temp_sent_chapter_list)]
-                zh_contents_shown = [str(num) + " ¦ " + para + ' ¦ ' + chapter for num, (para, chapter) in
+                tl_contents_shown = [str(num) + " ¦ " + para + ' ¦ ' + chapter for num, (para, chapter) in
                                      zip(temp_num_list, temp_sent_chapter_list)]
             elif temp_num_list == []:
-                zh_contents = [str(num) + '\t' + sent + '\t' + chapter for num, (sent, chapter) in
+                tl_contents = [str(num) + '\t' + sent + '\t' + chapter for num, (sent, chapter) in
                                enumerate(zip(temp_sent_list, temp_chapter_list), start = 1)]
-                zh_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, (sent, chapter) in
+                tl_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, (sent, chapter) in
                                      enumerate(zip(temp_sent_list, temp_chapter_list), start = 1)]
             elif temp_chapter_list == []:
 
                 temp_sent_chapter_list = self.swap_chapter(zip(temp_num_list, temp_sent_list),
-                                                           self._current_en_chapter_num_list)
-                zh_contents = [str(num) + '\t' + sent + '\t' + chapter for num, (sent, chapter) in
+                                                           self._current_sl_chapter_num_list)
+                tl_contents = [str(num) + '\t' + sent + '\t' + chapter for num, (sent, chapter) in
                                zip(temp_num_list, temp_sent_chapter_list)]
-                zh_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, (sent, chapter) in
+                tl_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, (sent, chapter) in
                                      zip(temp_num_list, temp_sent_chapter_list)]
             else:
-                zh_contents = [str(num) + '\t' + sent + '\t' + chapter for num, sent, chapter in
+                tl_contents = [str(num) + '\t' + sent + '\t' + chapter for num, sent, chapter in
                                zip(temp_num_list, temp_sent_list, temp_chapter_list)]
-                zh_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, sent, chapter in
+                tl_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, sent, chapter in
                                      zip(temp_num_list, temp_sent_list, temp_chapter_list)]
             self._ui._tt_book_contentsBox.clear()
-            self._ui._tt_book_contentsBox.setText("\n".join(zh_contents_shown))
-            zh_bookDict = {}
-            zh_bookDict['title'] = title
-            zh_bookDict['author'] = author
-            zh_bookDict['translator'] = translator
-            zh_bookDict['language'] = language
-            zh_bookDict['date'] = date
-            zh_bookDict['genre'] = genre
-            zh_bookDict['content'] = defaultdict(str)
-            for line in zh_contents:
+            self._ui._tt_book_contentsBox.setText("\n".join(tl_contents_shown))
+            tl_bookDict = {}
+            tl_bookDict['title'] = title
+            tl_bookDict['author'] = author
+            tl_bookDict['translator'] = translator
+            tl_bookDict['language'] = language
+            tl_bookDict['date'] = date
+            tl_bookDict['genre'] = genre
+            tl_bookDict['content'] = defaultdict(str)
+            for line in tl_contents:
                 line = line.split('\t')
                 num = line[0]
                 para = line[1]
                 chapt = line[2]
-                zh_bookDict['content'][num] = para + '\t' + chapt
-            self._zh_bookDict_list.append(zh_bookDict)
+                tl_bookDict['content'][num] = para + '\t' + chapt
+            self._tl_bookDict_list.append(tl_bookDict)
             self._ui._tt_book_redoButton.setEnabled(True)
             self._ui._tt_book_uploadButton.setEnabled(False)
-            self._ui._prompt_4 = f"目标语语料{self._current_zh_dict_version}提交成功，所有语料均已提交完毕。\n步骤4：请点击“转换格式”按钮生成一对多字典文件。"
-            self._ui._prompt_4b = f"目标语语料{self._current_zh_dict_version}提交成功，尚有其他目标语语料等待添加。\n步骤4：请点击“下一译文”按钮继续添加余下目标语语料。"
+            self._ui._prompt_4 = f"目标语语料{self._current_tl_dict_version}提交成功，所有语料均已提交完毕。\n步骤4：请点击“转换格式”按钮生成一对多字典文件。"
+            self._ui._prompt_4b = f"目标语语料{self._current_tl_dict_version}提交成功，尚有其他目标语语料等待添加。\n步骤4：请点击“下一译文”按钮继续添加余下目标语语料。"
             if self._ui._tt_book_nextButton.isEnabled() == False:
                 self._ui._promptBox.setText(self._ui._prompt_4)
             else:
                 self._ui._promptBox.setText(self._ui._prompt_4b)
 
-        return self._current_zh_dict_version
+        return self._current_tl_dict_version
 
     def option_reset(self):
+        self.sl = 'en'
+        self.tl = 'zh'
         self._ui._file_openBox.clear()
         self._ui._file_type_box.setCurrentIndex(0)
         if self._current_file:
@@ -1354,36 +1473,36 @@ class MainWindow:
         self._ui._tt_book_uploadButton.setEnabled(False)
         self._ui._ss_book_redoButton.setEnabled(False)
         self._ui._tt_book_redoButton.setEnabled(False)
-        self._current_en_para_list.clear()
-        self._current_zh_para_list.clear()
-        self._en_bookDict = {}
-        self._zh_bookDict_list.clear()
+        self._current_sl_para_list.clear()
+        self._current_tl_para_list.clear()
+        self._sl_bookDict = {}
+        self._tl_bookDict_list.clear()
         self._temp_list.clear()
 
-        return self._en_bookDict
-
+        return self._sl_bookDict    
+     
     # auto_refiller_group
-    def json_en_refiller(self):
+    def json_sl_refiller(self):
         self._ui._ss_book_uploadButton.setEnabled(True)
-        self._en_bookDict.clear()
+        self._sl_bookDict.clear()
         self._ui._ss_book_titleBox.clear()
         self._ui._ss_book_authorBox.clear()
         self._ui._ss_book_genreBox.clear()
         self._ui._ss_book_dateBox.clear()
         self._ui._ss_book_contentsBox.clear()
-        self._current_en_dict_version = ""
+        self._current_sl_dict_version = ""
         self._current_dict_key = ""
-        if self._current_en_para_list:
-            self._ui._ss_book_contentsBox.setText("\n".join(self._current_en_para_list))
+        if self._current_sl_para_list:
+            self._ui._ss_book_contentsBox.setText("\n".join(self._current_sl_para_list))
         else:
             pass
 
-        return self._current_dict_key, self._current_en_dict_version
+        return self._current_dict_key, self._current_sl_dict_version
 
     # auto_refiller_group
-    def json_zh_refiller(self):
+    def json_tl_refiller(self):
         self._ui._tt_book_uploadButton.setEnabled(True)
-        self._zh_bookDict_list.clear()
+        self._tl_bookDict_list.clear()
         self._ui._tt_book_titleBox.clear()
         self._ui._tt_book_authorBox.clear()
         self._ui._tt_book_translatorBox.clear()
@@ -1392,31 +1511,31 @@ class MainWindow:
         self._ui._tt_book_versionBox.setText('t1')
         self._ui._tt_book_dateBox.clear()
         self._ui._tt_book_contentsBox.clear()
-        if self._current_zh_para_list:
-            self._ui._tt_book_contentsBox.setText("\n".join(self._current_zh_para_list[0]))
+        if self._current_tl_para_list:
+            self._ui._tt_book_contentsBox.setText("\n".join(self._current_tl_para_list[0]))
         else:
             pass
-        self._current_zh_dict_version = 't1'
-        return self._current_zh_dict_version
+        self._current_tl_dict_version = 't1'
+        return self._current_tl_dict_version
 
     # version_shift_group
     def load_next_version(self):
-        version_count = len(self._current_zh_para_list)
-        version_num = int(self._current_zh_dict_version.replace("t", ""))
+        version_count = len(self._current_tl_para_list)
+        version_num = int(self._current_tl_dict_version.replace("t", ""))
         if version_num <= version_count:
             next_num = version_num + 1
         else:
             next_num = ""
         if next_num:
             self._ui._tt_book_versionBox.setText(f't{next_num}')
-            self.json_zh_filler()
+            self.json_tl_filler()
             temp_text = self._ui._tt_book_contentsBox.toPlainText()
             temp_text = temp_text.split('\n')
             temp_lines = [item.split('¦')[1] for item in temp_text[:3]]
             try:
-                tmp_zh_title, tmp_zh_author, tmp_zh_translator, tmp_zh_date = self._info_collector.info_collector_zh(temp_lines)
-                self._ui._tt_book_translatorBox.setText(tmp_zh_translator)
-                self._ui._tt_book_dateBox.setText(tmp_zh_date)
+                tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(temp_lines)
+                self._ui._tt_book_translatorBox.setText(tmp_tl_translator)
+                self._ui._tt_book_dateBox.setText(tmp_tl_date)
                 self._ui._prompt_4a = f"当前目标语语料版本号为t{next_num}，确认无误后，请点击“提交按钮”。"
                 self._ui._promptBox.setText(self._ui._prompt_4a)
             except:
@@ -1429,16 +1548,16 @@ class MainWindow:
             pass
 
     # auto_filler_group
-    def swap_chapter(self, zh_num_sent_list, en_chapt_num_list):
+    def swap_chapter(self, tl_num_sent_list, sl_chapt_num_list):
         # print("start swap chapter")
         # 必须核实num类型是否为数字类型。
         chapter_list = []
-        for num, sent in zh_num_sent_list:
+        for num, sent in tl_num_sent_list:
             if isinstance(num, str):
                 num = eval(num)
             else:
                 pass
-            if str(num - 1) in en_chapt_num_list:
+            if str(num - 1) in sl_chapt_num_list:
                 chapter_list.append('[T]' + sent)
             else:
                 chapter_list.append(sent)
@@ -1460,19 +1579,18 @@ class MainWindow:
 
     # data_save_group
     def write_to_json(self):
-        if self._en_bookDict and self._zh_bookDict_list:
+        if self._sl_bookDict and self._tl_bookDict_list:
             mydict = {}
             book_id = self._current_dict_key
             if book_id:
-                en_version = self._current_en_dict_version
-                zh_version = self._current_zh_dict_version
+                sl_version = self._current_sl_dict_version
                 mydict[book_id] = {}
-                mydict[book_id]['en'] = {}
-                mydict[book_id]['zh'] = {}
-                mydict[book_id]['en'][en_version] = self._en_bookDict
-                for i, zh_version_dict in enumerate(self._zh_bookDict_list, start = 1):
-                    zn = "t" + str(i)
-                    mydict[book_id]['zh'][zn] = zh_version_dict
+                mydict[book_id][self.sl] = {}
+                mydict[book_id][self.tl] = {}
+                mydict[book_id][self.sl][sl_version] = self._sl_bookDict
+                for i, tl_version_dict in enumerate(self._tl_bookDict_list, start = 1):
+                    tl_version = "t" + str(i)
+                    mydict[book_id][self.tl][tl_version] = tl_version_dict
                 json_to_save = os.path.join(self._outPutDir, book_id + ".json")
                 if mydict:
                     with open(json_to_save, mode = 'w', encoding = "utf-8-sig") as f:

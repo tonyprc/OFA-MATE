@@ -82,6 +82,7 @@ class InfoCollector:
                 except:
                     print("date error!")
                     self.date = ""
+                    pass
             else:
                 self.date = ""
             # To Do: 存在“校对”，有必要在整体上补加相关空位
