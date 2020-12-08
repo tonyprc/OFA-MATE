@@ -93,14 +93,14 @@ USAGE: When the prompt reads like "all files have be submitted successfully" or 
 ### ACKNOWLEDGEMENT
 
 本软件的完成实在离不开以下人员的关心与帮助，在此一并表示由衷的感谢：
-感谢河南城建学院李攀登兄弟对本人的激励、建议与一贯的支持；
+感谢河南城建学院李攀登先生对本人的激励、建议与一贯的支持；
 感谢赵SIR对本软件进行的专业化结构调整与打磨；
 感谢沈阳药科大学肇彤女士的前期研究成果及支持；
-感谢微信公众号版主爱德宝器先生对本人的鼓劲与支持；
+感谢微信公众号版主爱德宝器先生对本人的鼓舞与支持；
 感谢“一心一译”翻译组各位师友给予的灵感、信任与关爱；
 感谢本系领导对本软件开发的长期关注；
 同时也向AntConc，BFSU ParaConc及CUC的开发者们致以崇高的敬意。
-最后再容我感谢一下我的家人。
+最后再容我感谢一下我的家人的体谅、支持与期望。
 
 All the following people are indispensible for the accomplishment of this little software, and my heartfelt thanks go directly to all of them:
 Many thanks to Gordon from Henan City Construction College for his suggests, encouragement and long-lasting supports;
