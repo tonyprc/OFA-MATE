@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # OFA Mate V.1.0.0 for OFA ParaConc
-# Copyright (c) 2020 Tony96163 (42716403@qq.com)
+# Copyright (c) 2020 Tony Chang (42716403@qq.com)
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -357,7 +357,7 @@ class UIMainWindow(QMainWindow):
         #----------创建主窗口状态栏----------
         self._statusBar = QStatusBar()        
         self._statusBar.showMessage('欢迎使用 OFA Mate')
-        self._copyRightLabel = QLabel("OFA ParaConc © Since 2020")
+        self._copyRightLabel = QLabel("Copyright © 2020 Tony Chang @ English Cafeteria")
         self._statusBar.addPermanentWidget(self._copyRightLabel)
         self.setStatusBar(self._statusBar)
         
