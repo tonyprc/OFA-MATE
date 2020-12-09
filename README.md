@@ -98,7 +98,7 @@ USAGE: When the prompt reads like "all files have be submitted successfully" or 
 感谢沈阳药科大学肇彤女士的前期研究成果及支持；
 感谢微信公众号版主爱德宝器先生对本人的鼓舞与支持；
 感谢“一心一译”翻译组各位师友给予的灵感、信任与关爱；
-感谢本系领导对本软件开发的长期关注；
+感谢本系主任张秀红教授对本软件开发及本人身心健康的长期关切；
 同时也向AntConc，BFSU ParaConc及CUC的开发者们致以崇高的敬意。
 最后再容我感谢一下我的家人的体谅、支持与期望。
 
@@ -108,7 +108,7 @@ Many thanks to Mr. Zhao for his professional readjustment and polish of this sha
 Many thanks to Mz. Zhao Tong for her previous study in this area as well as her firm supports;
 Many thanks to my friend, AiDeBaoQi, who gives me the faith in writing programs as a green hand together with selfless supports; 
 Many thanks to scholars, teachers as well as brothers and sisters in the translation group of "One Heart One Mind" for almost everything within this software;
-Many thanks to the dean of the Foreign Languages Department of Fushun Teacher's College for her great concern with my works as well as my health;
+Many thanks to Prof. Linda Zhang, dean of the Foreign Languages Department of Fushun Vocational Technology Institute (Fushun Teacher's College) for her great concern with my works as well as my health;
 Special thanks and respects go to all the developers of AntConc, BFSU ParaConc and CUC.
 Last but not the least, allow me to give thanks to my beloved family, many many thanks!
 
