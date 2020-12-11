@@ -105,7 +105,7 @@ USAGE: When the prompt reads like "all files have be submitted successfully" or 
 All the following people are indispensible for the accomplishment of this little software, and my heartfelt thanks go directly to all of them:
 Many thanks to Gordon from Henan University of Urban Construction for his suggests, encouragement and long-lasting supports;
 Many thanks to Mr. Zhao for his professional readjustment and polish of this shabby program;
-Many thanks to Mz. Zhao Tong of Shenyang Pharmaceutical University for her previous study in this area as well as her firm supports;
+Many thanks to Mz. Zhao Tong from Shenyang Pharmaceutical University for her previous study in this area as well as her firm supports;
 Many thanks to my friend, AiDeBaoQi, who gives me the faith in writing programs as a green hand together with selfless supports; 
 Many thanks to scholars, teachers as well as brothers and sisters in the translation group of "One Heart One Mind" for almost everything within this software;
 Many thanks to Prof. Linda Zhang, dean of the Foreign Languages Department of Fushun Vocational Technology Institute (Fushun Teacher's College) for her great concern with my works as well as my health;
