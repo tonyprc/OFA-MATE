@@ -1,2 +1,3 @@
 .idea/
-!samples/中华*.txt
+samples/中华*.txt
+*.ico
