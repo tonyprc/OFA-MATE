@@ -1,3 +1,4 @@
 .idea/
 samples/中华*.txt
 *.ico
+core/main_window_old.py
