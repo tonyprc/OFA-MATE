@@ -374,14 +374,14 @@ class MainWindow:
 
     # opt_organizer_group
     def detect_lang(self, text):
+        target_lang = 'en'
         if text[0].isdigit():
             target_lang = 'num'
         else:
-            target_lang = 'en'
             for word in text:
                 if '\u4e00' <= word <= '\u9fa5' or '\u3400' <= word <= '\u4DB5':
                     target_lang = 'zh'
-                break
+                    break
         return target_lang
     # opt_organizer_group
     def detect_lang_swap(self, sent_list):
