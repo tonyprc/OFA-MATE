@@ -23,9 +23,23 @@ from ofa_mate.core.info_collector import InfoCollector
 
 class ListPreparer:
     def __init__(self):
+        currentDir = os.getcwd()
+        dataDir = os.path.join(currentDir, "app_data")
+        workFileDir = os.path.join(dataDir, "workfiles")
+        self._outPutDir = os.path.join(currentDir, "savedfiles")
+        self._interface_lang_file = os.path.join(workFileDir, 'interface_language_setting.txt')
+        self._interface_lang_dict = os.path.join(workFileDir, 'interface_language_dict.json')
+        self.fc_lg, self.fc_dict = self.set_lang()
         ui = UIMainWindow()
         info_collector = InfoCollector()
-        
+
+    def set_lang(self):
+        with open (self._interface_lang_file, mode = 'r', encoding = 'utf-8-sig') as f:
+            default_lg = f.read().strip()
+        with open (self._interface_lang_dict, mode = 'r', encoding = 'utf-8-sig') as f:
+            lg_dict = json.loads(f.read())
+        return default_lg, lg_dict
+
     # para_list_output_group
     # modify to a closed package
     def prepare_seperate_bi_list(self, ui, info_collector, opt_dict, sc_lg, tg_lg, sl_para_list, tl_para_list):
@@ -65,7 +79,7 @@ class ListPreparer:
                 try:
                     tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(tl_sent_list)
                 except:
-                    ui._set_status_text('中文信息提取失败！')
+                    ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                     tmp_tl_title = ''
                     tmp_tl_author = ''
                     tmp_tl_translator = ''
@@ -75,7 +89,7 @@ class ListPreparer:
                     tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = info_collector.info_collector_zh(
                         sl_sent_list)
                 except:
-                    ui._set_status_text('中文信息提取失败！')
+                    ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                     tmp_sl_title = ''
                     tmp_sl_author = ''
                     tmp_sl_translator = ''
@@ -112,11 +126,11 @@ class ListPreparer:
             ui._tt_book_contentsBox.setText(tl_text)
             ui._promptBox.setText(ui._prompt_2)
         else:
-            ui._set_status_text('文件读取失败，请正确选择标记项')
+            ui._set_status_text(self.fc_dict["warning_read_fail_mark"][self.fc_lg])
         return sl_para_list, tl_para_list
 
     # para_list_output_group
-    def prepare_return_bi_list(self, ui, info_collector,temp_list, opt_dict, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
+    def prepare_return_bi_list(self, ui, info_collector,temp_list, opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
         sl_para_list=[]
         tl_para_list=[]
         for num in range(row_max):
@@ -124,23 +138,12 @@ class ListPreparer:
             temp_list.append(sep_list)
 
         if marker_id_status == 1:
-            if file_pos == '英上中下':
-                sc_lg = 'en'
-                tg_lg = 'zh'
+            if file_pos == self.fc_dict["u_d"][self.fc_lg]:
                 for item in temp_list[0]:
                     sl_para_list.append(item.replace('ZZZZZ.', ''))
                 for item in temp_list[1:]:
                     tl_para_list.append(item)
-            elif file_pos == '中上英下':   
-                sc_lg = 'zh'
-                tg_lg = 'en'
-                for item in temp_list[0]:
-                    sl_para_list.append(item)
-                for item in temp_list[1:]:
-                    tl_para_list.append(item)
             else:
-                sc_lg = 'en'
-                tg_lg = 'zh'
                 sl_para_list = []
                 tl_para_list = []
 
@@ -155,7 +158,7 @@ class ListPreparer:
                     try:
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(tl_sent_list)
                     except:
-                        ui._set_status_text('中文信息提取失败！')
+                        ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_tl_title = ''
                         tmp_tl_author = ''
                         tmp_tl_translator = ''
@@ -165,7 +168,7 @@ class ListPreparer:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = info_collector.info_collector_zh(
                             sl_sent_list)
                     except:
-                        ui._set_status_text('中文信息提取失败！')
+                        ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_sl_title = ''
                         tmp_sl_author = ''
                         tmp_sl_translator = ''
@@ -187,7 +190,7 @@ class ListPreparer:
                     try:
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(tl_sent_list)
                     except:
-                            ui._set_status_text('中文信息提取失败！')
+                            ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
                             tmp_tl_author = ''
                             tmp_tl_translator = ''
@@ -197,7 +200,7 @@ class ListPreparer:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = info_collector.info_collector_zh(
                             sl_sent_list)
                     except:
-                        ui._set_status_text('中文信息提取失败！')
+                        ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_sl_title = ''
                         tmp_sl_author = ''
                         tmp_sl_translator = ''
@@ -234,27 +237,14 @@ class ListPreparer:
                 ui._tt_book_contentsBox.setText(tl_text)
                 ui._promptBox.setText(ui._prompt_2)
             else:
-                ui._set_status_text('文件读取失败，请正确选择标记项')
+                ui._set_status_text(self.fc_dict["warning_read_fail_mark"][self.fc_lg])
         else:
-            if file_pos == '英上中下':
-                sc_lg = 'en'
-                tg_lg = 'zh'
+            if file_pos == self.fc_dict["u_d"][self.fc_lg]:
                 for item in temp_list[0]:
                     sl_para_list.append(item.replace('ZZZZZ.', ''))
                 for item in temp_list[1:]:
                     tl_para_list.append(item)
-            elif file_pos == '中上英下':
-                sc_lg = 'zh'
-                tg_lg = 'en'
-                for item in temp_list[0]:
-                    sl_para_list.append(item)
-                for item in temp_list[1:]:
-                    #it's list, replace produces errors.
-                    #sl_para_list.append(item.replace('ZZZZZ.', ''))
-                    tl_para_list.append(item)
             else:
-                 sc_lg = 'en'
-                 tg_lg = 'zh'
                  sl_para_list = []
                  tl_para_list = []
             if col_max == 1:
@@ -267,7 +257,7 @@ class ListPreparer:
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(
                             tl_list)
                     except:
-                        ui._set_status_text('中文信息提取失败！')
+                        ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_tl_title = ''
                         tmp_tl_author = ''
                         tmp_tl_translator = ''
@@ -277,7 +267,7 @@ class ListPreparer:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = info_collector.info_collector_zh(
                             sl_list)
                     except:
-                        ui._set_status_text('中文信息提取失败！')
+                        ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_sl_title = ''
                         tmp_sl_author = ''
                         tmp_sl_translator = ''
@@ -298,7 +288,7 @@ class ListPreparer:
                     try:
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(tl_sent_list)
                     except:
-                        ui._set_status_text('中文信息提取失败！')
+                        ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_tl_title = ''
                         tmp_tl_author = ''
                         tmp_tl_translator = ''
@@ -308,7 +298,7 @@ class ListPreparer:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = info_collector.info_collector_zh(
                             sl_sent_list)
                     except:
-                        ui._set_status_text('中文信息提取失败！')
+                        ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_sl_title = ''
                         tmp_sl_author = ''
                         tmp_sl_translator = ''
@@ -344,12 +334,12 @@ class ListPreparer:
                     "\n".join([y[:25] + "..." if len(y) > 25 else y for y in tl_para_list[0]]))
                 ui._promptBox.setText(ui._prompt_2)
             else:
-                ui._set_status_text('文件读取失败，请正确选择标记项')
+                ui._set_status_text(self.fc_dict["warning_read_fail_mark"][self.fc_lg])
 
         return sl_para_list, tl_para_list
 
     # para_list_output_group
-    def prepare_tab_bi_list(self, ui, info_collector,temp_list,opt_dict, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
+    def prepare_tab_bi_list(self, ui, info_collector,temp_list,opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
         sl_para_list=[]
         tl_para_list=[]
         # 路径：有行号(无标题|有标题)|无行号(无标题|有标题)
@@ -361,75 +351,39 @@ class ListPreparer:
         if opt_dict['marker_id'] == 1:
             # 总列数为3或4时，不可能含篇章标题，列1,列2，列3为英、汉，汉，生成[序号,语1]两列英文段落列表与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
             if 3 <= col_max <= 4:
-                if file_pos == '英左中右':
-                    sc_lg = 'en'
-                    tg_lg = 'zh'
-                elif file_pos == '中左英右':
-                    sc_lg = 'zh'
-                    tg_lg = 'en'
-                else:
-                    sc_lg = 'en'
-                    tg_lg = 'zh'
-                    sl_para_list = []
-                    tl_para_list = []
-                sl_para_list.extend(
-                    list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
-                i = 2
-                while i < col_max:
-                    tl_para_list.append(list(zip(temp_list[0], temp_list[i])))
-                    i += 1
-            # 总列数大于等于5时，可能含标题
-            elif col_max >= 5:
-                # 有篇章标题时，列1,英，列2，标题，列3，中1，列4，标题....
-                if marker_chapter == 1:
-                    if file_pos == '英左中右':
-                        sc_lg = 'en'
-                        tg_lg = 'zh'
-                    elif file_pos == '中左英右':
-                        sc_lg = 'zh'
-                        tg_lg = 'en'
-                    else:
-                        sc_lg = 'en'
-                        tg_lg = 'zh'
-                        sl_para_list.clear()
-                        tl_para_list.clear()
-                    sl_para_list.extend(
-                        list(zip(temp_list[0], temp_list[1], temp_list[2])))
-                    i = 3
-                    while i < col_max:
-                        j = i + 1
-                        tl_para_list.append(
-                            list(zip(temp_list[0], temp_list[i], temp_list[j])))
-                        i = j
-                        i += 1
-                else:
-                    # 无篇章标题时，列1,列2，列3...为英，汉，汉...生成[序号,语1]两列英文段落列表
-                    # 与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
-                    if file_pos == '英左中右':
-                        sc_lg = 'en'
-                        tg_lg = 'zh'
-                    elif file_pos == '中左英右':
-                        sc_lg = 'zh'
-                        tg_lg = 'en'
-                    else:
-                        sc_lg = 'en'
-                        tg_lg = 'zh'
-                        sl_para_list.clear()
-                        tl_para_list.clear()
-                    sl_para_list.extend(
-                        list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
+                if file_pos == self.fc_dict["l_r"][self.fc_lg]:
+                    sl_para_list.extend(list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
                     i = 2
                     while i < col_max:
                         tl_para_list.append(list(zip(temp_list[0], temp_list[i])))
                         i += 1
+            # 总列数大于等于5时，可能含标题
+            elif col_max >= 5:
+                # 有篇章标题时，列1,英，列2，标题，列3，中1，列4，标题....
+                if marker_chapter == 1:
+                    if file_pos == self.fc_dict["l_r"][self.fc_lg]:
+                        sl_para_list.extend(list(zip(temp_list[0], temp_list[1], temp_list[2])))
+                        i = 3
+                        while i < col_max:
+                            j = i + 1
+                            tl_para_list.append(list(zip(temp_list[0], temp_list[i], temp_list[j])))
+                            i = j
+                            i += 1
+                else:
+                    # 无篇章标题时，列1,列2，列3...为英，汉，汉...生成[序号,语1]两列英文段落列表
+                    # 与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
+                    if file_pos == self.fc_dict["l_r"][self.fc_lg]:
+                        sl_para_list.extend(list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
+                        i = 2
+                        while i < col_max:
+                            tl_para_list.append(list(zip(temp_list[0], temp_list[i])))
+                            i += 1
             else:
-                sc_lg = 'en'
-                tg_lg = 'zh'
                 sl_para_list.clear()
                 tl_para_list.clear()
 
             if sl_para_list == []:
-                ui._set_status_text('文件读取失败，请核实文本的具体列数')
+                ui._set_status_text(self.fc_dict["warning_read_fail_col"][self.fc_lg])
                 tmp_sl_title = ''
                 tmp_sl_author = ''
                 tmp_sl_translator = ''
@@ -449,7 +403,7 @@ class ListPreparer:
                             tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = info_collector.info_collector_zh(
                                 sl_sent_list)
                         except:
-                            ui._set_status_text('中文信息提取失败！')
+                            ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_sl_title = ''
                             tmp_sl_author = ''
                             tmp_sl_translator = ''
@@ -463,7 +417,7 @@ class ListPreparer:
                             tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(
                                 tl_sent_list)
                         except:
-                            ui._set_status_text('中文信息提取失败！')
+                            ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
                             tmp_tl_author = ''
                             tmp_tl_translator = ''
@@ -479,7 +433,7 @@ class ListPreparer:
                             tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = info_collector.info_collector_zh(
                                 sl_sent_list)
                         except:
-                            ui._set_status_text('中文信息提取失败！')
+                            ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_sl_title = ''
                             tmp_sl_author = ''
                             tmp_sl_translator = ''
@@ -494,7 +448,7 @@ class ListPreparer:
                         try:
                             tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(tl_sent_list)
                         except:
-                            ui._set_status_text('中文信息提取失败！')
+                            ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
                             tmp_tl_author = ''
                             tmp_tl_translator = ''
@@ -534,74 +488,44 @@ class ListPreparer:
                 ui._tt_book_contentsBox.setText(tl_text)
                 ui._promptBox.setText(ui._prompt_2)
             else:
-                ui._set_status_text('文件读取失败，请正确选择标记项')
+                ui._set_status_text(self.fc_dict["warning_read_fail_mark"][self.fc_lg])
         else:
             # 无篇章标题：列0英，列1中，列2中...
             # 有篇章标题：列0英，列1英标题，列2中,列3中标题，列4中，列5中标题
             # 总列数为2或3时，不可能含篇章标题，列0,列1，列2为英、汉，汉，生成[序号,语1]两列英文段落列表与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
             if 2 <= col_max <= 3:
-                if file_pos == '英左中右':
-                    sc_lg = 'en'
-                    tg_lg = 'zh'
-                elif file_pos == '中左英右':
-                    sc_lg = 'zh'
-                    tg_lg = 'tl'
-                else:
-                    sc_lg = 'en'
-                    tg_lg = 'zh'
-                    sl_para_list = []
-                    tl_para_list = []
-                sl_para_list.extend(temp_list[0])
-                i = 1
-                while i < col_max:
-                    tl_para_list.append(temp_list[i])
-                    i += 1                   
+                if file_pos == self.fc_dict["l_r"][self.fc_lg]:
+                    sl_para_list.extend(temp_list[0])
+                    i = 1
+                    while i < col_max:
+                        tl_para_list.append(temp_list[i])
+                        i += 1
 
             # 总列数大于等于4时，可能含标题
             elif col_max >= 4:
                 # 有篇章标题时，列0,英，列1，英标题，列2，中，列3，中标题....
                 if marker_chapter == 1:
-                    if file_pos == '英左中右':
-                        sc_lg = 'en'
-                        tg_lg = 'zh'
-                    elif file_pos == '中左英右':
-                        sc_lg = 'zh'
-                        tg_lg = 'tl'
-                    else:
-                        sc_lg = 'en'
-                        tg_lg = 'zh'
-                        sl_para_list.clear()
-                        tl_para_list.clear()
-                    sl_para_list.extend(list(zip(temp_list[0], temp_list[1])))
-                    i = 2
-                    while i < col_max:
-                        j = i + 1
-                        tl_para_list.append(list(zip(temp_list[i], temp_list[j])))
-                        i = j
-                        i += 1
+                    if file_pos == self.fc_dict["l_r"][self.fc_lg]:
+                        sl_para_list.extend(list(zip(temp_list[0], temp_list[1])))
+                        i = 2
+                        while i < col_max:
+                            j = i + 1
+                            tl_para_list.append(list(zip(temp_list[i], temp_list[j])))
+                            i = j
+                            i += 1
                 else:
                     # 无篇章标题时，列0,英,列1,汉,列2，汉
-                    if file_pos == '英左中右':
-                        sc_lg = 'en'
-                        tg_lg = 'zh'
-                    elif file_pos == '中左英右':
-                        sc_lg = 'zh'
-                        tg_lg = 'tl'
-                    else:
-                        sc_lg = 'en'
-                        tg_lg = 'zh'
-                        sl_para_list.clear()
-                        tl_para_list.clear()
-                    sl_para_list.extend(temp_list[0])  # zip一定要转成列表，否则深层数据提出不出来
-                    i = 1
-                    while i < col_max:
-                        tl_para_list.append(temp_list[i])
-                        i += 1
+                    if file_pos == self.fc_dict["l_r"][self.fc_lg]:
+                        sl_para_list.extend(temp_list[0])  # zip一定要转成列表，否则深层数据提出不出来
+                        i = 1
+                        while i < col_max:
+                            tl_para_list.append(temp_list[i])
+                            i += 1
             else:
                 sl_para_list.clear()
                 tl_para_list.clear()
             if sl_para_list == []:
-                ui._set_status_text('文件读取失败，请核实文本的具体列数')
+                ui._set_status_text(self.fc_dict["warning_read_fail_col"][self.fc_lg])
                 tmp_sl_title = ''
                 tmp_sl_author = ''
                 tmp_sl_translator = ''
@@ -632,7 +556,7 @@ class ListPreparer:
                         try:
                             tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(tl_sent_list)
                         except:
-                            ui._set_status_text('中文信息提取失败！')
+                            ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
                             tmp_tl_author = ''
                             tmp_tl_translator = ''
@@ -656,7 +580,7 @@ class ListPreparer:
                         try:
                             tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = info_collector.info_collector_zh(tl_sent_list)
                         except:
-                            ui._set_status_text('中文信息提取失败！')
+                            ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
                             tmp_tl_author = ''
                             tmp_tl_translator = ''
@@ -690,6 +614,6 @@ class ListPreparer:
                 ui._tt_book_contentsBox.setText(tl_text)
                 ui._promptBox.setText(ui._prompt_2)
             else:
-                ui._set_status_text('文件读取失败，请正确选择标记项')
+                ui._set_status_text(self.fc_dict["warning_read_fail_mark"][self.fc_lg])
 
         return sl_para_list, tl_para_list

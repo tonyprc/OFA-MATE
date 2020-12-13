@@ -29,7 +29,12 @@ from ofa_mate.core.list_preparer import ListPreparer
 class MainWindow:
     def __init__(self):
         currentDir = os.getcwd()
+        dataDir = os.path.join(currentDir, "app_data")
+        workFileDir = os.path.join(dataDir, "workfiles")
         self._outPutDir = os.path.join(currentDir, "savedfiles")
+        self._interface_lang_file = os.path.join(workFileDir,'interface_language_setting.txt')
+        self._interface_lang_dict = os.path.join(workFileDir,'interface_language_dict.json')
+        self.fc_lg, self.fc_dict = self.set_lang()
 
         # recieve signals
         self._ui = UIMainWindow()
@@ -70,6 +75,13 @@ class MainWindow:
 
         self._ui.show()
 
+    def set_lang(self):
+        with open (self._interface_lang_file, mode = 'r', encoding = 'utf-8-sig') as f:
+            default_lg = f.read().strip()
+        with open (self._interface_lang_dict, mode = 'r', encoding = 'utf-8-sig') as f:
+            lg_dict = json.loads(f.read())
+        return default_lg, lg_dict
+
     def open_single_file(self, target_file):
         para_list = []
         if self._ui._file_openBox.text():
@@ -85,6 +97,7 @@ class MainWindow:
                         pass
                     para_list = text.split('\n')
                 if para_list:
+                    file_pos = self._opt_dict['lang_pos']
                     self.file_evaluator(para_list)
                 else:
                     pass
@@ -101,7 +114,7 @@ class MainWindow:
                 # 无表格标记
                 if form_marker == 0:
                     self._ui._file_pos_box.setCurrentIndex(0)
-                    self._opt_dict['lang_pos'] = '英上中下'
+                    self._opt_dict['lang_pos'] = self.fc_dict['u_d'][self.fc_lg]
                     self._ui._file_tab_mark_box.setChecked(False)
                     self._opt_dict['marker_tab'] = 0
                     with open(target_file, 'rb') as doc:
@@ -130,7 +143,7 @@ class MainWindow:
                             self._ui._file_table_mark_box.setChecked(True)
                             self._opt_dict['marker_table'] = 1
                             self._ui._file_pos_box.setCurrentIndex(2)
-                            self._opt_dict['lang_pos'] = '英左中右'
+                            self._opt_dict['lang_pos'] =self.fc_dict['l_r'][self.fc_lg]
                             self._ui._file_tab_mark_box.setChecked(False)
                             self._opt_dict['marker_tab'] = 0
                         else:
@@ -138,7 +151,7 @@ class MainWindow:
                 # 有表格标记
                 else:
                     self._ui._file_pos_box.setCurrentIndex(2)
-                    self._opt_dict['lang_pos'] = '英左中右'
+                    self._opt_dict['lang_pos'] = self.fc_dict['l_r'][self.fc_lg]
                     self._ui._file_tab_mark_box.setChecked(False)
                     self._opt_dict['marker_tab'] = 0
                     para_list = []
@@ -163,7 +176,7 @@ class MainWindow:
                         list_length = len(para_list)
                         if list_length > 1:
                             self._ui._file_pos_box.setCurrentIndex(0)
-                            self._opt_dict['lang_pos'] = '英上中下'
+                            self._opt_dict['lang_pos'] = self.fc_dict['u_d'][self.fc_lg]
                             self._ui._file_tab_mark_box.setChecked(False)
                             self._opt_dict['marker_tab'] = 0
                             self._ui._file_table_mark_box.setChecked(False)
@@ -173,10 +186,10 @@ class MainWindow:
                 if para_list:
                     self.file_evaluator(para_list)
                 else:
-                    self._ui._set_status_text("文件读取失败，请重试")
+                    self._ui._set_status_text(self.fc_dict["warning_read_fail_unknown"][self.fc_lg])
             elif target_file.endswith('xlsx'):
                 self._ui._file_pos_box.setCurrentIndex(2)
-                self._opt_dict['lang_pos'] = '英左中右'
+                self._opt_dict['lang_pos'] = self.fc_dict['l_r'][self.fc_lg]
                 self._ui._file_table_mark_box.setChecked(True)
                 self._opt_dict['marker_table'] = 1
                 loc = (target_file)
@@ -205,7 +218,7 @@ class MainWindow:
                     para_list = self._current_sl_para_list
                     self.file_evaluator(para_list)
                 else:
-                    self._ui._set_status_text("文件读取失败，请重试")
+                    self._ui._set_status_text(self.fc_dict["warning_read_fail_unknown"][self.fc_lg])
             else:
                 pass
         else:
@@ -269,11 +282,12 @@ class MainWindow:
                     self._current_sl_para_list = sl_para_list
                     self._current_tl_para_list = tl_para_list
                     if sl_para_list:
+                        lang_status = self._opt_dict['lang_pos']
                         self.file_evaluator(sl_para_list)
                         self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_seperate_bi_list(self._ui, self._info_collector, self._opt_dict, self.sl, self.tl, sl_para_list, tl_para_list)
                     else:
                         self._current_file_list.clear()
-                        self._ui._set_status_text('双语对齐txt多文件命名不统一，请正确命名相关文件')
+                        self._ui._set_status_text(self.fc_dict["warning_naming_error_mul"][self.fc_lg])
             else:
                 pass
         else:
@@ -284,24 +298,24 @@ class MainWindow:
         if self._ui._file_openBox.text():
             current_sl_text = self._ui._ss_book_contentsBox.toPlainText()
             if current_sl_text:
-                self._ui._set_status_text("文件已成功加载，请勿反复加载!")
+                self._ui._set_status_text(self.fc_dict["warning_overload"][self.fc_lg])
             else:
                 self._opt_dict = self.opt_checker()
                 file_type = self._opt_dict['file_type']
-                if self._ui._file_openButton.text() == "打开单文件":
+                if self._ui._file_openButton.text() == self.fc_dict["open_s"][self.fc_lg]:
                     if self._current_file:
                         self.open_single_file(self._current_file)
-                elif self._ui._file_openButton.text() == "打开多文件":
+                elif self._ui._file_openButton.text() == self.fc_dict["open_m"][self.fc_lg]:
                     if self._current_file_list and self._file_id_list:
                         self.open_multi_file(self._current_file_list, self._file_id_list)
                     else:
                         self._current_file_list.clear()
                         self._file_id_list.clear()
-                        self._ui._set_status_text('指定文件夹内未找到多语对齐txt文件，请正确命名相关文件')
+                        self._ui._set_status_text(self.fc_dict["warning_naming_error"][self.fc_lg])
                 else:
                     pass
         else:
-            self._ui._set_status_text('当前尚未加载任何文件，请先加载文件')
+            self._ui._set_status_text(self.fc_dict["warning_no_file"][self.fc_lg])
 
     # 打开单文件，只读取目标文件夹名称及路径，同时生成操作选项核对列表
     # file_open_group
@@ -311,20 +325,20 @@ class MainWindow:
         self._file_suffix = self._opt_dict['file_type']
         self.form_reset()
         file_type = self._opt_dict['file_type']
-        if self._ui._file_openButton.text() == "打开单文件":
+        if self._ui._file_openButton.text() == self.fc_dict["open_s"][self.fc_lg]:
             options = QFileDialog.Options()
             options |= QFileDialog.DontUseNativeDialog
-            presentFile = QFileDialog.getOpenFileName(self._ui, "打开单文件", "", f"*.{self._file_suffix}", options = options)
+            presentFile = QFileDialog.getOpenFileName(self._ui, self.fc_dict["open_s"][self.fc_lg], "", f"*.{self._file_suffix}", options = options)
             if presentFile:
                 present_file_path = presentFile[0]
                 present_file = present_file_path.split('/')[-1]
                 self._ui._file_openBox.setText(present_file)
                 self._current_file = present_file_path
                 self.open_single_file(self._current_file)
-        elif self._ui._file_openButton.text() == "打开多文件":
+        elif self._ui._file_openButton.text() == self.fc_dict["open_m"][self.fc_lg]:
             options = QFileDialog.Options()
             options |= QFileDialog.ShowDirsOnly
-            presentDir = QFileDialog.getExistingDirectory(self._ui, "打开多文件", "", options = options)
+            presentDir = QFileDialog.getExistingDirectory(self._ui, self.fc_dict["open_m"][self.fc_lg], "", options = options)
             if presentDir:
                 working_dir = os.getcwd()
                 self._current_file_list.clear()
@@ -354,7 +368,7 @@ class MainWindow:
             else:
                 self._current_file_list.clear()
                 self._file_id_list.clear()
-                self._ui._set_status_text('指定文件夹内未找到多语对齐txt文件，请正确命名相关文件')
+                self._ui._set_status_text(self.fc_dict["warning_naming_error"][self.fc_lg])
         else:
             pass
 
@@ -378,7 +392,7 @@ class MainWindow:
         if num_lang_dict['0'] == 'en' and num_lang_dict['1'] == 'zh':
             self.sl = 'en'
             self.tl = 'zh'
-            lang_status = "英上中下"
+            lang_status = self.fc_dict['u_d'][self.fc_lg]
             sl_num_list = [i for i, y in num_lang_dict.items() if y == 'en']
             sl_check_list = list(
                 map(lambda x: eval(sl_num_list[x]) - eval(sl_num_list[x - 1]), range(1, len(sl_num_list))))
@@ -386,7 +400,7 @@ class MainWindow:
         elif num_lang_dict['0'] == 'zh' and num_lang_dict['1'] == 'en':
             self.sl = 'zh'
             self.tl = 'en'
-            lang_status = "中上英下"
+            lang_status = self.fc_dict['u_d'][self.fc_lg]
             sl_num_list = [i for i, y in num_lang_dict.items() if y == 'zh']
             sl_check_list = list(
                 map(lambda x: eval(sl_num_list[x]) - eval(sl_num_list[x - 1]), range(1, len(sl_num_list))))
@@ -394,15 +408,15 @@ class MainWindow:
         else:
             self.sl = 'en'
             self.tl = 'zh'
-            lang_status = "双语分离"
+            lang_status = self.fc_dict["bi-sep"][self.fc_lg]
             lang_gap = 0
         return lang_status, lang_gap
 
     # opt_organizer_group
     def file_evaluator(self, para_list):
-        lang_status_dict = {'英上中下': 0, '中上英下': 1, '英左中右': 2, '中左英右': 3, '双语分离': 4}
+        lang_status_dict = {self.fc_dict['u_d'][self.fc_lg]: 0, self.fc_dict['l_r'][self.fc_lg]: 1, self.fc_dict["bi-sep"][self.fc_lg]: 2}
         if para_list == []:
-            self._ui._set_status_text('文件读取出错，请检查选项是否选择有误！')
+            self._ui._set_status_text(self.fc_dict["warning_read_fail_unknown"][self.fc_lg])
         else:
             tab_test = para_list[0].split('\t')
             if len(tab_test) == 1:
@@ -418,23 +432,17 @@ class MainWindow:
                 lang_status, lang_gap = self.detect_lang_swap(para_list)
                 self._ui._file_portion_box.setValue(lang_gap)
                 self._opt_dict['lang_cols'] = lang_gap
-                if lang_status in ['英上中下', '中上英下', '英左中右', '中左英右', '双语分离']:
-                    if lang_status in ['英上中下',  '英左中右', '双语分离']:
-                        self.sl = 'en'
-                        self.tl = 'zh'
-                    else:
-                        self.sl = 'zh'
-                        self.tl = 'en'
+                if lang_status in [self.fc_dict['u_d'][self.fc_lg], self.fc_dict['l_r'][self.fc_lg], self.fc_dict["bi-sep"][self.fc_lg]]:
                     pos_index = lang_status_dict[lang_status]
                     self._ui._file_pos_box.setCurrentIndex(pos_index)
                     self._opt_dict['lang_pos'] = lang_status
-                    if lang_status in ['英上中下', '中上英下']:
+                    if lang_status == self.fc_dict['u_d'][self.fc_lg]:
                         self._opt_dict['lang_rows'] = int(self._ui._file_portion_box.value()) + 1
                         self._opt_dict['lang_cols'] = 1
-                    elif lang_status in ['英左中右', '中左英右']:
+                    elif lang_status == self.fc_dict['l_r'][self.fc_lg]:
                         self._opt_dict['lang_rows'] = 1
                         self._opt_dict['lang_cols'] = int(self._ui._file_portion_box.value())
-                    elif lang_status == '双语分离':
+                    elif lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
                         self._opt_dict['lang_rows'] = 1
                         self._opt_dict['lang_cols'] = 0
                     else:
@@ -443,6 +451,7 @@ class MainWindow:
                 else:
                     pass
             elif len(tab_test) >= 2:
+                lang_status = self.fc_dict["l_r"][self.fc_lg]
                 col_max = len(tab_test)
                 self._ui._file_tab_mark_box.setChecked(True)
                 self._opt_dict['marker_tab'] = 1
@@ -472,44 +481,39 @@ class MainWindow:
                 col_name_string = ":".join(col_names)
                 if self.sl in lang_seq_dict.keys() and self.tl in lang_seq_dict.keys():
                     if lang_seq_dict[self.sl] < lang_seq_dict[self.tl]:
-                        lang_status = "英左中右"
-                        self.sl = 'en'
-                        self.tl = 'zh'
                         if count_col_sl == 1:
                             lang_gap = count_col_tl
                             self._ui._file_portion_box.setValue(lang_gap)
                             self._opt_dict['lang_cols'] = lang_gap
                             self._opt_dict['lang_rows'] = 1
-                            title = "无标题"
+                            title = self.fc_dict["title_no"][self.fc_lg]
                         else:
                             lang_gap = int(count_col_tl / 2)
                             self._ui._file_portion_box.setValue(lang_gap)
                             self._opt_dict['lang_cols'] = lang_gap
                             self._opt_dict['lang_rows'] = 1
-                            title = '有标题'
+                            title = self.fc_dict["title_yes"][self.fc_lg]
                     else:
-                        lang_status = "中左英右"
-                        self.sl = 'zh'
-                        self.tl = 'en'
                         if count_col_tl == 1:
                             lang_gap = count_col_sl
                             self._ui._file_portion_box.setValue(lang_gap)
                             self._opt_dict['lang_cols'] = lang_gap
                             self._opt_dict['lang_rows'] = 1
-                            title = "无标题"
+                            title = self.fc_dict["title_no"][self.fc_lg]
                         else:
                             lang_gap = int(count_col_sl / 2)
                             self._ui._file_portion_box.setValue(lang_gap)
                             self._opt_dict['lang_cols'] = lang_gap
                             self._opt_dict['lang_rows'] = 1
-                            title = '有标题'
+                            title = self.fc_dict["title_yes"][self.fc_lg]
 
                 # 否则为上下结构
                 elif self.sl in lang_seq_dict.keys():
+                    lang_status = self.fc_dict["u_d"][self.fc_lg]
                     if count_col_sl == 1:
-                        title = "无标题"
+                        title = self.fc_dict["title_no"][self.fc_lg]
                     else:
-                        title = '有标题'
+                        title = self.fc_dict["title_yes"][self.fc_lg]
                     col_sent_list = []
                     col_id = lang_seq_dict[self.sl]
                     for item in tab_list:
@@ -517,7 +521,7 @@ class MainWindow:
                     lang_status, lang_gap = self.detect_lang_swap(col_sent_list)
                     self._ui._file_portion_box.setValue(lang_gap)
                     self._opt_dict['lang_cols'] = lang_gap
-                    if lang_status == '双语分离':
+                    if lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
                         self._opt_dict['lang_rows'] = 1
                         self._opt_dict['lang_cols'] = 0
                     else:
@@ -526,9 +530,9 @@ class MainWindow:
 
                 elif self.tl in lang_seq_dict.keys():
                     if count_col_sl == 1:
-                        title = "无标题"
+                        title = self.fc_dict["title_no"][self.fc_lg]
                     else:
-                        title = '有标题'
+                        title = self.fc_dict["title_yes"][self.fc_lg]
                     col_sent_list = []
                     col_id = lang_seq_dict[self.tl]
                     for item in tab_list:
@@ -536,7 +540,7 @@ class MainWindow:
                     lang_status, lang_gap = self.detect_lang_swap(col_sent_list)
                     self._ui._file_portion_box.setValue(lang_gap)
                     self._opt_dict['lang_cols'] = lang_gap
-                    if lang_status == '双语分离':
+                    if lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
                         self._opt_dict['lang_rows'] = 1
                         self._opt_dict['lang_cols'] = 0
                     else:
@@ -554,16 +558,16 @@ class MainWindow:
                 self._opt_dict['lang_cols'] = lang_gap
                 # 输出报告
                 if count_col_num == 0:
-                    num = "无行号"
+                    num = self.fc_dict["line_num_no"][self.fc_lg]
                     marker_id_status = 0
                     self._ui._file_num_mark_box.setChecked(False)
                     self._opt_dict['marker_id'] = 0
                 else:
-                    num = "有行号"
+                    num = self.fc_dict["line_num_yes"][self.fc_lg]
                     marker_id_status = 1
                     self._ui._file_num_mark_box.setChecked(True)
                     self._opt_dict['marker_id'] = 1
-                if title == "无标题":
+                if title == self.fc_dict["title_no"][self.fc_lg]:
                     marker_chapter = 0
                     self._ui._file_chapt_num_box.setChecked(False)
                     self._opt_dict['marker_chapt'] = 0
@@ -581,22 +585,22 @@ class MainWindow:
             self._temp_list.clear()
             file_pos = self._opt_dict['lang_pos']
             row_max = self._opt_dict['lang_rows']
-            if file_pos in ['英上中下', '英左中右', '中上英下', '中左英右', '双语分离'] and col_max >= 1:
-                if file_pos in ['英上中下', '中上英下']:
+            if col_max >= 1:
+                if file_pos == self.fc_dict['u_d'][self.fc_lg]:
                     col_max = self._opt_dict['marker_id'] + self._opt_dict['marker_chapt'] + self._opt_dict['lang_cols']                    
-                    self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_return_bi_list(self._ui, self._info_collector, self._temp_list,self._opt_dict, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
-                elif file_pos in ['英左中右', '中左英右'] and col_max >= 2:
+                    self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_return_bi_list(self._ui, self._info_collector, self._temp_list,self._opt_dict, self.sl,self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
+                elif file_pos == self.fc_dict['l_r'][self.fc_lg] and col_max >= 2:
                     if self._opt_dict['marker_chapt'] == 0:
                         col_max = self._opt_dict['marker_id'] + self._opt_dict['lang_cols'] + 1
                     elif self._opt_dict['marker_chapt'] == 1:
                         col_max = self._opt_dict['marker_id'] + (self._opt_dict['lang_cols'] + 1) * 2
                     else:
                         col_max = 0
-                    self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_tab_bi_list(self._ui, self._info_collector, self._temp_list,self._opt_dict, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
-                elif file_pos == "双语分离":
+                    self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_tab_bi_list(self._ui, self._info_collector, self._temp_list,self._opt_dict, self.sl, self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
+                elif file_pos == self.fc_dict["bi-sep"][self.fc_lg]:
                     pass
                 else:
-                    self._ui._set_status_text("文件读取出现异常，请检查参数设置是否与语料一致！")
+                    self._ui._set_status_text(self.fc_dict["warning_read_fail_unknown"][self.fc_lg])
             else:
                 pass
 
@@ -608,10 +612,10 @@ class MainWindow:
         file_dict['file_bind'] = self._ui._file_bind_box.currentText()
         file_dict['file_num'] = int(self._ui._file_num_box.value())
         file_dict['lang_pos'] = self._ui._file_pos_box.currentText()
-        if file_dict['lang_pos'] in ['英上中下', '中上英下']:
+        if file_dict['lang_pos'] == self.fc_dict['u_d'][self.fc_lg]:
             file_dict['lang_rows'] = int(self._ui._file_portion_box.value()) + 1
             file_dict['lang_cols'] = 1
-        elif file_dict['lang_pos'] in ['英左中右', '中左英右']:
+        elif file_dict['lang_pos'] == self.fc_dict['l_r'][self.fc_lg]:
             file_dict['lang_cols'] = int(self._ui._file_portion_box.value())
             file_dict['lang_rows'] = 1
         else:
@@ -645,17 +649,17 @@ class MainWindow:
         self._current_sl_chapter_num_list.clear()
         alert_msg = []
         if self._ui._file_openBox.text() == "":
-            alert_msg.append('正文')
+            alert_msg.append(self.fc_dict["content"][self.fc_lg])
         if self._ui._ss_book_titleBox.text() == "":
-            alert_msg.append('书名')
+            alert_msg.append(self.fc_dict["title_book"][self.fc_lg])
         if self._ui._ss_book_authorBox.text() == "":
-            alert_msg.append('作者')
+            alert_msg.append(self.fc_dict["ar_id"][self.fc_lg])
         if self._ui._ss_book_genreBox.text() == "":
-            alert_msg.append('体裁')
+            alert_msg.append(self.fc_dict["issue_genre"][self.fc_lg])
         if alert_msg:
-            alert_msg = "、".join(alert_msg)
-            alert_detail = "源语" + alert_msg + "项不能为空！"
-            self._ui._set_status_text(alert_detail)
+            alert_msg = " ".join(alert_msg)
+            alert_detail = self.fc_dict["lg_sl"][self.fc_lg]  + " " + alert_msg + " " + self.fc_dict["warning_blank_error"][self.fc_lg]
+            self._ui._set_status_text(alert_detail.replace("：",''))
         else:
             title = self._ui._ss_book_titleBox.text()
             self._current_dict_key = title.strip()
@@ -745,17 +749,17 @@ class MainWindow:
     def json_tl_filler(self):
         alert_msg = []
         if self._ui._file_openBox.text() == "":
-            alert_msg.append('正文')
+            alert_msg.append(self.fc_dict["content"][self.fc_lg])
         if self._ui._tt_book_titleBox.text() == "":
-            alert_msg.append('书名')
+            alert_msg.append(self.fc_dict["title_book"][self.fc_lg])
         if self._ui._tt_book_translatorBox.text() == "":
-            alert_msg.append('译者')
+            alert_msg.append(self.fc_dict["tr_id"][self.fc_lg])
         if self._ui._tt_book_genreBox.text() == "":
-            alert_msg.append('体裁')
+            alert_msg.append(self.fc_dict["issue_genre"][self.fc_lg])
         if alert_msg:
-            alert_msg = "、".join(alert_msg)
-            alert_detail = "目标语" + alert_msg + "项不能为空！"
-            self._ui._set_status_text(alert_detail)
+            alert_msg = " ".join(alert_msg)
+            alert_detail = self.fc_dict["lg_tl"][self.fc_lg] + " " + alert_msg + self.fc_dict["warning_blank_error"][self.fc_lg]
+            self._ui._set_status_text(alert_detail.replace("：",''))
         else:
             title = self._ui._tt_book_titleBox.text()
             author = self._ui._tt_book_authorBox.text()
@@ -871,8 +875,8 @@ class MainWindow:
             self._tl_bookDict_list.append(tl_bookDict)
             self._ui._tt_book_redoButton.setEnabled(True)
             self._ui._tt_book_uploadButton.setEnabled(False)
-            self._ui._prompt_4 = f"目标语语料{self._current_tl_dict_version}提交成功，所有语料均已提交完毕。\n步骤4：请点击“转换格式”按钮生成一对多字典文件。"
-            self._ui._prompt_4b = f"目标语语料{self._current_tl_dict_version}提交成功，尚有其他目标语语料等待添加。\n步骤4：请点击“下一译文”按钮继续添加余下目标语语料。"
+            self._ui._prompt_4 = self.fc_dict["corp_tl"][self.fc_lg] + f"{self._current_tl_dict_version}" + self.fc_dict["pmt_4a_start"][self.fc_lg] + "\n" + self.fc_dict["pmt_4a_a"][self.fc_lg]
+            self._ui._prompt_4b = self.fc_dict["corp_tl"][self.fc_lg] + f"{self._current_tl_dict_version}" + self.fc_dict["pmt_4b_start"][self.fc_lg] + "\n" + self.fc_dict["pmt_4b_a"][self.fc_lg]
             if self._ui._tt_book_nextButton.isEnabled() == False:
                 self._ui._promptBox.setText(self._ui._prompt_4)
             else:
@@ -978,7 +982,7 @@ class MainWindow:
                 tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(temp_lines)
                 self._ui._tt_book_translatorBox.setText(tmp_tl_translator)
                 self._ui._tt_book_dateBox.setText(tmp_tl_date)
-                self._ui._prompt_4a = f"当前目标语语料版本号为t{next_num}，确认无误后，请点击“提交按钮”。"
+                self._ui._prompt_4a = self.fc_dict["pmt_4c_start"][self.fc_lg]+f"t{next_num}， "+self.fc_dict["pmt_4c_a"][self.fc_lg]
                 self._ui._promptBox.setText(self._ui._prompt_4a)
             except:
                 self._ui._tt_book_translatorBox.clear()
@@ -1042,4 +1046,4 @@ class MainWindow:
             else:
                 pass
         else:
-            self._ui._set_status_text("很抱歉，英汉数据尚未创建，请按提示操作。")
+            self._ui._set_status_text(self.fc_dict["warning_not_ready"][self.fc_lg])

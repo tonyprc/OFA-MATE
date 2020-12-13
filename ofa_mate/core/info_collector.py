@@ -80,7 +80,7 @@ class InfoCollector:
                     else:
                         self.date = m_date_list[0]
                 except:
-                    print("date error!")
+                    #print("date error!")
                     self.date = ""
                     pass
             else:
@@ -102,7 +102,7 @@ class InfoCollector:
                 except:
                     self.author = ""
                     self.translator = ""
-                    print("author and translator error!")
+                    #print("author and translator error!")
                     pass
             else:
                 m_author_zh_2 = re.search(r"(.*)译", para_list[1])
