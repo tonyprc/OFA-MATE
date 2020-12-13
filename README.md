@@ -16,14 +16,27 @@ As a corpus format converter customized for OFA-ParaConc, OFA-Mate aims to conve
 ### 基本功能
 ### FUNCTIONS
 
-1. 语料读取
-1. DATA READING
-2. 自动填充
-2. AUTO FILLING
-3. 操作提示
-3. OPERATION PROMPT
-4. 转码输出
-4. CONVERT & OUTPUT
+1. 界面语言选择
+1. INTERFACE LANGUAGE SETTING
+2. 语料读取
+2. DATA READING
+3. 自动填充
+3. AUTO FILLING
+4. 操作提示
+4. OPERATION PROMPT
+5. 转码输出
+5. CONVERT & OUTPUT
+
+#### 界面语言选择
+#### INTERFACE LANGUAGE SETTING
+
+界面语言选择功能方便用户根据自己的偏好选择合适的界面语言，当前仅支持中英文两种界面语言。
+
+This function allows users to choose preferred interface language between English and Chinese at present.
+
+使用方法：界面默认语言为中文，若想更换成英文，请在启动软件前，打开app_data\workfiles\的界面语言配置文件interface_language_setting.txt，并将其内的“en”修改为“zh”，然后关闭该文件，启动软件即可。
+
+USAGE: The default interface language is Chinese. To shift it to English, you need to find and open the file "interface_language_setting.txt" under the directory of "app_data\workfiles\", change the word "zh" into "en", save the file, and run the software.
 
 #### 语料读取
 #### DATA READING
