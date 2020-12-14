@@ -69,6 +69,7 @@ class InfoCollector:
         else:
             # To Do: 摘译本第一行基本无数据，需要特别判断一下
             self.title = para_list[0].split('（')[0].split('—')[0]
+            #self.title = self.title.replace("《","").repalce("》","")
             m_date = re.finditer(r"\d{4}",para_list[1])
             if m_date:
                 try:

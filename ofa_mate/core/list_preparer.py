@@ -113,6 +113,7 @@ class ListPreparer:
             ui._ss_book_authorBox.setText(tmp_sl_author)
             ui._ss_book_translatorBox.setText(tmp_sl_translator)
             ui._ss_book_dateBox.setText(tmp_sl_date)
+            ui._ss_book_languageBox.setText(sc_lg)
             ui._ss_book_genreBox.setText('')
             sl_text = "\n".join(sl_para_list)
             sl_text = sl_text.replace('ZZZZZ.', '')
@@ -121,6 +122,7 @@ class ListPreparer:
             ui._tt_book_authorBox.setText(tmp_tl_author)
             ui._tt_book_translatorBox.setText(tmp_tl_translator)
             ui._tt_book_dateBox.setText(tmp_tl_date)
+            ui._tt_book_languageBox.setText(tg_lg)
             ui._tt_book_genreBox.setText('')
             tl_text = "\n".join(tl_para_list[0])
             ui._tt_book_contentsBox.setText(tl_text)
@@ -130,9 +132,8 @@ class ListPreparer:
         return sl_para_list, tl_para_list
 
     # para_list_output_group
-    def prepare_return_bi_list(self, ui, info_collector,temp_list, opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
-        sl_para_list=[]
-        tl_para_list=[]
+    def prepare_return_bi_list(self, ui, sl_para_list, tl_para_list, info_collector,temp_list, opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
+        print("源语r：", sc_lg, " 目标语：", tg_lg)
         for num in range(row_max):
             sep_list = [item for item in para_list[num::row_max]]
             temp_list.append(sep_list)
@@ -339,11 +340,10 @@ class ListPreparer:
         return sl_para_list, tl_para_list
 
     # para_list_output_group
-    def prepare_tab_bi_list(self, ui, info_collector,temp_list,opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
-        sl_para_list=[]
-        tl_para_list=[]
+    def prepare_tab_bi_list(self, ui, sl_para_list, tl_para_list,info_collector,temp_list,opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
         # 路径：有行号(无标题|有标题)|无行号(无标题|有标题)
         # 按总列数组织临时列表[[列0],[列1]...]
+        print("源语：",sc_lg," 目标语：",tg_lg)
         for num in range(col_max):
             sep_list = [item.split('\t')[num].replace("ZZZZZ.", "") for item in para_list]
             temp_list.append(sep_list)
@@ -456,6 +456,7 @@ class ListPreparer:
             if tmp_sl_title:
                 ui._ss_book_titleBox.setText(tmp_sl_title)
                 ui._ss_book_authorBox.setText(tmp_sl_author)
+                ui._ss_book_languageBox.setText(sc_lg)
                 ui._ss_book_dateBox.setText(tmp_sl_date)
                 ui._ss_book_genreBox.setText('')
                 print_sl_para_list = []
@@ -471,6 +472,7 @@ class ListPreparer:
                 sl_text = sl_text.replace('ZZZZZ.', '')
                 ui._ss_book_contentsBox.setText(sl_text)
                 ui._tt_book_titleBox.setText(tmp_tl_title)
+                ui._tt_book_languageBox.setText(tg_lg)
                 ui._tt_book_authorBox.setText(tmp_tl_author)
                 ui._tt_book_translatorBox.setText(tmp_tl_translator)
                 ui._tt_book_dateBox.setText(tmp_tl_date)
@@ -589,6 +591,7 @@ class ListPreparer:
                 ui._ss_book_titleBox.setText(tmp_sl_title)
                 ui._ss_book_authorBox.setText(tmp_sl_author)
                 ui._ss_book_dateBox.setText(tmp_sl_date)
+                ui._ss_book_languageBox.setText(sc_lg)
                 ui._ss_book_genreBox.setText('')
                 print_sl_para_list = []
                 if marker_chapter == 1:
@@ -601,6 +604,7 @@ class ListPreparer:
                 ui._ss_book_contentsBox.setText(sl_text)
                 ui._tt_book_titleBox.setText(tmp_tl_title)
                 ui._tt_book_authorBox.setText(tmp_tl_author)
+                ui._tt_book_languageBox.setText(tg_lg)
                 ui._tt_book_translatorBox.setText(tmp_tl_translator)
                 ui._tt_book_dateBox.setText(tmp_tl_date)
                 ui._tt_book_genreBox.setText('')

@@ -421,7 +421,7 @@ class UIMainWindow(QMainWindow):
             self._file_tab_mark_box.setChecked(False)
             self._file_table_mark_box.setChecked(False)
             self._file_type_box.setCurrentIndex(0)
-            if self._file_pos_box.currentIndex() in [0,1,4]:
+            if self._file_pos_box.currentIndex() in [0,2]:
                 pass
             else:
                 self._file_pos_box.setCurrentIndex(0)
@@ -516,14 +516,14 @@ class UIMainWindow(QMainWindow):
             self._file_bind_box.setCurrentIndex(0)
             self._file_num_box.setEnabled(False)
         elif text == self.fc_dict["l_r"][self.fc_lg]:
-            self._file_bind_box.setCurrentIndex(1)
+            self._file_bind_box.setCurrentIndex(0)
             self._file_num_box.setEnabled(False)
             self._file_tab_mark_box.setChecked(True)
             self._file_cuc_mark_box.setChecked(False)
         elif text == self.fc_dict["bi-sep"][self.fc_lg]:
             #self._file_portion_box.setValue(0)
             if self._file_bind_box.currentText()  != self.fc_dict["bind_mul"][self.fc_lg]:
-                self._file_bind_box.setCurrentIndex(0)
+                self._file_bind_box.setCurrentIndex(1)
                 self._file_num_box.setEnabled(True)
                 self._file_num_box.setMinimum(2)
             else:pass
@@ -534,7 +534,7 @@ class UIMainWindow(QMainWindow):
         file_suffix = text
         if file_suffix == "xlsx":
             self._file_num_mark_box.setChecked(True)
-            self._file_pos_box.setCurrentIndex(2)
+            self._file_pos_box.setCurrentIndex(1)
             self._file_table_mark_box.setChecked(True)
             self._file_tab_mark_box.setChecked(True)
         elif file_suffix == 'txt':

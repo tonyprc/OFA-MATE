@@ -56,6 +56,7 @@ class MainWindow:
         self.tl = 'zh'
         self._opt_dict = {}
         self._temp_list = []
+        self._temp_tl_list = []
         self._file_suffix = ""
 
         self._current_file = ''
@@ -188,7 +189,7 @@ class MainWindow:
                 else:
                     self._ui._set_status_text(self.fc_dict["warning_read_fail_unknown"][self.fc_lg])
             elif target_file.endswith('xlsx'):
-                self._ui._file_pos_box.setCurrentIndex(2)
+                self._ui._file_pos_box.setCurrentIndex(1)
                 self._opt_dict['lang_pos'] = self.fc_dict['l_r'][self.fc_lg]
                 self._ui._file_table_mark_box.setChecked(True)
                 self._opt_dict['marker_table'] = 1
@@ -292,6 +293,7 @@ class MainWindow:
                 pass
         else:
             pass
+        return self._current_sl_para_list, self._current_tl_para_list
 
     # file_open_group
     def reload_file(self):
@@ -382,6 +384,7 @@ class MainWindow:
                 if '\u4e00' <= word <= '\u9fa5' or '\u3400' <= word <= '\u4DB5':
                     target_lang = 'zh'
                     break
+        print(text,target_lang)
         return target_lang
     # opt_organizer_group
     def detect_lang_swap(self, sent_list):
@@ -405,12 +408,22 @@ class MainWindow:
             sl_check_list = list(
                 map(lambda x: eval(sl_num_list[x]) - eval(sl_num_list[x - 1]), range(1, len(sl_num_list))))
             lang_gap = sl_check_list[0] - 1
+        elif num_lang_dict['0'] == 'num' and num_lang_dict['1'] == 'zh' and num_lang_dict['1'] == 'en' :
+            self.sl = 'zh'
+            self.tl = 'en'
+            lang_status = self.fc_dict["l_r"][self.fc_lg]
+            lang_gap = 1
+        elif num_lang_dict['0'] == 'num' and num_lang_dict['1'] == 'en' and num_lang_dict['1'] == 'zh' :
+            self.sl = 'en'
+            self.tl = 'zh'
+            lang_status = self.fc_dict["l_r"][self.fc_lg]
+            lang_gap = 1
         else:
             self.sl = 'en'
             self.tl = 'zh'
             lang_status = self.fc_dict["bi-sep"][self.fc_lg]
             lang_gap = 0
-        return lang_status, lang_gap
+        return lang_status, lang_gap, self.sl, self.tl
 
     # opt_organizer_group
     def file_evaluator(self, para_list):
@@ -419,6 +432,16 @@ class MainWindow:
             self._ui._set_status_text(self.fc_dict["warning_read_fail_unknown"][self.fc_lg])
         else:
             tab_test = para_list[0].split('\t')
+            for text in tab_test:
+                tg = self.detect_lang(text)
+                if tg != 'num':
+                    self.sl = tg
+                    break
+            if self.sl == 'zh':
+                self.tl = 'en'
+            else:
+                self.sl = 'en'
+                self.tl = 'zh'
             if len(tab_test) == 1:
                 col_max = 1
                 marker_id_status = 0
@@ -429,27 +452,24 @@ class MainWindow:
                 self._opt_dict['marker_chapt'] = 0
                 self._ui._file_tab_mark_box.setChecked(False)
                 self._opt_dict['marker_tab'] = 0
-                lang_status, lang_gap = self.detect_lang_swap(para_list)
+                lang_status, lang_gap, self.sl, self.tl = self.detect_lang_swap(para_list)
                 self._ui._file_portion_box.setValue(lang_gap)
                 self._opt_dict['lang_cols'] = lang_gap
-                if lang_status in [self.fc_dict['u_d'][self.fc_lg], self.fc_dict['l_r'][self.fc_lg], self.fc_dict["bi-sep"][self.fc_lg]]:
+                pos_index = lang_status_dict[lang_status]
+                self._ui._file_pos_box.setCurrentIndex(pos_index)
+                self._opt_dict['lang_pos'] = lang_status
+                if lang_status == self.fc_dict['u_d'][self.fc_lg]:
+                    self._opt_dict['lang_rows'] = int(self._ui._file_portion_box.value()) + 1
+                    self._opt_dict['lang_cols'] = 1
+                elif lang_status == self.fc_dict['l_r'][self.fc_lg]:
+                    self._opt_dict['lang_rows'] = 1
+                    self._opt_dict['lang_cols'] = int(self._ui._file_portion_box.value())
+                elif lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
+                    self._opt_dict['lang_rows'] = 1
+                    self._opt_dict['lang_cols'] = 0
+                else:
                     pos_index = lang_status_dict[lang_status]
                     self._ui._file_pos_box.setCurrentIndex(pos_index)
-                    self._opt_dict['lang_pos'] = lang_status
-                    if lang_status == self.fc_dict['u_d'][self.fc_lg]:
-                        self._opt_dict['lang_rows'] = int(self._ui._file_portion_box.value()) + 1
-                        self._opt_dict['lang_cols'] = 1
-                    elif lang_status == self.fc_dict['l_r'][self.fc_lg]:
-                        self._opt_dict['lang_rows'] = 1
-                        self._opt_dict['lang_cols'] = int(self._ui._file_portion_box.value())
-                    elif lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
-                        self._opt_dict['lang_rows'] = 1
-                        self._opt_dict['lang_cols'] = 0
-                    else:
-                        pos_index = lang_status_dict[lang_status]
-                        self._ui._file_pos_box.setCurrentIndex(pos_index)
-                else:
-                    pass
             elif len(tab_test) >= 2:
                 lang_status = self.fc_dict["l_r"][self.fc_lg]
                 col_max = len(tab_test)
@@ -480,7 +500,9 @@ class MainWindow:
                 col_names = [x for x in lang_seq_dict.keys()]
                 col_name_string = ":".join(col_names)
                 if self.sl in lang_seq_dict.keys() and self.tl in lang_seq_dict.keys():
+                    lang_status = self.fc_dict['l_r'][self.fc_lg]
                     if lang_seq_dict[self.sl] < lang_seq_dict[self.tl]:
+                        lang_status = self.fc_dict['l_r'][self.fc_lg]
                         if count_col_sl == 1:
                             lang_gap = count_col_tl
                             self._ui._file_portion_box.setValue(lang_gap)
@@ -518,7 +540,7 @@ class MainWindow:
                     col_id = lang_seq_dict[self.sl]
                     for item in tab_list:
                         col_sent_list.append(item[col_id])
-                    lang_status, lang_gap = self.detect_lang_swap(col_sent_list)
+                    lang_status, lang_gap, self.sl, self.tl = self.detect_lang_swap(col_sent_list)
                     self._ui._file_portion_box.setValue(lang_gap)
                     self._opt_dict['lang_cols'] = lang_gap
                     if lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
@@ -529,6 +551,7 @@ class MainWindow:
                         self._opt_dict['lang_cols'] = 1
 
                 elif self.tl in lang_seq_dict.keys():
+                    lang_status = self.fc_dict['bi-sep'][self.fc_lg]
                     if count_col_sl == 1:
                         title = self.fc_dict["title_no"][self.fc_lg]
                     else:
@@ -537,7 +560,7 @@ class MainWindow:
                     col_id = lang_seq_dict[self.tl]
                     for item in tab_list:
                         col_sent_list.append(item[col_id])
-                    lang_status, lang_gap = self.detect_lang_swap(col_sent_list)
+                    lang_status, lang_gap, self.sl, self.tl = self.detect_lang_swap(col_sent_list)
                     self._ui._file_portion_box.setValue(lang_gap)
                     self._opt_dict['lang_cols'] = lang_gap
                     if lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
@@ -588,7 +611,7 @@ class MainWindow:
             if col_max >= 1:
                 if file_pos == self.fc_dict['u_d'][self.fc_lg]:
                     col_max = self._opt_dict['marker_id'] + self._opt_dict['marker_chapt'] + self._opt_dict['lang_cols']                    
-                    self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_return_bi_list(self._ui, self._info_collector, self._temp_list,self._opt_dict, self.sl,self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
+                    self._list_preparer.prepare_return_bi_list(self._ui, self._current_sl_para_list, self._current_tl_para_list, self._info_collector, self._temp_list,self._opt_dict, self.sl,self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
                 elif file_pos == self.fc_dict['l_r'][self.fc_lg] and col_max >= 2:
                     if self._opt_dict['marker_chapt'] == 0:
                         col_max = self._opt_dict['marker_id'] + self._opt_dict['lang_cols'] + 1
@@ -596,13 +619,14 @@ class MainWindow:
                         col_max = self._opt_dict['marker_id'] + (self._opt_dict['lang_cols'] + 1) * 2
                     else:
                         col_max = 0
-                    self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_tab_bi_list(self._ui, self._info_collector, self._temp_list,self._opt_dict, self.sl, self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
+                    self._list_preparer.prepare_tab_bi_list(self._ui, self._current_sl_para_list, self._current_tl_para_list,self._info_collector, self._temp_list,self._opt_dict, self.sl, self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
                 elif file_pos == self.fc_dict["bi-sep"][self.fc_lg]:
                     pass
                 else:
                     self._ui._set_status_text(self.fc_dict["warning_read_fail_unknown"][self.fc_lg])
             else:
                 pass
+            return self._current_sl_para_list, self._current_tl_para_list
 
     # opt_organizer_group
     def opt_checker(self):
@@ -666,7 +690,8 @@ class MainWindow:
             self._current_dict_key = re.sub(r'\s+', '', self._current_dict_key)
             author = self._ui._ss_book_authorBox.text()
             translator = ''
-            language = self._ui._ss_book_languageBox.text()
+            #language = self._ui._ss_book_languageBox.text()
+            language = self.sl
             date = self._ui._ss_book_dateBox.text()
             genre = self._ui._ss_book_genreBox.text()
             version = self._ui._ss_book_versionBox.text()
@@ -764,7 +789,8 @@ class MainWindow:
             title = self._ui._tt_book_titleBox.text()
             author = self._ui._tt_book_authorBox.text()
             translator = self._ui._tt_book_translatorBox.text()
-            language = self._ui._tt_book_languageBox.text()
+            #language = self._ui._tt_book_languageBox.text()
+            language = self.tl
             date = self._ui._tt_book_dateBox.text()
             genre = self._ui._tt_book_genreBox.text()
             version = self._ui._tt_book_versionBox.text()
@@ -772,17 +798,17 @@ class MainWindow:
             book_id = title
             chapter = title.strip()
             tl_vn = int(version.replace("t", ""))
+            #version_count = len(self._current_tl_para_list)
             version_count = len(self._current_tl_para_list)
-            current_tl_text_list = self._current_tl_para_list[tl_vn - 1]
+            #current_tl_text_list = self._current_tl_para_list[tl_vn - 1]
 
             if tl_vn < version_count:
                 self._ui._tt_book_nextButton.setEnabled(True)
             else:
                 self._ui._tt_book_nextButton.setEnabled(False)
                 self._ui._tt_book_uploadButton.setEnabled(False)
-
+            current_tl_text_list = self._current_tl_para_list[tl_vn - 1]
             line_sample = current_tl_text_list[0]
-
             # 列表内容如果是元组：
             if isinstance(line_sample, tuple) == True:
                 # 统计元组元素个数用len方法
