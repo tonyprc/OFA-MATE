@@ -133,7 +133,6 @@ class ListPreparer:
 
     # para_list_output_group
     def prepare_return_bi_list(self, ui, sl_para_list, tl_para_list, info_collector,temp_list, opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
-        print("源语r：", sc_lg, " 目标语：", tg_lg)
         for num in range(row_max):
             sep_list = [item for item in para_list[num::row_max]]
             temp_list.append(sep_list)
@@ -343,7 +342,6 @@ class ListPreparer:
     def prepare_tab_bi_list(self, ui, sl_para_list, tl_para_list,info_collector,temp_list,opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
         # 路径：有行号(无标题|有标题)|无行号(无标题|有标题)
         # 按总列数组织临时列表[[列0],[列1]...]
-        print("源语：",sc_lg," 目标语：",tg_lg)
         for num in range(col_max):
             sep_list = [item.split('\t')[num].replace("ZZZZZ.", "") for item in para_list]
             temp_list.append(sep_list)

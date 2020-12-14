@@ -384,7 +384,6 @@ class MainWindow:
                 if '\u4e00' <= word <= '\u9fa5' or '\u3400' <= word <= '\u4DB5':
                     target_lang = 'zh'
                     break
-        print(text,target_lang)
         return target_lang
     # opt_organizer_group
     def detect_lang_swap(self, sent_list):
