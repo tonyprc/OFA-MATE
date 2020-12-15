@@ -25,6 +25,7 @@ from ofa_mate.ui.ui_main_window import UIMainWindow
 from ofa_mate.core.info_collector import InfoCollector
 from ofa_mate.core.chapter_filler import ChapterFiller
 from ofa_mate.core.list_preparer import ListPreparer
+from ofa_mate.core.lang_detector import LangDetector
 
 class MainWindow:
     def __init__(self):
@@ -36,21 +37,23 @@ class MainWindow:
         self._interface_lang_dict = os.path.join(workFileDir,'interface_language_dict.json')
         self.fc_lg, self.fc_dict = self.set_lang()
 
+
         # recieve signals
         self._ui = UIMainWindow()
         self._ui.open_file.connect(self.open_file)
         self._ui.reload_file.connect(self.reload_file)        
         self._ui.load_next_version.connect(self.load_next_version)
         self._ui.write_to_json.connect(self.write_to_json)
-        self._ui.json_sl_filler.connect(self.json_sl_filler)
-        self._ui.json_tl_filler.connect(self.json_tl_filler)
+        self._ui.json_sl_filler.connect(self.json_sl_submitter)
+        self._ui.json_tl_filler.connect(self.json_tl_submitter)
         self._ui.json_sl_refiller.connect(self.json_sl_refiller)
         self._ui.json_tl_refiller.connect(self.json_tl_refiller)
 
         self._info_collector = InfoCollector()
         self._chapter_maker = ChapterFiller()
         self._list_preparer = ListPreparer()
-     
+        self._lg_detect = LangDetector()
+
         # data preparation
         self.sl = "en"
         self.tl = 'zh'
@@ -258,17 +261,6 @@ class MainWindow:
                                     pass
                             para_list = text.split('\n')
                             sl_para_list.extend([sent.strip().replace('ZZZZZ.', "") for sent in para_list])
-                        elif 'EN' in file:
-                            with open(file, 'rt', encoding = 'utf-8-sig') as f:
-                                text = f.read()
-                                if "<seg" in text:
-                                    self._ui._file_cuc_mark_box.setChecked(True)
-                                    self._opt_dict['marker_seg'] = 1
-                                    text = re.sub(r'<seg.*"(\d+)"?>(.*)?</seg>', '\g<1>\t\g<2>', text)
-                                else:
-                                    pass
-                            para_list = text.split('\n')
-                            sl_para_list.extend([sent.strip().replace('ZZZZZ.', "") for sent in para_list])
                         else:
                             with open(file, 'rt', encoding = 'utf-8-sig') as f:
                                 text = f.read()
@@ -285,7 +277,7 @@ class MainWindow:
                     if sl_para_list:
                         lang_status = self._opt_dict['lang_pos']
                         self.file_evaluator(sl_para_list)
-                        self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_seperate_bi_list(self._ui, self._info_collector, self._opt_dict, self.sl, self.tl, sl_para_list, tl_para_list)
+                        self._current_sl_para_list, self._current_tl_para_list = self._list_preparer.prepare_seperate_bi_list(self._ui, self._opt_dict, self.sl, self.tl, sl_para_list, tl_para_list)
                     else:
                         self._current_file_list.clear()
                         self._ui._set_status_text(self.fc_dict["warning_naming_error_mul"][self.fc_lg])
@@ -373,58 +365,7 @@ class MainWindow:
                 self._ui._set_status_text(self.fc_dict["warning_naming_error"][self.fc_lg])
         else:
             pass
-
-    # opt_organizer_group
-    def detect_lang(self, text):
-        target_lang = 'en'
-        if text[0].isdigit():
-            target_lang = 'num'
-        else:
-            for word in text:
-                if '\u4e00' <= word <= '\u9fa5' or '\u3400' <= word <= '\u4DB5':
-                    target_lang = 'zh'
-                    break
-        return target_lang
-    # opt_organizer_group
-    def detect_lang_swap(self, sent_list):
-        num_lang_dict = {}
-        for i, x in enumerate(sent_list[:10]):
-            lang = self.detect_lang(x)
-            num_lang_dict[str(i)] = lang
-        if num_lang_dict['0'] == 'en' and num_lang_dict['1'] == 'zh':
-            self.sl = 'en'
-            self.tl = 'zh'
-            lang_status = self.fc_dict['u_d'][self.fc_lg]
-            sl_num_list = [i for i, y in num_lang_dict.items() if y == 'en']
-            sl_check_list = list(
-                map(lambda x: eval(sl_num_list[x]) - eval(sl_num_list[x - 1]), range(1, len(sl_num_list))))
-            lang_gap = sl_check_list[0] - 1
-        elif num_lang_dict['0'] == 'zh' and num_lang_dict['1'] == 'en':
-            self.sl = 'zh'
-            self.tl = 'en'
-            lang_status = self.fc_dict['u_d'][self.fc_lg]
-            sl_num_list = [i for i, y in num_lang_dict.items() if y == 'zh']
-            sl_check_list = list(
-                map(lambda x: eval(sl_num_list[x]) - eval(sl_num_list[x - 1]), range(1, len(sl_num_list))))
-            lang_gap = sl_check_list[0] - 1
-        elif num_lang_dict['0'] == 'num' and num_lang_dict['1'] == 'zh' and num_lang_dict['1'] == 'en' :
-            self.sl = 'zh'
-            self.tl = 'en'
-            lang_status = self.fc_dict["l_r"][self.fc_lg]
-            lang_gap = 1
-        elif num_lang_dict['0'] == 'num' and num_lang_dict['1'] == 'en' and num_lang_dict['1'] == 'zh' :
-            self.sl = 'en'
-            self.tl = 'zh'
-            lang_status = self.fc_dict["l_r"][self.fc_lg]
-            lang_gap = 1
-        else:
-            self.sl = 'en'
-            self.tl = 'zh'
-            lang_status = self.fc_dict["bi-sep"][self.fc_lg]
-            lang_gap = 0
-        return lang_status, lang_gap, self.sl, self.tl
-
-    # opt_organizer_group
+        # opt_organizer_group
     def file_evaluator(self, para_list):
         lang_status_dict = {self.fc_dict['u_d'][self.fc_lg]: 0, self.fc_dict['l_r'][self.fc_lg]: 1, self.fc_dict["bi-sep"][self.fc_lg]: 2}
         if para_list == []:
@@ -432,7 +373,7 @@ class MainWindow:
         else:
             tab_test = para_list[0].split('\t')
             for text in tab_test:
-                tg = self.detect_lang(text)
+                tg = self._lg_detect.detect_lang(text)
                 if tg != 'num':
                     self.sl = tg
                     break
@@ -451,7 +392,7 @@ class MainWindow:
                 self._opt_dict['marker_chapt'] = 0
                 self._ui._file_tab_mark_box.setChecked(False)
                 self._opt_dict['marker_tab'] = 0
-                lang_status, lang_gap, self.sl, self.tl = self.detect_lang_swap(para_list)
+                lang_status, lang_gap, self.sl, self.tl = self._lg_detect.detect_lang_swap(self.fc_dict, self.fc_lg, para_list)
                 self._ui._file_portion_box.setValue(lang_gap)
                 self._opt_dict['lang_cols'] = lang_gap
                 pos_index = lang_status_dict[lang_status]
@@ -490,7 +431,7 @@ class MainWindow:
                 lang_seq_dict = {}
                 lang_seq_list = []
                 for i in range(colum_max):
-                    target_lang = self.detect_lang(tab_list[0][i])
+                    target_lang = self._lg_detect.detect_lang(tab_list[0][i])
                     lang_seq_dict[target_lang] = i
                     lang_seq_list.append(target_lang)
                 count_col_num = lang_seq_list.count('num')
@@ -539,7 +480,7 @@ class MainWindow:
                     col_id = lang_seq_dict[self.sl]
                     for item in tab_list:
                         col_sent_list.append(item[col_id])
-                    lang_status, lang_gap, self.sl, self.tl = self.detect_lang_swap(col_sent_list)
+                    lang_status, lang_gap, self.sl, self.tl = self._lg_detect.detect_lang_swap(self.fc_dict, self.fc_lg, col_sent_list)
                     self._ui._file_portion_box.setValue(lang_gap)
                     self._opt_dict['lang_cols'] = lang_gap
                     if lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
@@ -559,7 +500,7 @@ class MainWindow:
                     col_id = lang_seq_dict[self.tl]
                     for item in tab_list:
                         col_sent_list.append(item[col_id])
-                    lang_status, lang_gap, self.sl, self.tl = self.detect_lang_swap(col_sent_list)
+                    lang_status, lang_gap, self.sl, self.tl = self._lg_detect.detect_lang_swap(self.fc_dict, self.fc_lg, col_sent_list)
                     self._ui._file_portion_box.setValue(lang_gap)
                     self._opt_dict['lang_cols'] = lang_gap
                     if lang_status == self.fc_dict["bi-sep"][self.fc_lg]:
@@ -610,7 +551,7 @@ class MainWindow:
             if col_max >= 1:
                 if file_pos == self.fc_dict['u_d'][self.fc_lg]:
                     col_max = self._opt_dict['marker_id'] + self._opt_dict['marker_chapt'] + self._opt_dict['lang_cols']                    
-                    self._list_preparer.prepare_return_bi_list(self._ui, self._current_sl_para_list, self._current_tl_para_list, self._info_collector, self._temp_list,self._opt_dict, self.sl,self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
+                    self._list_preparer.prepare_return_bi_list(self._ui, self._current_sl_para_list, self._current_tl_para_list, self._temp_list,self._opt_dict, self.sl,self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
                 elif file_pos == self.fc_dict['l_r'][self.fc_lg] and col_max >= 2:
                     if self._opt_dict['marker_chapt'] == 0:
                         col_max = self._opt_dict['marker_id'] + self._opt_dict['lang_cols'] + 1
@@ -618,14 +559,14 @@ class MainWindow:
                         col_max = self._opt_dict['marker_id'] + (self._opt_dict['lang_cols'] + 1) * 2
                     else:
                         col_max = 0
-                    self._list_preparer.prepare_tab_bi_list(self._ui, self._current_sl_para_list, self._current_tl_para_list,self._info_collector, self._temp_list,self._opt_dict, self.sl, self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
+                    self._list_preparer.prepare_tab_bi_list(self._ui, self._current_sl_para_list, self._current_tl_para_list, self._temp_list,self._opt_dict, self.sl, self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
                 elif file_pos == self.fc_dict["bi-sep"][self.fc_lg]:
                     pass
                 else:
                     self._ui._set_status_text(self.fc_dict["warning_read_fail_unknown"][self.fc_lg])
             else:
                 pass
-            return self._current_sl_para_list, self._current_tl_para_list
+            return self.sl,self.tl,self._current_sl_para_list, self._current_tl_para_list
 
     # opt_organizer_group
     def opt_checker(self):
@@ -668,7 +609,7 @@ class MainWindow:
         return file_dict
 
     # auto_filler_group
-    def json_sl_filler(self):
+    def json_sl_submitter(self):
         self._current_sl_chapter_num_list.clear()
         alert_msg = []
         if self._ui._file_openBox.text() == "":
@@ -689,8 +630,7 @@ class MainWindow:
             self._current_dict_key = re.sub(r'\s+', '', self._current_dict_key)
             author = self._ui._ss_book_authorBox.text()
             translator = ''
-            #language = self._ui._ss_book_languageBox.text()
-            language = self.sl
+            language = self._ui._ss_book_languageBox.text()
             date = self._ui._ss_book_dateBox.text()
             genre = self._ui._ss_book_genreBox.text()
             version = self._ui._ss_book_versionBox.text()
@@ -770,7 +710,7 @@ class MainWindow:
         return self._current_dict_key, self._current_sl_dict_version, self._current_sl_chapter_num_list
 
     # auto_filler_group
-    def json_tl_filler(self):
+    def json_tl_submitter(self):
         alert_msg = []
         if self._ui._file_openBox.text() == "":
             alert_msg.append(self.fc_dict["content"][self.fc_lg])
@@ -789,7 +729,7 @@ class MainWindow:
             author = self._ui._tt_book_authorBox.text()
             translator = self._ui._tt_book_translatorBox.text()
             #language = self._ui._tt_book_languageBox.text()
-            language = self.tl
+            language = self._ui._tt_book_languageBox.text()
             date = self._ui._tt_book_dateBox.text()
             genre = self._ui._tt_book_genreBox.text()
             version = self._ui._tt_book_versionBox.text()
@@ -799,14 +739,13 @@ class MainWindow:
             tl_vn = int(version.replace("t", ""))
             #version_count = len(self._current_tl_para_list)
             version_count = len(self._current_tl_para_list)
-            #current_tl_text_list = self._current_tl_para_list[tl_vn - 1]
-
+            current_tl_text_list = self._current_tl_para_list[tl_vn - 1]
             if tl_vn < version_count:
                 self._ui._tt_book_nextButton.setEnabled(True)
             else:
                 self._ui._tt_book_nextButton.setEnabled(False)
                 self._ui._tt_book_uploadButton.setEnabled(False)
-            current_tl_text_list = self._current_tl_para_list[tl_vn - 1]
+
             line_sample = current_tl_text_list[0]
             # 列表内容如果是元组：
             if isinstance(line_sample, tuple) == True:
@@ -881,6 +820,7 @@ class MainWindow:
                                zip(temp_num_list, temp_sent_list, temp_chapter_list)]
                 tl_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, sent, chapter in
                                      zip(temp_num_list, temp_sent_list, temp_chapter_list)]
+
             self._ui._tt_book_contentsBox.clear()
             self._ui._tt_book_contentsBox.setText("\n".join(tl_contents_shown))
             tl_bookDict = {}
@@ -897,15 +837,44 @@ class MainWindow:
                 para = line[1]
                 chapt = line[2]
                 tl_bookDict['content'][num] = para + '\t' + chapt
-            self._tl_bookDict_list.append(tl_bookDict)
+            #self._tl_bookDict_list.append(tl_bookDict)
             self._ui._tt_book_redoButton.setEnabled(True)
             self._ui._tt_book_uploadButton.setEnabled(False)
-            self._ui._prompt_4 = self.fc_dict["corp_tl"][self.fc_lg] + f"{self._current_tl_dict_version}" + self.fc_dict["pmt_4a_start"][self.fc_lg] + "\n" + self.fc_dict["pmt_4a_a"][self.fc_lg]
-            self._ui._prompt_4b = self.fc_dict["corp_tl"][self.fc_lg] + f"{self._current_tl_dict_version}" + self.fc_dict["pmt_4b_start"][self.fc_lg] + "\n" + self.fc_dict["pmt_4b_a"][self.fc_lg]
+            self._ui._prompt_4 = self.fc_dict["corp_tl"][self.fc_lg] + f"{self._current_tl_dict_version}" + \
+                                     self.fc_dict["pmt_4a_start"][self.fc_lg] + "\n" + self.fc_dict["pmt_4a_a"][
+                                         self.fc_lg]
+            self._ui._prompt_4b = self.fc_dict["corp_tl"][self.fc_lg] + f"{self._current_tl_dict_version}" + \
+                                      self.fc_dict["pmt_4b_start"][self.fc_lg] + "\n" + self.fc_dict["pmt_4b_a"][
+                                          self.fc_lg]
             if self._ui._tt_book_nextButton.isEnabled() == False:
                 self._ui._promptBox.setText(self._ui._prompt_4)
             else:
                 self._ui._promptBox.setText(self._ui._prompt_4b)
+
+        return self._current_tl_dict_version
+
+    def json_tl_vn_loader(self):
+        title = self._ui._tt_book_titleBox.text()
+        author = self._ui._tt_book_authorBox.text()
+        translator = self._ui._tt_book_translatorBox.text()
+        language = self._ui._tt_book_languageBox.text()
+        date = self._ui._tt_book_dateBox.text()
+        genre = self._ui._tt_book_genreBox.text()
+        version = self._ui._tt_book_versionBox.text()
+        self._current_tl_dict_version = version
+        book_id = title
+        chapter = title.strip()
+        tl_vn = int(version.replace("t", ""))
+        version_count = len(self._current_tl_para_list)
+        current_tl_text_list = self._current_tl_para_list[tl_vn - 1]
+        if tl_vn < version_count:
+            self._ui._tt_book_nextButton.setEnabled(True)
+        else:
+            self._ui._tt_book_nextButton.setEnabled(False)
+            self._ui._tt_book_uploadButton.setEnabled(False)
+
+        self._ui._tt_book_contentsBox.clear()
+        self._ui._tt_book_contentsBox.setText("\n".join(current_tl_text_list))
 
         return self._current_tl_dict_version
 
@@ -999,13 +968,23 @@ class MainWindow:
             next_num = ""
         if next_num:
             self._ui._tt_book_versionBox.setText(f't{next_num}')
-            self.json_tl_filler()
+            self.json_tl_vn_loader()
             temp_text = self._ui._tt_book_contentsBox.toPlainText()
             temp_text = temp_text.split('\n')
-            temp_lines = [item.split('¦')[1] for item in temp_text[:3]]
+            temp_lines = [item.split('\t')[1] for item in temp_text[:3]]
+            self.sl = self._ui._ss_book_languageBox.text()
+            self.tl = self._ui._tt_book_languageBox.text()
+            if self.tl == "zh":
+                tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(self.sl,self.tl,temp_lines)
+            else:
+                tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(
+                    self.sl, self.tl, temp_lines)
             try:
-                tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(temp_lines)
+                self._ui._tt_book_titleBox.setText(tmp_tl_title)
                 self._ui._tt_book_translatorBox.setText(tmp_tl_translator)
+                if tmp_tl_author:
+                    self._ui._tt_book_authorBox.setText(tmp_tl_author)
+                else: pass
                 self._ui._tt_book_dateBox.setText(tmp_tl_date)
                 self._ui._prompt_4a = self.fc_dict["pmt_4c_start"][self.fc_lg]+f"t{next_num}， "+self.fc_dict["pmt_4c_a"][self.fc_lg]
                 self._ui._promptBox.setText(self._ui._prompt_4a)
@@ -1050,6 +1029,8 @@ class MainWindow:
     # data_save_group
     def write_to_json(self):
         if self._sl_bookDict and self._tl_bookDict_list:
+            self.sl = self._sl_bookDict['language']
+            self.tl = self._tl_bookDict_list[0]['language']
             mydict = {}
             book_id = self._current_dict_key
             if book_id:

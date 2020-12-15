@@ -63,7 +63,6 @@ class ChapterFiller:
             else:
                 if sent[-1] in punc_filter_list:
                    result = 'off'
-                   #print("no for ending punc:",sent)
                 elif sent.isdigit():
                     result = 'on'
                 elif wd in digit_en_dict.keys():
@@ -132,14 +131,11 @@ class ChapterFiller:
                 else:
                     new_sent_list.append(para)
                     new_chapter_list.append(chapter_id)
-                
-        #print('chapter added and out')
               
         return new_sent_list, new_chapter_list, sl_chpt_num_list
 
         #auto_filler_group
     def swap_chapter(self, tl_num_sent_list, sl_chapt_num_list):
-        #print("start swap chapter")
         #必须核实num类型是否为数字类型。
         chapter_list = []
         for num,sent in tl_num_sent_list:
