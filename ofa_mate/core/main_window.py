@@ -50,9 +50,9 @@ class MainWindow:
         self._ui.json_tl_refiller.connect(self.json_tl_refiller)
 
         self._info_collector = InfoCollector()
-        self._chapter_maker = ChapterFiller()
         self._list_preparer = ListPreparer()
         self._lg_detect = LangDetector()
+        self._chapter_maker = ChapterFiller()
 
         # data preparation
         self.sl = "en"
@@ -631,6 +631,9 @@ class MainWindow:
             author = self._ui._ss_book_authorBox.text()
             translator = ''
             language = self._ui._ss_book_languageBox.text()
+            self.sl = language
+            if self.sl == 'zh':
+                self.tl == 'en'
             date = self._ui._ss_book_dateBox.text()
             genre = self._ui._ss_book_genreBox.text()
             version = self._ui._ss_book_versionBox.text()
@@ -659,7 +662,7 @@ class MainWindow:
                 temp_chapter_list = [sent.split('\t')[2] for sent in current_sl_text_list]
 
             if temp_num_list == [] and temp_chapter_list == []:
-                new_sent_list, new_chapter_list, sl_chpt_num_list = self._chapter_maker.add_chapter(temp_sent_list)
+                new_sent_list, new_chapter_list, sl_chpt_num_list = self._chapter_maker.add_chapter(self.sl,self.tl,temp_sent_list)
                 sl_contents = [str(num) + "\t" + para + "\t" + chapter for num, (para, chapter) in
                                enumerate(zip(new_sent_list, new_chapter_list), start = 1)]
                 sl_contents_shown = [str(num) + " ¦ " + para + ' ¦ ' + chapter for num, (para, chapter) in
@@ -672,7 +675,7 @@ class MainWindow:
                                      enumerate(zip(temp_sent_list, temp_chapter_list), start = 1)]
                 self._current_sl_chapter_num_list = []
             elif temp_chapter_list == []:
-                new_sent_list, new_chapter_list, sl_chpt_num_list = self._chapter_maker.add_chapter(temp_sent_list)
+                new_sent_list, new_chapter_list, sl_chpt_num_list = self._chapter_maker.add_chapter(self.sl,self.tl,temp_sent_list)
                 sl_contents = [str(num) + '\t' + sent + '\t' + chapter for num, sent, chapter in
                                zip(temp_num_list, new_sent_list, new_chapter_list)]
                 sl_contents_shown = [str(num) + " ¦ " + sent + ' ¦ ' + chapter for num, sent, chapter in
@@ -796,7 +799,7 @@ class MainWindow:
 
             if temp_num_list == [] and temp_chapter_list == []:
                 temp_num_list = [num for num, sent in enumerate(temp_sent_list, start = 1)]
-                temp_sent_chapter_list = self.swap_chapter(zip(temp_num_list, temp_sent_list),
+                temp_sent_chapter_list = self._chapter_maker.swap_chapter(zip(temp_num_list, temp_sent_list),
                                                            self._current_sl_chapter_num_list)
                 tl_contents = [str(num) + "\t" + para + "\t" + chapter for num, (para, chapter) in
                                zip(temp_num_list, temp_sent_chapter_list)]
@@ -809,7 +812,7 @@ class MainWindow:
                                      enumerate(zip(temp_sent_list, temp_chapter_list), start = 1)]
             elif temp_chapter_list == []:
 
-                temp_sent_chapter_list = self.swap_chapter(zip(temp_num_list, temp_sent_list),
+                temp_sent_chapter_list = self._chapter_maker.swap_chapter(zip(temp_num_list, temp_sent_list),
                                                            self._current_sl_chapter_num_list)
                 tl_contents = [str(num) + '\t' + sent + '\t' + chapter for num, (sent, chapter) in
                                zip(temp_num_list, temp_sent_chapter_list)]
@@ -996,35 +999,6 @@ class MainWindow:
                 self._ui._tt_book_nextButton.setEnabled(False)
         else:
             pass
-
-    # auto_filler_group
-    def swap_chapter(self, tl_num_sent_list, sl_chapt_num_list):
-        # 必须核实num类型是否为数字类型。
-        chapter_list = []
-        for num, sent in tl_num_sent_list:
-            if isinstance(num, str):
-                num = eval(num)
-            else:
-                pass
-            if str(num - 1) in sl_chapt_num_list:
-                chapter_list.append('[T]' + sent)
-            else:
-                chapter_list.append(sent)
-        temp_id = ''
-        new_list = []
-        for para in chapter_list:
-            if para.startswith(r'[T]'):
-                if para == chapter_list[0]:
-                    # 去除标题行有可能存在的副标题
-                    para = para.split(r'（')[0].strip()
-                    para = para.split(r'——')[0].strip()
-                else:
-                    para = para.strip()
-                temp_id = para.replace('[T]', '')
-                new_list.append((para.replace('[T]', ''), temp_id))
-            else:
-                new_list.append((para.replace('[T]', ''), temp_id))
-        return new_list
 
     # data_save_group
     def write_to_json(self):

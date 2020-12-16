@@ -18,10 +18,9 @@
 
 import sys,os, re
 
-class ChapterFiller:
+class ChapterFiller():
     def __int__(self):
         pass
-
 
     def _punc_loader(self,file):
         with open(file,'r',encoding = 'utf-8-sig') as f:
@@ -37,7 +36,9 @@ class ChapterFiller:
             digit_zh_dict = {sent.split('\t')[0]:sent.split('\t')[1] for sent in sent_list}
         return digit_en_dict,digit_zh_dict
 
-    def _chapter_detector(self,sent,sent_end):
+    def _chapter_detector(self,sl,tl,sent,sent_end):
+        self._sl = sl
+        self._tl = tl
         current_dir = os.getcwd()
         data_dir = os.path.join(current_dir, 'app_data')
         punc_file = os.path.join(data_dir, 'workfiles', 'punc.dat')
@@ -48,8 +49,13 @@ class ChapterFiller:
 
         chapt_len_sure = 0
         chapt_len_unsure = 0
-        chapt_a = re.search(r'''^Section|^SECTION|^Part|^PART|^Chapter|^CHAPTER|^[ivxlcdmIIIVXLCDM]+$''',sent)
-        chapt_b = re.search(r'''[^\,\.\:\"\'\*\^\#\$\@\!~\(\)\_\-\+\ = \{\}\[\]\?\/\<\>\&\%\;\\，。：、；“”’！…—（）《》｛｝【】？]$''',sent)
+        if self._sl == 'en':
+            chapt_a = re.search(r'''^Section|^SECTION|^Part|^PART|^Chapter|^CHAPTER|^[ivxlcdmIIIVXLCDM]+$''',sent)
+            chapt_b = re.search(r'''[^\,\.\:\"\'\*\^\#\$\@\!~\(\)\_\-\+\ = \{\}\[\]\?\/\<\>\&\%\;\\，。：、；“”’！…—（）《》｛｝【】？]$''',sent)
+        else:
+            chapt_a = re.search(r'''^第|章$|部$|篇$|节$|第\w+$|章\w+$''', sent)
+            chapt_b = re.search(
+                r'''[^\,\.\:\"\'\*\^\#\$\@\!~\(\)\_\-\+\ = \{\}\[\]\?\/\<\>\&\%\;\\，。：、；“”’！…—（）《》｛｝【】？]$''', sent)
         s = sent.split()
         wd = s[0].lower()
            
@@ -84,8 +90,8 @@ class ChapterFiller:
 
         return result,sent_end
         
-    def add_chapter(self,para_list = []):
-        sent_end = ""        
+    def add_chapter(self,sl,tl,para_list = []):
+        sent_end = ""
         new_sent_list = []
         new_chapter_list = []
         sl_chpt_num_list = []
@@ -100,7 +106,8 @@ class ChapterFiller:
             new_sent_list.append(para_list[0])
             new_chapter_list.append(chapter_id)
             sl_chpt_num_list.append("0")
-            if para_list[1].startswith('by') or para_list[1].startswith('By') or para_list[1].startswith('Written'):
+            if para_list[1].startswith('by') or para_list[1].startswith('By') or para_list[1].startswith('Written') \
+                    or "著" in para_list[1] or "译" in para_list[1] or '作者' in para_list[1]:
                 m_date = re.search(r"^.*(\d+).*$",para_list[1])
                 if m_date:
                     new_sent_list.append(para_list[1])
@@ -111,7 +118,7 @@ class ChapterFiller:
                 #将默认循环起始值调整为第二行
                 i = 1
             for j, para in enumerate(para_list[i:], start = i):
-                m,sent_end = self._chapter_detector(para, sent_end)
+                m,sent_end = self._chapter_detector(sl, tl, para, sent_end)
                 if m == 'on':
                     if para == para_list[2]:
                         m = re.search(r'^To|^For', para)
