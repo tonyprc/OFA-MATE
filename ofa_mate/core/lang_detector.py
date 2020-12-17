@@ -19,6 +19,7 @@
 import sys,os, re
 
 class LangDetector:
+    '''detect SL and TL of the input text samples'''
     def __int__(self):
         pass
 

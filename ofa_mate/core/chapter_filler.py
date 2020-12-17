@@ -19,6 +19,7 @@
 import sys,os, re
 
 class ChapterFiller():
+    '''identify the chapter titles within a text and auto fill them'''
     def __int__(self):
         pass
 

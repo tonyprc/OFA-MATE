@@ -25,6 +25,7 @@ from PyQt5.QtWidgets import (QMainWindow,QGridLayout,QHBoxLayout,QVBoxLayout,QAc
                              QCheckBox,QCompleter,QAbstractItemView,QWidget,QListWidget,QTextEdit,QFileDialog)
 
 class UIMainWindow(QMainWindow):
+    '''UI Frame'''
     open_file = pyqtSignal()
     reload_file = pyqtSignal()
     json_sl_filler = pyqtSignal()

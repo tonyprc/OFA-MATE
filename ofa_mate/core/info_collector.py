@@ -19,7 +19,7 @@
 import os, re
 
 class InfoCollector:
-
+    '''collect necessary meta infos for the auto display window and the json file'''
     def __init__(self):
         self.title = ""
         self.author = ""
@@ -116,7 +116,7 @@ class InfoCollector:
                 self.translator = ""
         return self.title, self.author, self.translator, self.date
 
-    def info_collector_zh(self, para_list = []):
+    def info_collector_zh(self, sl, tl, para_list = []):
         if para_list == []:
             self.title = ""
             self.author = ""
@@ -124,6 +124,13 @@ class InfoCollector:
             self.date = ""
         else:
             # To Do: 摘译本第一行基本无数据，需要特别判断一下
+            # 确认列表内元素不再是列表
+            if isinstance(para_list[0], list):
+                para_list[0] = para_list[0][0]
+                para_list[1] = para_list[0][1]
+            else:
+                pass
+
             if "\t" in para_list[0]:
                 para_sents = para_list[0].split('\t')
                 for item in para_sents:
@@ -182,6 +189,7 @@ class InfoCollector:
             if m_translator_zh:
                 try:
                     translator = m_translator_zh.group().replace("译","")
+                    translator = translator.split('著')[-1].replace(';','')
                     translator = translator.strip()
                     if '[' in translator:
                         self.translator = '['+translator.split('[')[1]

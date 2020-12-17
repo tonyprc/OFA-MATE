@@ -28,6 +28,7 @@ from ofa_mate.core.list_preparer import ListPreparer
 from ofa_mate.core.lang_detector import LangDetector
 
 class MainWindow:
+    '''Play the role of a coordinator'''
     def __init__(self):
         currentDir = os.getcwd()
         dataDir = os.path.join(currentDir, "app_data")
@@ -98,7 +99,8 @@ class MainWindow:
                         self._opt_dict['marker_seg'] = 1
                         text = re.sub(r'<seg.*"(\d+)"?>(.*)?</seg>', '\g<1>\t\g<2>', text)
                     else:
-                        pass
+                        self._ui._file_cuc_mark_box.setChecked(False)
+                        self._opt_dict['marker_seg'] = 0
                     para_list = text.split('\n')
                 if para_list:
                     file_pos = self._opt_dict['lang_pos']
@@ -550,7 +552,6 @@ class MainWindow:
             row_max = self._opt_dict['lang_rows']
             if col_max >= 1:
                 if file_pos == self.fc_dict['u_d'][self.fc_lg]:
-                    col_max = self._opt_dict['marker_id'] + self._opt_dict['marker_chapt'] + self._opt_dict['lang_cols']                    
                     self._list_preparer.prepare_return_bi_list(self._ui, self._current_sl_para_list, self._current_tl_para_list, self._temp_list,self._opt_dict, self.sl,self.tl,marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list)
                 elif file_pos == self.fc_dict['l_r'][self.fc_lg] and col_max >= 2:
                     if self._opt_dict['marker_chapt'] == 0:
@@ -879,7 +880,7 @@ class MainWindow:
         self._ui._tt_book_contentsBox.clear()
         self._ui._tt_book_contentsBox.setText("\n".join(current_tl_text_list))
 
-        return self._current_tl_dict_version
+        return self._current_tl_dict_version, current_tl_text_list
 
     def option_reset(self):
         self.sl = 'en'
@@ -962,7 +963,7 @@ class MainWindow:
         return self._current_tl_dict_version
 
     # version_shift_group
-    def load_next_version(self):
+    def load_next_version (self):
         version_count = len(self._current_tl_para_list)
         version_num = int(self._current_tl_dict_version.replace("t", ""))
         if version_num <= version_count:
@@ -971,10 +972,16 @@ class MainWindow:
             next_num = ""
         if next_num:
             self._ui._tt_book_versionBox.setText(f't{next_num}')
-            self.json_tl_vn_loader()
-            temp_text = self._ui._tt_book_contentsBox.toPlainText()
-            temp_text = temp_text.split('\n')
-            temp_lines = [item.split('\t')[1] for item in temp_text[:3]]
+            current_tl_vn, current_tl_text = self.json_tl_vn_loader()
+            temp_text = current_tl_text
+            tab_test = temp_text[0].split('\t')
+            tab_units = len(tab_test)
+            if tab_units == 1:
+                temp_lines = temp_text[:3]
+            elif tab_units >= 2:
+                temp_lines = [item.split('\t')[1] for item in temp_text[:3]]
+            else:
+                temp_lines = []
             self.sl = self._ui._ss_book_languageBox.text()
             self.tl = self._ui._tt_book_languageBox.text()
             if self.tl == "zh":

@@ -23,6 +23,7 @@ from ofa_mate.core.info_collector import InfoCollector
 from ofa_mate.core.lang_detector import LangDetector
 
 class ListPreparer:
+    '''Prepare bi_list for display and output'''
     def __init__(self):
         currentDir = os.getcwd()
         dataDir = os.path.join(currentDir, "app_data")
@@ -84,7 +85,7 @@ class ListPreparer:
                 tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                 
                 try:
-                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                    tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg,tl_sent_list)
                 except:
                     ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                     tmp_tl_title = ''
@@ -94,7 +95,7 @@ class ListPreparer:
             else:
                 try:
                     tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
-                        sl_sent_list)
+                        sc_lg,tg_lg, sl_sent_list)
                 except:
                     ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                     tmp_sl_title = ''
@@ -141,9 +142,8 @@ class ListPreparer:
     # para_list_output_group
     def prepare_return_bi_list(self, ui, sl_para_list, tl_para_list, temp_list, opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
         for num in range(row_max):
-            sep_list = [item for item in para_list[num::row_max]]
+            sep_list = [item for item in para_list [num::row_max]]
             temp_list.append(sep_list)
-
         if marker_id_status == 1:
             if file_pos == self.fc_dict["u_d"][self.fc_lg]:
                 for item in temp_list[0]:
@@ -153,17 +153,15 @@ class ListPreparer:
             else:
                 sl_para_list = []
                 tl_para_list = []
-
             if col_max == 2:
                 sl_num_list = [x.split('\t')[0] for x in sl_para_list]
                 sl_sent_list = [x.split('\t')[1] for x in sl_para_list]
                 tl_num_list = [x.split('\t')[0] for x in tl_para_list[0]]
                 tl_sent_list = [x.split('\t')[1] for x in tl_para_list[0]]
-
                 if sc_lg == "en":
                     tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     try:
-                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg,tl_sent_list)
                     except:
                         ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_tl_title = ''
@@ -173,7 +171,7 @@ class ListPreparer:
                 else:
                     try:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
-                            sl_sent_list)
+                            sc_lg,tg_lg,sl_sent_list)
                     except:
                         ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_sl_title = ''
@@ -195,7 +193,7 @@ class ListPreparer:
                 if sc_lg == "en":
                     tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     try:
-                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg,tl_sent_list)
                     except:
                             ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
@@ -205,7 +203,7 @@ class ListPreparer:
                 else:
                     try:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
-                            sl_sent_list)
+                            sc_lg,tg_lg,sl_sent_list)
                     except:
                         ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_sl_title = ''
@@ -262,7 +260,7 @@ class ListPreparer:
                         sc_lg,tg_lg,sl_list)
                     try:
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(
-                            tl_list)
+                            sc_lg,tg_lg,tl_list)
                     except:
                         ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_tl_title = ''
@@ -272,7 +270,7 @@ class ListPreparer:
                 else:
                     try:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
-                            sl_list)
+                            sc_lg,tg_lg,sl_list)
                     except:
                         ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_sl_title = ''
@@ -293,7 +291,7 @@ class ListPreparer:
                 if sc_lg == 'en':
                     tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     try:
-                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                        tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg,tl_sent_list)
                     except:
                         ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_tl_title = ''
@@ -303,7 +301,7 @@ class ListPreparer:
                 else:
                     try:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
-                            sl_sent_list)
+                            sc_lg,tg_lg,sl_sent_list)
                     except:
                         ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                         tmp_sl_title = ''
@@ -357,36 +355,47 @@ class ListPreparer:
             # 总列数为3或4时，不可能含篇章标题，列1,列2，列3为英、汉，汉，生成[序号,语1]两列英文段落列表与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
             if 3 <= col_max <= 4:
                 if file_pos == self.fc_dict["l_r"][self.fc_lg]:
-                    sl_para_list.extend(list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
+                    sl_para_list.extend(x + '\t' + y for (x, y) in list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
                     i = 2
                     while i < col_max:
-                        tl_para_list.append(list(zip(temp_list[0], temp_list[i])))
+                        tl_list = []
+                        for (x, y) in zip(temp_list[0], temp_list[i]):
+                            tl_str = x + '\t' + y
+                            tl_list.append(tl_str)
+                        tl_para_list.append(tl_list)
                         i += 1
             # 总列数大于等于5时，可能含标题
             elif col_max >= 5:
                 # 有篇章标题时，列1,英，列2，标题，列3，中1，列4，标题....
                 if marker_chapter == 1:
                     if file_pos == self.fc_dict["l_r"][self.fc_lg]:
-                        sl_para_list.extend(list(zip(temp_list[0], temp_list[1], temp_list[2])))
+                        sl_para_list.extend(x + '\t' + y + '\t'+ z for (x, y, z) in list(zip(temp_list[0], temp_list[1], temp_list[2])))
                         i = 3
                         while i < col_max:
                             j = i + 1
-                            tl_para_list.append(list(zip(temp_list[0], temp_list[i], temp_list[j])))
+                            tl_list = []
+                            for (x, y, z) in zip(temp_list[0], temp_list[i], temp_list[j]):
+                                tl_str = x + '\t' + y + '\t' + z
+                                tl_list.append(tl_str)
+                            tl_para_list.append(tl_list)
                             i = j
                             i += 1
                 else:
                     # 无篇章标题时，列1,列2，列3...为英，汉，汉...生成[序号,语1]两列英文段落列表
                     # 与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
                     if file_pos == self.fc_dict["l_r"][self.fc_lg]:
-                        sl_para_list.extend(list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
+                        sl_para_list.extend(x + '\t' + y  for (x, y) in list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
                         i = 2
                         while i < col_max:
-                            tl_para_list.append(list(zip(temp_list[0], temp_list[i])))
+                            tl_list = []
+                            for (x, y) in zip(temp_list[0], temp_list[i]):
+                                a_str = x + '\t' + y
+                                tl_list.append(a_str)
+                            tl_para_list.append(tl_list)
                             i += 1
             else:
                 sl_para_list.clear()
                 tl_para_list.clear()
-
             if sl_para_list == []:
                 ui._set_status_text(self.fc_dict["warning_read_fail_col"][self.fc_lg])
                 tmp_sl_title = ''
@@ -399,28 +408,28 @@ class ListPreparer:
                 tmp_tl_date = ''
             else:
                 if marker_chapter == 0:
-                    sl_num_list = [x for (x, y) in sl_para_list]
-                    sl_sent_list = [y for (x, y) in sl_para_list]
+                    sl_num_list = [item.split('\t')[0] for item in sl_para_list]
+                    sl_sent_list = [item.split('\t')[1] for item in sl_para_list]
                     if sc_lg == 'en':
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     else:
                         try:
                             tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
-                                sl_sent_list)
+                                sc_lg,tg_lg,sl_sent_list)
                         except:
                             ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_sl_title = ''
                             tmp_sl_author = ''
                             tmp_sl_translator = ''
                             tmp_sl_date = ''
-                    tl_num_list = [x for (x, y) in tl_para_list[0]]
-                    tl_sent_list = [y for (x, y) in tl_para_list[0]]
+                    tl_num_list = [item.split('\t')[0] for item in tl_para_list[0]]
+                    tl_sent_list = [item.split('\t')[1] for item in tl_para_list[0]]
                     if tg_lg == 'en':
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,tl_sent_list)
                     else:
                         try:
                             tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(
-                                tl_sent_list)
+                                sc_lg,tg_lg,tl_sent_list)
                         except:
                             ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
@@ -428,30 +437,30 @@ class ListPreparer:
                             tmp_tl_translator = ''
                             tmp_tl_date = ''
                 else:
-                    sl_num_list = [x for (x, y, z) in sl_para_list]
-                    sl_sent_list = [y for (x, y, z) in sl_para_list]
-                    sl_chapter_list = [z for (x, y, z) in sl_para_list]
+                    sl_num_list = [item.split('\t')[0] for item in sl_para_list]
+                    sl_sent_list = [item.split('\t')[1] for item in sl_para_list]
+                    sl_chapter_list = [item.split('\t')[2] for item in sl_para_list]
                     if sc_lg == 'en':
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     else:
                         try:
                             tmp_sl_title, tmp_sl_author, tmp_sl_translator, tmp_sl_date = self._info_collector.info_collector_zh(
-                                sl_sent_list)
+                                sc_lg,tg_lg,sl_sent_list)
                         except:
                             ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_sl_title = ''
                             tmp_sl_author = ''
                             tmp_sl_translator = ''
                             tmp_sl_date = ''
-                    tl_num_list = [x for (x, y, z) in tl_para_list[0]]
-                    tl_sent_list = [y for (x, y, z) in tl_para_list[0]]
-                    tl_chapter_list = [z for (x, y, z) in tl_para_list[0]]
+                    tl_num_list = [item.split('\t')[0] for item in tl_para_list[0]]
+                    tl_sent_list = [item.split('\t')[1] for item in tl_para_list[0]]
+                    tl_chapter_list = [item.split('\t')[2] for item in tl_para_list[0]]
                     if tg_lg == 'en':
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(
                             sc_lg,tg_lg,tl_sent_list)
                     else:
                         try:
-                            tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                            tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg, tl_sent_list)
                         except:
                             ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
@@ -464,16 +473,7 @@ class ListPreparer:
                 ui._ss_book_languageBox.setText(sc_lg)
                 ui._ss_book_dateBox.setText(tmp_sl_date)
                 ui._ss_book_genreBox.setText('')
-                print_sl_para_list = []
-                for item in sl_para_list:
-                    item_line = len(item)
-                    if item_line == 2:
-                        print_sl_para_list.append(item[0] + "\t" + item[1])
-                    elif item_line == 3:
-                        print_sl_para_list.append(item[0] + "\t" + item[1] + "\t" + item[2])
-                    else:
-                        print_sl_para_list = ""
-                sl_text = "\n".join(print_sl_para_list)
+                sl_text = "\n".join(sl_para_list)
                 sl_text = sl_text.replace('ZZZZZ.', '')
                 ui._ss_book_contentsBox.setText(sl_text)
                 ui._tt_book_titleBox.setText(tmp_tl_title)
@@ -482,16 +482,7 @@ class ListPreparer:
                 ui._tt_book_translatorBox.setText(tmp_tl_translator)
                 ui._tt_book_dateBox.setText(tmp_tl_date)
                 ui._tt_book_genreBox.setText('')
-                print_tl_para_list = []
-                for item in tl_para_list[0]:
-                    item_line = len(item)
-                    if item_line == 2:
-                        print_tl_para_list.append(item[0] + "\t" + item[1])
-                    elif item_line == 3:
-                        print_tl_para_list.append(item[0] + "\t" + item[1] + "\t" + item[2])
-                    else:
-                        print_tl_para_list = ""
-                tl_text = "\n".join(print_tl_para_list)
+                tl_text = "\n".join(tl_para_list[0])
                 ui._tt_book_contentsBox.setText(tl_text)
                 ui._promptBox.setText(ui._prompt_2)
             else:
@@ -513,11 +504,15 @@ class ListPreparer:
                 # 有篇章标题时，列0,英，列1，英标题，列2，中，列3，中标题....
                 if marker_chapter == 1:
                     if file_pos == self.fc_dict["l_r"][self.fc_lg]:
-                        sl_para_list.extend(list(zip(temp_list[0], temp_list[1])))
+                        sl_para_list.extend(x + '\t' + y for (x, y) in list(zip(temp_list[0], temp_list[1])))
                         i = 2
                         while i < col_max:
                             j = i + 1
-                            tl_para_list.append(list(zip(temp_list[i], temp_list[j])))
+                            tl_list = []
+                            for (x, y) in zip(temp_list[0], temp_list[i]):
+                                a_str = x + '\t' + y
+                                tl_list.append(a_str)
+                            tl_para_list.append(tl_list)
                             i = j
                             i += 1
                 else:
@@ -543,25 +538,25 @@ class ListPreparer:
                 tmp_tl_date = ''
             else:
                 if marker_chapter == 1:
-                    sl_sent_list = [x for (x, y) in sl_para_list]
-                    sl_chapter_list = [y for (x, y) in sl_para_list]
+                    sl_sent_list = [item.split('\t')[0] for item in sl_para_list]
+                    sl_chapter_list = [item.split('\t')[1] for item in sl_para_list]
                     if sc_lg == 'en':
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     else:
                         try:
-                            tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_zh(sl_sent_list)
+                            tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg,sl_sent_list)
                         except:
                             tmp_sl_title = ''
                             tmp_sl_author = ''
                             tmp_sl_translator = ''
                             tmp_sl_date = ''
-                    tl_sent_list = [x for (x, y) in tl_para_list[0]]
-                    tl_chapter_list = [y for (x, y) in tl_para_list[0]]
+                    tl_sent_list = [item.split('\t')[0] for item  in tl_para_list[0]]
+                    tl_chapter_list = [item.split('\t')[1] for item  in tl_para_list[0]]
                     if tg_lg == 'en':
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,tl_sent_list)
                     else:
                         try:
-                            tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                            tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg,tl_sent_list)
                         except:
                             ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
@@ -574,7 +569,7 @@ class ListPreparer:
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     else:
                         try:
-                            tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_zh(sl_sent_list)
+                            tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg,sl_sent_list)
                         except:
                             tmp_sl_title = ''
                             tmp_sl_author = ''
@@ -585,7 +580,7 @@ class ListPreparer:
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,tl_sent_list)
                     else:
                         try:
-                            tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(tl_sent_list)
+                            tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_zh(sc_lg,tg_lg,tl_sent_list)
                         except:
                             ui._set_status_text(self.fc_dict["warning_zh_fail"][self.fc_lg])
                             tmp_tl_title = ''
@@ -598,13 +593,7 @@ class ListPreparer:
                 ui._ss_book_dateBox.setText(tmp_sl_date)
                 ui._ss_book_languageBox.setText(sc_lg)
                 ui._ss_book_genreBox.setText('')
-                print_sl_para_list = []
-                if marker_chapter == 1:
-                    for item in sl_para_list:
-                        print_sl_para_list.append(item[0] + "\t" + item[1])
-                else:
-                    print_sl_para_list = sl_para_list
-                sl_text = "\n".join(print_sl_para_list)
+                sl_text = "\n".join(sl_para_list)
                 sl_text = sl_text.replace('ZZZZZ.', '')
                 ui._ss_book_contentsBox.setText(sl_text)
                 ui._tt_book_titleBox.setText(tmp_tl_title)
@@ -613,16 +602,9 @@ class ListPreparer:
                 ui._tt_book_translatorBox.setText(tmp_tl_translator)
                 ui._tt_book_dateBox.setText(tmp_tl_date)
                 ui._tt_book_genreBox.setText('')
-                print_tl_para_list = []
-                if marker_chapter == 1:
-                    for item in tl_para_list[0]:
-                        print_tl_para_list.append(item[0] + "\t" + item[1])
-                else:
-                    print_tl_para_list = tl_para_list[0]
-                tl_text = "\n".join(print_tl_para_list)
+                tl_text = "\n".join(tl_para_list[0])
                 ui._tt_book_contentsBox.setText(tl_text)
                 ui._promptBox.setText(ui._prompt_2)
             else:
                 ui._set_status_text(self.fc_dict["warning_read_fail_mark"][self.fc_lg])
-
         return sl_para_list, tl_para_list
