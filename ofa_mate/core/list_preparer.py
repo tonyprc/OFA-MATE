@@ -140,11 +140,11 @@ class ListPreparer:
         return sl_para_list, tl_para_list
 
     # para_list_output_group
-    def prepare_return_bi_list(self, ui, sl_para_list, tl_para_list, temp_list, opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
+    def prepare_return_bi_list(self, ui, sl_para_list, tl_para_list, temp_list, opt_dict, sc_lg, tg_lg, file_pos, row_max, col_max, para_list):
         for num in range(row_max):
             sep_list = [item for item in para_list [num::row_max]]
             temp_list.append(sep_list)
-        if marker_id_status == 1:
+        if opt_dict['marker_id'] == 1:
             if file_pos == self.fc_dict["u_d"][self.fc_lg]:
                 for item in temp_list[0]:
                     sl_para_list.append(item.replace('ZZZZZ.', ''))
@@ -154,9 +154,7 @@ class ListPreparer:
                 sl_para_list = []
                 tl_para_list = []
             if col_max == 2:
-                sl_num_list = [x.split('\t')[0] for x in sl_para_list]
                 sl_sent_list = [x.split('\t')[1] for x in sl_para_list]
-                tl_num_list = [x.split('\t')[0] for x in tl_para_list[0]]
                 tl_sent_list = [x.split('\t')[1] for x in tl_para_list[0]]
                 if sc_lg == "en":
                     tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
@@ -183,13 +181,8 @@ class ListPreparer:
                         sc_lg,tg_lg,tl_sent_list)
                     
             elif col_max == 3:
-                sl_num_list = [x.split('\t')[0] for x in sl_para_list]
                 sl_sent_list = [x.split('\t')[1] for x in sl_para_list]
-                sl_chapter_list = [x.split('\t')[2] for x in sl_para_list]
-                tl_num_list = [x.split('\t')[0] for x in tl_para_list[0]]
                 tl_sent_list = [x.split('\t')[1] for x in tl_para_list[0]]
-                tl_chapter_list = [x.split('\t')[2] for x in tl_para_list[0]]
-                
                 if sc_lg == "en":
                     tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     try:
@@ -285,9 +278,7 @@ class ListPreparer:
                 sl_list = sl_para_list
                 tl_list = tl_para_list[0]
                 sl_sent_list = [x.split('\t')[0] for x in sl_list]
-                sl_chapter_list = [x.split('\t')[1] for x in sl_list]
                 tl_sent_list = [x.split('\t')[0] for x in tl_list]
-                tl_chapter_list = [x.split('\t')[1] for x in tl_list]
                 if sc_lg == 'en':
                     tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     try:
@@ -344,7 +335,7 @@ class ListPreparer:
         return sl_para_list, tl_para_list
 
     # para_list_output_group
-    def prepare_tab_bi_list(self, ui, sl_para_list, tl_para_list,temp_list,opt_dict, sc_lg, tg_lg, marker_id_status, marker_chapter, file_pos, row_max, col_max, para_list):
+    def prepare_tab_bi_list(self, ui, sl_para_list, tl_para_list, temp_list, opt_dict, sc_lg, tg_lg, file_pos, row_max, col_max, para_list):
         # 路径：有行号(无标题|有标题)|无行号(无标题|有标题)
         # 按总列数组织临时列表[[列0],[列1]...]
         for num in range(col_max):
@@ -352,10 +343,14 @@ class ListPreparer:
             temp_list.append(sep_list)
         # 如果有行号，列0为行号
         if opt_dict['marker_id'] == 1:
+            # 已知有序号
             # 总列数为3或4时，不可能含篇章标题，列1,列2，列3为英、汉，汉，生成[序号,语1]两列英文段落列表与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
             if 3 <= col_max <= 4:
+                # 确认是左右结构
                 if file_pos == self.fc_dict["l_r"][self.fc_lg]:
+                    # 提取第1列行号与第2列原文至原文列表
                     sl_para_list.extend(x + '\t' + y for (x, y) in list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
+                    # 指定下一译文起始提取列为第3列，提取第1，3列，1，4列至译文列表
                     i = 2
                     while i < col_max:
                         tl_list = []
@@ -366,8 +361,8 @@ class ListPreparer:
                         i += 1
             # 总列数大于等于5时，可能含标题
             elif col_max >= 5:
-                # 有篇章标题时，列1,英，列2，标题，列3，中1，列4，标题....
-                if marker_chapter == 1:
+                # 有序号，有篇章标题时，列1,英，列2，标题，列3，中1，列4，标题....
+                if opt_dict['marker_chapt'] == 1:
                     if file_pos == self.fc_dict["l_r"][self.fc_lg]:
                         sl_para_list.extend(x + '\t' + y + '\t'+ z for (x, y, z) in list(zip(temp_list[0], temp_list[1], temp_list[2])))
                         i = 3
@@ -381,7 +376,7 @@ class ListPreparer:
                             i = j
                             i += 1
                 else:
-                    # 无篇章标题时，列1,列2，列3...为英，汉，汉...生成[序号,语1]两列英文段落列表
+                    # 有序号，无篇章标题时，列1,列2，列3...为英，汉，汉...生成[序号,语1]两列英文段落列表
                     # 与[[序号,语1][序号,语1]...]两列嵌套中文段落列表
                     if file_pos == self.fc_dict["l_r"][self.fc_lg]:
                         sl_para_list.extend(x + '\t' + y  for (x, y) in list(zip(temp_list[0], temp_list[1])))  # zip一定要转成列表，否则深层数据提出不出来
@@ -407,7 +402,7 @@ class ListPreparer:
                 tmp_tl_translator = ''
                 tmp_tl_date = ''
             else:
-                if marker_chapter == 0:
+                if opt_dict['marker_chapt'] == 0:
                     sl_num_list = [item.split('\t')[0] for item in sl_para_list]
                     sl_sent_list = [item.split('\t')[1] for item in sl_para_list]
                     if sc_lg == 'en':
@@ -502,14 +497,14 @@ class ListPreparer:
             # 总列数大于等于4时，可能含标题
             elif col_max >= 4:
                 # 有篇章标题时，列0,英，列1，英标题，列2，中，列3，中标题....
-                if marker_chapter == 1:
+                if opt_dict['marker_chapt'] == 1:
                     if file_pos == self.fc_dict["l_r"][self.fc_lg]:
                         sl_para_list.extend(x + '\t' + y for (x, y) in list(zip(temp_list[0], temp_list[1])))
                         i = 2
                         while i < col_max:
                             j = i + 1
                             tl_list = []
-                            for (x, y) in zip(temp_list[0], temp_list[i]):
+                            for (x, y) in zip(temp_list[i], temp_list[j]):
                                 a_str = x + '\t' + y
                                 tl_list.append(a_str)
                             tl_para_list.append(tl_list)
@@ -537,9 +532,8 @@ class ListPreparer:
                 tmp_tl_translator = ''
                 tmp_tl_date = ''
             else:
-                if marker_chapter == 1:
+                if opt_dict['marker_chapt'] == 1:
                     sl_sent_list = [item.split('\t')[0] for item in sl_para_list]
-                    sl_chapter_list = [item.split('\t')[1] for item in sl_para_list]
                     if sc_lg == 'en':
                         tmp_sl_title, tmp_sl_author, tmp_sl_translator,tmp_sl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,sl_sent_list)
                     else:
@@ -551,7 +545,6 @@ class ListPreparer:
                             tmp_sl_translator = ''
                             tmp_sl_date = ''
                     tl_sent_list = [item.split('\t')[0] for item  in tl_para_list[0]]
-                    tl_chapter_list = [item.split('\t')[1] for item  in tl_para_list[0]]
                     if tg_lg == 'en':
                         tmp_tl_title, tmp_tl_author, tmp_tl_translator, tmp_tl_date = self._info_collector.info_collector_en(sc_lg,tg_lg,tl_sent_list)
                     else:
@@ -590,11 +583,14 @@ class ListPreparer:
             if tmp_sl_title:
                 ui._ss_book_titleBox.setText(tmp_sl_title)
                 ui._ss_book_authorBox.setText(tmp_sl_author)
+                if tmp_sl_translator:
+                    ui._ss_book_translatorBox.setText(tmp_sl_author)
                 ui._ss_book_dateBox.setText(tmp_sl_date)
                 ui._ss_book_languageBox.setText(sc_lg)
                 ui._ss_book_genreBox.setText('')
                 sl_text = "\n".join(sl_para_list)
-                sl_text = sl_text.replace('ZZZZZ.', '')
+                if sc_lg == 'en':
+                    sl_text = sl_text.replace('ZZZZZ.', '')
                 ui._ss_book_contentsBox.setText(sl_text)
                 ui._tt_book_titleBox.setText(tmp_tl_title)
                 ui._tt_book_authorBox.setText(tmp_tl_author)
